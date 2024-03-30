@@ -6,8 +6,10 @@ import DragIndicator from '@mui/icons-material/DragIndicator'
 import Reorder from '@mui/icons-material/Reorder'
 import CloseFullscreen from '@mui/icons-material/CloseFullscreen'
 import PropCard from '../../components/PropCard'
+import PropertiesEmpty from './PropertiesEmpty'
 
 const icons = [<Reorder />, <DragIndicator />, <CloseFullscreen />]
+
 const cardsData = [
   {
     title: 'Card 1: Beaches',
@@ -47,10 +49,15 @@ const cardsData = [
   },
 ]
 
+
+
 const Properties = () => {
   return (
     <>
+    {cardsData.length > 0 ? (
+    <>
       <ActionNav title='Properties' icons={icons} />
+
       <div className='fluidGrid'>
         {cardsData.map((card) => (
           <PropCard
@@ -60,7 +67,12 @@ const Properties = () => {
           />
         ))}
       </div>
-    </>
+      </>
+    ) : (
+      <PropertiesEmpty />
+    )}
+  
+  </>
   )
 }
 
