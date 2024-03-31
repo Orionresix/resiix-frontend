@@ -9,11 +9,9 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const Signup = () => {
   const navigate = useNavigate()
-  const countries = ['Kenya', 'Botswana', 'Ghana', 'Liberia']
+  // const countries = ['Kenya', 'Botswana', 'Ghana', 'Liberia']
   const [name, setName] = useState('')
-  const [surname, setSurname] = useState('')
   const [email, setEmail] = useState('')
-  const [country, setCountry] = useState(countries[0])
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -30,7 +28,8 @@ const Signup = () => {
       <CardContent className='Welcome'>
         <h3>Welcome to Nyumbafix</h3>
         <p>
-          Ready to join the Nyumbafix community?Sign up now to start managing
+          Ready to join the Nyumbafix community?<br/>
+          Sign up now to start managing
           your properties and work orders with ease. Let's fix things together!
         </p>
       </CardContent>
@@ -42,7 +41,7 @@ const Signup = () => {
             signUp()
           }}>
           <div className='inputs'>
-            <div className='formgroup'>
+         <div className='formgroup'>
               <label htmlFor='name'>
                 {' '}
                 <span className='Red'>*</span>Name
@@ -55,16 +54,18 @@ const Signup = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-            </div>
-            <div className='formgroup'>
-              <label htmlFor='surname'>Surname</label>
+              
+            </div> 
+
+            {/* <div className='formgroup'>
+              <label htmlFor='surname'>name</label>
               <input
                 type='text'
                 value={surname}
                 placeholder='Surname'
                 onChange={(e) => setSurname(e.target.value)}
               />
-            </div>
+            </div> */}
 
             <div className='formgroup'>
               <label htmlFor='email'>
@@ -80,7 +81,7 @@ const Signup = () => {
               />
             </div>
 
-            <div className='formgroup'>
+            {/* <div className='formgroup'>
               <label htmlFor='country'>Country</label>
               <select
                 name='country'
@@ -95,7 +96,7 @@ const Signup = () => {
                   )
                 })}
               </select>
-            </div>
+            </div> */}
 
             <div className='formgroup'>
               <label htmlFor='password'>
@@ -127,7 +128,15 @@ const Signup = () => {
           <Button type='submit' className='signup_button' variant='contained'>
             Sign Up
           </Button>
+
+
+
         </form>
+
+
+        <p> Or </p>
+
+        <div> <a href="http://127.0.0.1:5000/login"> Login with Google  </a>  </div>
       </CardContent>
 
       <CardContent>

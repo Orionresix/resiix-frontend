@@ -3,17 +3,18 @@ import React from 'react'
 import { Card, CardContent, Typography, Box, Chip } from '@mui/material'
 
 const colors = {
-  new: '#7A7B7C',
-  done: '#3CA38F',
-  progress: 'orange',
-  cancelled: 'red',
+  NEW: 'green',
+  DONE: '#3CA38F',
+  WIP: 'orange',
+  CANCELLED: 'red',
 }
 
 const TicketComponent = ({
-  ticketNumber,
-  description,
-  status,
-  date,
+  wo_id,wo_status, r_type, r_description,
+  //  wo_pm_description, wo_l_id, wo_u_id, wo_created_time,
+  // wo_assigned_to, wo_assigned_by,  wo_due_date, wo_r_id,
+  // r_id, r_img_url, r_img_url1, r_img_url2,
+  // r_l_id, r_u_id, r_created_time, r_phone,
   title,
   handleClick,
   isSelected,
@@ -31,12 +32,12 @@ const TicketComponent = ({
       <CardContent>
         <Box display='flex' justifyContent='space-between'>
           <Typography variant='h6' gutterBottom>
-            Ticket #{ticketNumber}
+            Ticket #{wo_id}
           </Typography>
           <Chip
-            label={status === 'progress' ? 'IN PROGRESS' : status.toUpperCase()}
+            label={wo_status === 'progress' ? 'IN PROGRESS' : wo_status.toUpperCase()}
             sx={{
-              backgroundColor: colors[status],
+              backgroundColor: colors[wo_status],
               color: '#fff',
               fontSize: 10,
             }}
@@ -44,11 +45,12 @@ const TicketComponent = ({
           />
         </Box>
         <Typography variant='body2' gutterBottom>
-          {description}
+          {r_description} 
         </Typography>
+
         <Box display='flex' justifyContent='space-between' alignItems='center'>
           <Chip label={title} size='small' />
-          <Typography variant='body2'>{date}</Typography>
+          <Typography variant='body2'>{r_type} </Typography>
         </Box>
       </CardContent>
     </Card>
