@@ -35,7 +35,7 @@ const TicketComponent = ({
             Ticket #{wo_id}
           </Typography>
           <Chip
-            label={wo_status === 'progress' ? 'IN PROGRESS' : wo_status.toUpperCase()}
+            label={wo_status === 'progress' ? 'IN PROGRESS' : wo_status}
             sx={{
               backgroundColor: colors[wo_status],
               color: '#fff',

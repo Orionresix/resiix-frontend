@@ -67,6 +67,16 @@ export default function VerticalSidebar({ children }) {
               icon={<ApartmentIcon />}
               to='/dashboard/properties'
             />
+             <ListItemWithLink
+              label='Technician'
+              icon={<ApartmentIcon />}
+              to='/dashboard/properties'
+            />
+             <ListItemWithLink
+              label='Settings'
+              icon={<ApartmentIcon />}
+              to='/dashboard/properties'
+            />
           </List>
           <Divider />
         </Drawer>
