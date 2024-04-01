@@ -124,9 +124,5 @@
 }
 
 .fluidGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
-  gap: 20px;
-  grid-template-rows: auto;
-  justify-content: center;
+  width: 100%;
 }

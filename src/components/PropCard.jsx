@@ -1,44 +1,55 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import {
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Typography,
-  Link,
-  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from '@mui/material'
 
-const PropCard = ({ title, image, description, link, unitTotal = 105 }) => {
-  // Adjust default height as needed
+// Separate component for rendering a single row in the table
+const TableRowItem = ({ property }) => {
   return (
-    <Link href={link} target='_blank' underline='none'>
-      <Card sx={{ height: '100%' }}>
-        <CardActionArea>
-          <CardMedia component='img' image={image} alt={title} height='140' />
-          <CardContent>
-            <Typography
-              variant='subtitle1'
-              color='text.primary'
-              sx={{ fontWeight: 'bold' }}>
-              {title}
-            </Typography>
-            <Typography variant='body2' color='text.secondary' noWrap>
-              {description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <Divider />
-        <CardActions sx={{ backgroundColor: '#F8F9FA' }}>
-          <Typography sx={{ color: 'grey', fontSize: 12 }}>
-            {unitTotal} units
-          </Typography>
-        </CardActions>
-      </Card>
-    </Link>
-  )
-}
+    <TableRow key={property.p_id}>
+      <TableCell>{property.p_id}</TableCell>
+      <TableCell>{property.p_name}</TableCell>
+      <TableCell>{property.p_num_units}</TableCell>
+      <TableCell>{property.p_city}</TableCell>
+      <TableCell>{property.p_num_units}</TableCell>
+      <TableCell>{property.p_num_units}</TableCell>
+      <TableCell>{property.p_num_units}</TableCell>
+    </TableRow>
+  );
+};
 
-export default PropCard
+const PropCard = ({ properties }) => {
+  return (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Number of Units</TableCell>
+            <TableCell>City</TableCell>
+            <TableCell>Field 1</TableCell>
+            <TableCell>Field 2</TableCell>
+            <TableCell>Field 3</TableCell>
+            <TableCell>Field 4</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* Render a TableRowItem for each property in the properties array */}
+          {properties.map((property) => (
+            <TableRowItem key={property.p_id} property={property} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+export default PropCard;
