@@ -1,58 +1,19 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unescaped-entities */
 import { React, useState, useEffect } from 'react'
-import UnitsTable from '../../components/UnitTable'
+import RepairsTable from '../../components/repairsTable'
 import Box from '@mui/material/Box'
 import ActionNav from '../../components/ActionNav'
 import DragIndicator from '@mui/icons-material/DragIndicator'
 import Reorder from '@mui/icons-material/Reorder'
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Import DisabledByDefault icon
 import RequestDetails from './RequestDetails'
+import AddrepairForm from '../../components/Repairs/Addrepair'
 
 const RepairRequests = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
-  // const dummyData = [
-  //   {
-  //     property: 'The Grove',
-  //     orders: [
-  //       {
-  //         id: 1,
-  //         unitNumber: 'A101',
-  //         request: 'Repair plumbing',
-  //         status: 'In Progress',
-  //         title: 'Request title',
-  //       },
-  //       {
-  //         id: 2,
-  //         unitNumber: 'B205',
-  //         request: 'Fix electrical issue',
-  //         status: 'In Progress',
-  //         title: 'Request title',
-  //       },
-  //       {
-  //         id: 3,
-  //         unitNumber: 'C304',
-  //         request: 'Paint walls',
-  //         status: 'Done',
-  //         title: 'Request title',
-  //       },
-  //       {
-  //         id: 4,
-  //         unitNumber: 'D403',
-  //         request: 'Replace light fixtures',
-  //         status: 'In Progress',
-  //         title: 'Request title',
-  //       },
-  //       {
-  //         id: 5,
-  //         unitNumber: 'E502',
-  //         request: 'Repair HVAC',
-  //         status: 'In Progress',
-  //         title: 'Request title',
-  //       },
-  //     ],},
-  // ]
+ 
   const tickets = [
     { id: 1, title: 'Task 1', status: 'new' },
     { id: 2, title: 'Task 2', status: 'progress' },
@@ -102,7 +63,7 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <UnitsTable   data= {repairdata}  />
+        <RepairsTable   data= {repairdata}  />
         )}
       </Box>
     </>
@@ -140,12 +101,49 @@ const RepairRequests = () => {
   const handleAddRepairClick = () => {
     setShowAddrepairForm(true);
   };
+  const handleCancel = () => {
+    setShowAddrepairForm(false); 
+  };
+
+  const handleSubmit = (propertyData) => {
+    // Define the URL for the POST request
+    const url = 'http://127.0.0.1:5000/repairs/create';
+    const data = {
+      p_name: propertyData.p_name,
+      p_id: propertyData.p_id,
+      u_id: propertyData.u_id,
+      u_name: propertyData.u_name,
+      r_description: propertyData.r_description,
+      priority: propertyData.r_priority,
+      r_type: propertyData.r_type,
+      r_img_url: propertyData.r_img_url
+    };
+    const options = {
+      method: 'POST', // Specify the HTTP method
+      headers: {
+        'Content-Type': 'application/json', // Specify the content type of the request body
+      },
+      body: JSON.stringify(data), // Convert data to JSON string for the request body
+    };
+    fetch(url, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to add property');
+        }
+        console.log('Property added successfully', propertyData);
+        setShowAddrepairForm(false); 
+      })
+      .catch(error => {
+        console.error('Error adding property:', error);
+      });
+  };
+
 
   return (
     <>
     <div>
       <ActionNav title='Repair requests' icons={icons}  onAddClick ={handleAddRepairClick} />
-      {showAddrepairForm && <p>here</p>}
+      {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}  />}
       </div>
 
       {renderView()}

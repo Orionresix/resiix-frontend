@@ -7,10 +7,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 import List from '@mui/material/List'
 import Divider from '@mui/material/Divider'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import HandymanIcon from '@mui/icons-material/Handyman'
-import AssignmentIcon from '@mui/icons-material/Assignment'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import Logo from '../../assets/logo_white.png'
+import technician from '../../assets/technician_icon.svg'
+import settings from '../../assets/settings_icon.svg'
+import repair from '../../assets/request_icon.svg'
+import workorder from '../../assets/workorder_icon.svg'
 import ListItemWithLink from '../ListItemWithLink'
 
 const drawerWidth = 300
@@ -54,12 +56,12 @@ export default function VerticalSidebar({ children }) {
             />
             <ListItemWithLink
               label='Repair Requests'
-              icon={<HandymanIcon />}
+              icon={ <img src={repair} alt="Custom Icon" />}
               to='/dashboard/requests'
             />
             <ListItemWithLink
               label='Work Orders'
-              icon={<AssignmentIcon />}
+              icon={ <img src={workorder} alt="Custom Icon" />}
               to='/dashboard/orders'
             />
             <ListItemWithLink
@@ -69,12 +71,12 @@ export default function VerticalSidebar({ children }) {
             />
              <ListItemWithLink
               label='Technician'
-              icon={<ApartmentIcon />}
+              icon={ <img src={technician} alt="Custom Icon" />}
               to='/dashboard/properties'
             />
              <ListItemWithLink
               label='Settings'
-              icon={<ApartmentIcon />}
+              icon={ <img src={settings} alt="Custom Icon" />}
               to='/dashboard/properties'
             />
           </List>

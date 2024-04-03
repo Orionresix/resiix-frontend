@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
 import { Box, Grid } from '@mui/material'
 import DonutChartComponent from '../../components/DonutChart'
-import NyumbaFetch from '../../components/NyumbaFetch'
 import TicketComponent from '../../components/Ticket'
 
 
@@ -179,7 +178,7 @@ const fetchCounts = () => {
             />
           </Box>
         </Box>
-        <NyumbaFetch />
+       
       </Box>
     </div>
   )

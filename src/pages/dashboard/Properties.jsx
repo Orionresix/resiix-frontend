@@ -5,7 +5,6 @@ import ActionNav from '../../components/ActionNav'
 import DragIndicator from '@mui/icons-material/DragIndicator'
 import Reorder from '@mui/icons-material/Reorder'
 import CloseFullscreen from '@mui/icons-material/CloseFullscreen'
-//import { DragIndicator, Reorder,CloseFullscreen  } from '@mui/icons-material'; 
 import PropCard from '../../components/PropCard'
 import PropertiesEmpty from './PropertiesEmpty'
 import AddPropertyForm from '../../components/properties/AddProperty'
