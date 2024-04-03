@@ -20,13 +20,14 @@ const getStatusColor = (r_status) => {
   }
 }
 
-const repairsTable = ({ data }) => {
+const repairsTable = ({  groupeddata }) => {
 
   const columns = [
     { field: 'r_id', headerName: 'ID', flex: 1 },
-    { field: 'r_type', headerName: 'Category', flex: 1 },
-    { field: 'r_description', headerName: 'Description', flex: 1 },
+    { field: 'p_name', headerName: 'Property', flex: 1 },
     { field: 'u_name', headerName: 'Unit No', flex: 1 },
+    { field: 'r_type', headerName: 'Type', flex: 1 },
+    { field: 'r_description', headerName: 'Description', flex: 1 },
     { field: 'r_phone', headerName: 'Phone', flex: 1 },
     { field: 'r_status', headerName: 'Status', flex: 1,
         renderCell: (params) => (
@@ -51,20 +52,17 @@ const repairsTable = ({ data }) => {
   return (
     <div style={{ height: 400, width: '100%' }}>
 
-      {data.map(group => (
-        <div key={group.property}>
-          <h3>{group.propertyName}</h3>
-          <DataGrid
-            rows={group.orders}
-            columns={columns}
-            pageSize={5}
-            rowHeight={35}
-            rowsPerPageOptions={[5]}
-            checkboxSelection={false}
-            getRowId={(row) => row.r_id}
-          />
-        </div>
-      ))}
+
+<DataGrid
+    rows={groupeddata.reduce((acc, group) => [...acc, ...group.orders], [])}
+    columns={columns}
+    pageSize={5}
+    rowHeight={35}
+    rowsPerPageOptions={[5]}
+    checkboxSelection={false}
+    getRowId={(row) => row.r_id}
+  />
+
     </div>
   )
 }

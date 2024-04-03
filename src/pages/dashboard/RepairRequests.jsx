@@ -26,7 +26,7 @@ const RepairRequests = () => {
     },
   ]
 
-  const [repairdata, setRepairdata] = useState([]);
+  const [groupedrepairdata, setGroupedRepairdata] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Fetch data from backend API
@@ -41,16 +41,15 @@ const RepairRequests = () => {
       .then(data => {
         // Group rows by r_p_id
         const groupedData = data.reduce((acc, row) => {
-          const { r_p_id,p_name, ...rest } = row;
+          const { r_p_id, ...rest } = row;
           if (!acc[r_p_id]) {
-            acc[r_p_id] = { property: r_p_id, propertyName: p_name, orders: [] };
+            acc[r_p_id] = { property: r_p_id,  orders: [] };
           }
           acc[r_p_id].orders.push(rest);
           return acc;
         }, {});
-        setRepairdata(Object.values(groupedData));
-        console.log(repairdata)
-        console.log(groupedData)
+        setGroupedRepairdata(Object.values(groupedData));
+
         setLoading(false); // Set loading to false after data is fetched
       })
       .catch(error => {
@@ -63,7 +62,7 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <RepairsTable   data= {repairdata}  />
+        <RepairsTable    groupeddata={groupedrepairdata}  />
         )}
       </Box>
     </>
@@ -141,10 +140,13 @@ const RepairRequests = () => {
 
   return (
     <>
-    <div>
+   
       <ActionNav title='Repair requests' icons={icons}  onAddClick ={handleAddRepairClick} />
-      {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}  />}
-      </div>
+      <div className="modal-container">
+          <div className="modal-content">
+          {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}  />}
+          </div>
+        </div>
 
       {renderView()}
     </>

@@ -123,8 +123,8 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
   };
 
   return (
-    <Paper className={'classes.paper'}>
-      <Typography variant="h6" gutterBottom>
+    <Paper className={'classes.paper'} elevation={3}  pt={5} >
+      <Typography variant="h10" gutterBottom>
         Add Repair/Maintenance Request
       </Typography>
       <form onSubmit={handleSubmit}>
