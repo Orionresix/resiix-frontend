@@ -12,6 +12,12 @@ import Properties from './pages/dashboard/Properties';
 import Step1 from './components/onboarding/Step1';
 import Step2 from './components/onboarding/Step2';
 import RequestDetails from './pages/dashboard/RequestDetails';
+import Tenant from './pages/tenant/signup/Signup.jsx';
+import TenantSignIn from './pages/tenant/signin/Signin.jsx';
+import TenantLanding from './pages/tenant/landing_page/Landing.jsx';
+import TReportIssue from './pages/tenant/report_issue/ReportIssue.jsx';
+import TRating from './pages/tenant/rating/Rating.jsx';
+import TFeedback from './pages/tenant/feedback/Feedback.jsx';
 
 function App() {
   return (
@@ -22,6 +28,15 @@ function App() {
           <Route path="/instructions" element={<Instructions />} />
           <Route path="/step_one" element={<Step1 />} />
           <Route path="/step_two" element={<Step2 />} />
+
+
+        <Route path="/resix" element={<TenantLanding />} />
+        <Route path="/resix/login" element={<TenantSignIn />} />/
+        <Route path="/resix/signup" element={<Tenant />} />
+        <Route path="/resix/report-issue" element={<TReportIssue />} />
+        <Route path="/resix/rating" element={<TRating />} />
+        <Route path="/resix/feedback" element={<TFeedback />} />
+
         </Route>
         <Route path="/dashboard/home" element={<Layout><DashboardHome /></Layout>}>
         </Route>
@@ -33,6 +48,9 @@ function App() {
         </Route>
         <Route path="/dashboard/request-details" element={<Layout><RequestDetails /></Layout>}>
         </Route>
+
+
+
 
 
 
