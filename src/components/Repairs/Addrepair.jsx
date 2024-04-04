@@ -236,7 +236,7 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
 
         <Grid item xs={12} sm={6} sx={{ p: 4 }} spacing={4}>
         <span>
-          <Button variant="contained" color="primary" onClick={onCancel} sx={{ mr: 2 }}>
+          <Button variant="contained" color="secondary" onClick={onCancel} sx={{ mr: 2 }}>
             cancel
           </Button>
 
