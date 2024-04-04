@@ -9,6 +9,9 @@ import {
   MenuItem,
   Input,
 } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+
+
 
 const AddrepairForm = ({ onSubmit, onCancel }) => {
 //   const classes = useStyles();
@@ -121,14 +124,16 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
     const selectedUnitId = event.target.value;
     setSelectedUnit(selectedUnitId);
   };
-
+  const handleClose = () => { };
   return (
-    <Paper className={'classes.paper'} elevation={3}  pt={5} >
-      <Typography variant="h10" gutterBottom>
-        Add Repair/Maintenance Request
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+
+    <Dialog open={true} onClose={handleClose}>
+    <Paper className={'classes.paper'}  sx={{ pt: 4, }}>
+    <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
+      Add Repair/Maintenance Request
+    </Typography>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2} sx={{ p: 4 }}>
 
         <Grid item xs={12} sm={6}>
         <TextField
@@ -223,25 +228,26 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
           label="Attach Photo"
           name="r_img_url"
           onChange={handleChange} // Change handler for image selection
-  />
-</Grid>
-         
-          
+          />
+          </Grid>
+        
         </Grid>
         <br/> 
 
-        <span >
-        <Button  variant="contained" color="primary" onClick={onCancel}>
-          cancel
-        </Button>
+        <Grid item xs={12} sm={6} sx={{ p: 4 }} spacing={4}>
+        <span>
+          <Button variant="contained" color="primary" onClick={onCancel} sx={{ mr: 2 }}>
+            cancel
+          </Button>
 
-        <Button type="submit" variant="contained" color="primary">
-          Create request
-        </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Create request
+          </Button>
         </span>
-
+      </Grid>
       </form>
     </Paper>
+  </Dialog>
   );
 };
 
