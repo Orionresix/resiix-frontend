@@ -13,7 +13,7 @@ import AddrepairForm from '../../components/Repairs/Addrepair'
 const RepairRequests = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
- 
+
   const tickets = [
     { id: 1, title: 'Task 1', status: 'new' },
     { id: 2, title: 'Task 2', status: 'progress' },
