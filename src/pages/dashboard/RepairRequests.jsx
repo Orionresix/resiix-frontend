@@ -142,7 +142,7 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <RepairsTable    groupeddata={groupedrepairdata}  />
+        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}  />
         )}
       </Box>
     </>

@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import {React, useState} from 'react'
 import {TableCell,TableRow,  Card,
-  CardMedia,
-  CardContent, Typography
+  CardMedia, CardContent, Typography
    } from '@mui/material'
 import nyumba from '../assets/nyumbaicon.svg'
 
@@ -23,7 +22,19 @@ const getStatusColor = (r_status) => {
   }
 }
 
-const repairsTable = ({  groupeddata }) => {
+const repairsTable = ({  groupeddata, onAddClick}) => {
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleCellClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+
+
+  const handleMenuItemClick = (value) => {
+    console.log(value);
+    setIsDropdownOpen(false); // Close dropdown after selection
+  };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -94,20 +105,38 @@ const repairsTable = ({  groupeddata }) => {
         </TableCell>
 
       <TableCell >
-      <Card sx={{ display: 'flex', height: '100%' }}> 
-      <CardContent>
-<Typography variant='body2' color='text.secondary' sx={{
+      <Card sx={{ display: 'flex', height: '100%' ,
   backgroundColor: getStatusColor(order.r_status),
   color: 'white',
   fontSize: '0.5rem',
   borderRadius: '12px',
-}} noWrap>
+}}> 
+      <CardContent >
+<Typography variant='body2' color='text.secondary'  noWrap>
 {order.r_status}
             </Typography>
             </CardContent>
       </Card>
   
 </TableCell>
+
+
+<TableCell onClick={handleCellClick}>
+{!isDropdownOpen && (  <Typography variant='body2' color='text.secondary' noWrap>
+      Action
+    </Typography>)}
+     
+        {isDropdownOpen && (
+          <>
+          <Typography variant='body2' color='text.secondary' noWrap  onClick={onAddClick}> create workorder </Typography>
+          <Typography variant='body2' color='text.secondary' noWrap onClick={handleMenuItemClick}> view details </Typography>
+          <Typography variant='body2' color='text.secondary' noWrap onClick={handleMenuItemClick}> delete  </Typography>
+           </>
+          )}
+         
+     
+    </TableCell>
+
     </TableRow>
   ))
 ))}
