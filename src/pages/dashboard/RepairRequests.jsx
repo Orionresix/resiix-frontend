@@ -224,7 +224,7 @@ const RepairRequests = () => {
 
   return (
     <>
-    <Typography sx={{ color: '#00B286', fontWeight: 'bold' }}>
+    <Typography variant="h5" sx={{ color: '#00B286', fontWeight: 'bold' }}>
     Maintenance requests
       </Typography>
 

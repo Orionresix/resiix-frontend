@@ -27,24 +27,33 @@ export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniq
   
 
   return (
-    <Box className='actionNav'>
-      <Box display='flex'>
+    <Box className='actionNav' id="top" >
+      <Box display='flex' justifyContent='space-between'  id="subparent" width="100%">
         
        
         
         {/* Search Box */}
-        <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-          <TextField label="Search" variant="outlined" size="small" />
-          <Search />
-        </Box>
-
-        {/* Filter By */}
-        <Box display='flex'>
-        <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '0px', }} id="inner1">
+        <TextField 
+          label="Search" 
+          variant="outlined" 
+          size="small" 
+          sx={{ 
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderTopRightRadius: 0, 
+              borderBottomRightRadius: 0 
+            } 
+          }} 
+        />
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00B286', padding: '8px', borderTopRightRadius: '5px', borderBottomRightRadius: '5px' }}>
+            <Search sx={{ color: 'white' }} />
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '8px' }}>
           <TextField
           select
           fullWidth
           label="Filter By"
+          size="small"
           value={selectedFilter}
           onChange={handleFilterChange}
           sx={{ width: '180px' }} 
@@ -61,12 +70,13 @@ export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniq
 
 
 
-        <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '8px' }}>
         <TextField
           select
           fullWidth
           label={`Select ${selectedFilter}`}
           value={filtervalue}
+          size="small"
           onChange={handleFiltervalue}
           sx={{ width: '180px' }} 
         >
@@ -103,21 +113,26 @@ export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniq
         </Box>
         </Box>
 
+        {/* Filter By */}
+        {/* <Box display='flex' id="inner2">
+
+        </Box> */}
 
 
+    <box display='flex' id="inner3">
       {/* Icons */}
       {icons.map((icon, index) => (
           <IconButton key={index}>{icon}</IconButton>
         ))}
         
         {/* Add button  */}
-       <IconButton onClick={onAddClick}>
-          <Box sx={{ width: 30, height: 30, backgroundColor: '#00B286', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <AddIcon sx={{ fontSize: 20, color: 'white' }} />
-          </Box>
-          <Typography sx={{ color: '#00B286', fontWeight: 'bold' }}>{icontitle}</Typography>
-        </IconButton>
-
+        <IconButton onClick={onAddClick} sx={{ border: '1px solid #00B286', borderRadius: ' 4px', padding: '4.5px'}}>
+        <Box sx={{ width: 30, height: 32, backgroundColor: '#00B286', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <AddIcon sx={{ fontSize: 20, color: 'white' }} />
+        </Box>
+        <Typography sx={{ color: '#00B286', fontWeight: 'bold', marginLeft: '8px'}}>{icontitle}</Typography>
+      </IconButton>
+    </box>
       </Box>
     </Box>
   );

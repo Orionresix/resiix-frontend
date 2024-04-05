@@ -136,8 +136,23 @@
   z-index: 5;
 }
 
-.modal-content {
+/* .modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+} */
+/* #top{
+  background-color: red;
 }
+#inner1{
+  background-color: blue;
+}
+#inner2{
+  background-color: green;
+}
+#inner3{
+  background-color: yellow;
+}
+#subparent{
+  background-color: pink;
+} */
