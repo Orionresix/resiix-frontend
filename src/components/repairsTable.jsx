@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { DataGrid } from '@mui/x-data-grid'
-import { Button } from '@mui/material'
+import {React, useState} from 'react'
+import {TableCell,TableRow,  Card,
+  CardMedia, CardContent, Typography
+   } from '@mui/material'
+import nyumba from '../assets/nyumbaicon.svg'
 
 const getStatusColor = (r_status) => {
   switch (r_status) {
@@ -20,48 +22,124 @@ const getStatusColor = (r_status) => {
   }
 }
 
-const repairsTable = ({  groupeddata }) => {
+const repairsTable = ({  groupeddata, onAddClick}) => {
 
-  const columns = [
-    { field: 'r_id', headerName: 'ID', flex: 1 },
-    { field: 'p_name', headerName: 'Property', flex: 1 },
-    { field: 'u_name', headerName: 'Unit No', flex: 1 },
-    { field: 'r_type', headerName: 'Type', flex: 1 },
-    { field: 'r_description', headerName: 'Description', flex: 1 },
-    { field: 'r_phone', headerName: 'Phone', flex: 1 },
-    { field: 'r_status', headerName: 'Status', flex: 1,
-        renderCell: (params) => (
-            <span
-              style={{
-                backgroundColor: getStatusColor(params.value),
-                color: 'white',
-                fontSize: '0.5rem',
-                padding: '3px 8px',
-                borderRadius: '12px',
-              }}>
-              {params.value}
-            </span>
-          ), 
-    },
-    { field: 'r_priority', headerName: 'Priority', flex: 1 },
-    {field: 'action', headerName: 'Action',width: 150,
-          renderCell: () => <Button size='small'>Action</Button>,
-    },
-  ]
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleCellClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+
+
+  const handleMenuItemClick = (value) => {
+    console.log(value);
+    setIsDropdownOpen(false); // Close dropdown after selection
+  };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
 
+<TableRow>
+  <TableCell>ID</TableCell>
+  <TableCell>Description</TableCell>
+  <TableCell>Phone</TableCell>
+  <TableCell>Type</TableCell>
+  <TableCell>Status</TableCell>
+</TableRow>
 
-<DataGrid
-    rows={groupeddata.reduce((acc, group) => [...acc, ...group.orders], [])}
-    columns={columns}
-    pageSize={5}
-    rowHeight={35}
-    rowsPerPageOptions={[5]}
-    checkboxSelection={false}
-    getRowId={(row) => row.r_id}
+
+{groupeddata.map(group => (
+  group.orders.map(order => (
+    <TableRow key={order.r_id}>
+      <TableCell>{order.r_id}</TableCell>
+
+
+
+      
+
+      <TableCell>
+
+<Card sx={{ display: 'flex', height: '100%' }}>
+  {/* Left Column */}
+  <CardMedia
+    component='img'
+    image={nyumba}
+    alt={order.p_name}
+    height='40'
+    width='40'
+    sx={{ marginRight: '1rem' }} // Add margin to separate from the content on the right
   />
+
+  {/* Right Column */}
+  <CardContent>
+    <Typography variant='body2' color='text.secondary' noWrap>
+      {order.r_description}
+    </Typography>
+
+    <Typography variant='body2' color='text.secondary' noWrap>
+      {order.p_name} {order.u_name}
+    </Typography>
+  </CardContent>
+</Card>
+      </TableCell>
+
+      <TableCell>
+      <Card sx={{ display: 'flex', height: '100%' }}> 
+      <CardContent>
+      <Typography variant='body2' color='text.secondary' noWrap>
+      {order.r_phone}
+    </Typography>
+      </CardContent>
+      </Card>
+        </TableCell>
+
+
+      <TableCell>
+      <Card sx={{ display: 'flex', height: '100%' }}> 
+      <CardContent>
+      <Typography variant='body2' color='text.secondary' noWrap>
+      {order.r_type}
+    </Typography>
+      </CardContent>
+      </Card>
+        </TableCell>
+
+      <TableCell >
+      <Card sx={{ display: 'flex', height: '100%' ,
+  backgroundColor: getStatusColor(order.r_status),
+  color: 'white',
+  fontSize: '0.5rem',
+  borderRadius: '12px',
+}}> 
+      <CardContent >
+<Typography variant='body2' color='text.secondary'  noWrap>
+{order.r_status}
+            </Typography>
+            </CardContent>
+      </Card>
+  
+</TableCell>
+
+
+<TableCell onClick={handleCellClick}>
+{!isDropdownOpen && (  <Typography variant='body2' color='text.secondary' noWrap>
+      Action
+    </Typography>)}
+     
+        {isDropdownOpen && (
+          <>
+          <Typography variant='body2' color='text.secondary' noWrap  onClick={onAddClick}> create workorder </Typography>
+          <Typography variant='body2' color='text.secondary' noWrap onClick={handleMenuItemClick}> view details </Typography>
+          <Typography variant='body2' color='text.secondary' noWrap onClick={handleMenuItemClick}> delete  </Typography>
+           </>
+          )}
+         
+     
+    </TableCell>
+
+    </TableRow>
+  ))
+))}
 
     </div>
   )
