@@ -73,6 +73,7 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
               onChange={handleChange}
             />
           </Grid>
+          
           <Grid item xs={12} sm={6}>
             <TextField
               required

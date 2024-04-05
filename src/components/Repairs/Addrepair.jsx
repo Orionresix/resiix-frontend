@@ -13,7 +13,7 @@ import Dialog from '@mui/material/Dialog';
 
 
 
-const AddrepairForm = ({ onSubmit, onCancel }) => {
+const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties }) => {
 //   const classes = useStyles();
   const [repair, setRepair] = useState({
     p_name: '',
@@ -50,40 +50,40 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
     });
   };
 
-  const [properties, setProperties] = useState([]);
-  const [UniqueProperties, setUniqueProperties] = useState([]);
+  // const [properties, setProperties] = useState([]);
+  // const [UniqueProperties, setUniqueProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState('');
   const [units, setUnits] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState('');
 
-  useEffect(() => {
-    // Fetch data from the backend API
-    fetch('http://127.0.0.1:5000/properties/units') // Replace with your actual backend API URL
-      .then(response => response.json())
-      .then(data => {
-        // Extract properties and units from the fetched data
-        const properties = data.map(item => ({
-          p_id: item.p_id,
-          p_name: item.p_name,
-          u_id: item.u_id,
-          u_name:  item.u_name
-        }));
-        setProperties(properties);
+  // useEffect(() => {
+  //   // Fetch data from the backend API
+  //   fetch('http://127.0.0.1:5000/properties/units') // Replace with your actual backend API URL
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       // Extract properties and units from the fetched data
+  //       const properties = data.map(item => ({
+  //         p_id: item.p_id,
+  //         p_name: item.p_name,
+  //         u_id: item.u_id,
+  //         u_name:  item.u_name
+  //       }));
+  //       setProperties(properties);
 
-        const uniqueProperties = properties.reduce((unique, current) => {
-            // Check if the current property ID is already in the unique array
-            if (!unique.some(property => property.p_id === current.p_id)) {
-              unique.push(current);
-            }
-            return unique;
-          }, []);
-          setUniqueProperties(uniqueProperties);
+  //       const uniqueProperties = properties.reduce((unique, current) => {
+  //           // Check if the current property ID is already in the unique array
+  //           if (!unique.some(property => property.p_id === current.p_id)) {
+  //             unique.push(current);
+  //           }
+  //           return unique;
+  //         }, []);
+  //         setUniqueProperties(uniqueProperties);
           
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
 
   const handlePropertyChange = (e) => {
     setSelectedProperty(e.target.value)
@@ -144,7 +144,7 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
           value={selectedProperty}
           onChange={handlePropertyChange}
         >
-          {UniqueProperties.map((property) => (
+          {uniqueProperties.map((property) => (
             <MenuItem key={property.p_id} value={property.p_id}>
               {property.p_name}
             </MenuItem>
@@ -254,6 +254,8 @@ const AddrepairForm = ({ onSubmit, onCancel }) => {
 AddrepairForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  properties: PropTypes.func.isRequired,
+  uniqueProperties :PropTypes.func.isRequired,
 };
 
 export default AddrepairForm;

@@ -9,6 +9,7 @@ import Reorder from '@mui/icons-material/Reorder'
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Import DisabledByDefault icon
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
+import { Typography} from '@mui/material'
 
 const RepairRequests = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
@@ -26,7 +27,44 @@ const RepairRequests = () => {
     },
   ]
 
+  const [properties, setProperties] = useState([]);
+  const [uniqueProperties, setUniqueProperties] = useState([]);
+  useEffect(() => {
+    // Fetch data from the backend API
+    fetch('http://127.0.0.1:5000/properties/units') // Replace with your actual backend API URL
+      .then(response => response.json())
+      .then(data => {
+        // Extract properties and units from the fetched data
+        const properties = data.map(item => ({
+          p_id: item.p_id,
+          p_name: item.p_name,
+          u_id: item.u_id,
+          u_name:  item.u_name
+        }));
+        setProperties(properties);
+
+        const uniqueProperties = properties.reduce((unique, current) => {
+            // Check if the current property ID is already in the unique array
+            if (!unique.some(property => property.p_id === current.p_id)) {
+              unique.push(current);
+            }
+            return unique;
+          }, []);
+          setUniqueProperties(uniqueProperties);
+        
+
+         
+          
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const [groupedrepairdata, setGroupedRepairdata] = useState([]);
+  const [uniqueType, setUniquetype] = useState([]);
+  const [uniquepriorities, setUniquepriority] = useState([]);
+  const [uniquestatuses, setUniquestatus] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Fetch data from backend API
@@ -49,6 +87,48 @@ const RepairRequests = () => {
           return acc;
         }, {});
         setGroupedRepairdata(Object.values(groupedData));
+
+        const typefilters = data.map(item => ({
+          r_type: item.r_type
+        }));
+        const uniquetypes = typefilters.reduce((unique, current) => {
+            // Check if the current property ID is already in the unique array
+            if (!unique.some(item => item.r_type === current.r_type)) {
+              unique.push(current);
+            }
+            return unique;
+          }, []);
+          setUniquetype(uniquetypes)
+
+          const priorityfilters = data.map(item => ({
+            r_priority: item.r_priority,
+            r_status: item.r_status,
+          }));
+          const priorities = priorityfilters.reduce((unique, current) => {
+              // Check if the current property ID is already in the unique array
+              if (!unique.some(item => item.r_priority === current.r_priority)) {
+                unique.push(current);
+              }
+              return unique;
+            }, []);
+            setUniquepriority(priorities)
+
+            const statusfilters = data.map(item => ({
+              r_status: item.r_status,
+            }));
+            const status = statusfilters.reduce((unique, current) => {
+                // Check if the current property ID is already in the unique array
+                if (!unique.some(item => item.r_status === current.r_status)) {
+                  unique.push(current);
+                }
+                return unique;
+              }, []);
+              setUniquestatus(status)
+  
+
+
+          
+
 
         setLoading(false); // Set loading to false after data is fetched
       })
@@ -76,9 +156,13 @@ const RepairRequests = () => {
   const icons = [
     currentView === 'TableView' ? (
       <DisabledByDefaultIcon />
-    ) : (
+    ) : (<>
       <Reorder onClick={() => handleIconClick(0)} />
+    
+      </>
     ),
+
+
     currentView === 'RequestDetails' ? (
       <DisabledByDefaultIcon />
     ) : (
@@ -140,11 +224,17 @@ const RepairRequests = () => {
 
   return (
     <>
-   
-      <ActionNav title='Repair requests' icons={icons}  onAddClick ={handleAddRepairClick} />
+    <Typography sx={{ color: '#00B286', fontWeight: 'bold' }}>
+    Maintenance requests
+      </Typography>
+
+      <ActionNav  icons={icons}  onAddClick ={handleAddRepairClick}
+       icontitle='New Request' uniqueProperties={uniqueProperties}  uniqueType={uniqueType}
+       uniquepriorities={uniquepriorities} uniquestatuses={uniquestatuses} />
       <div className="modal-container">
           <div className="modal-content">
-          {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}  />}
+          {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}
+           properties={properties}  uniqueProperties={uniqueProperties}/>}
           </div>
         </div>
 
