@@ -1,34 +1,47 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import { Paper, Typography } from '@mui/material'
+import {
+  AcUnit,
+  Bolt,
+  Handyman,
+  Plumbing,
+  SentimentVeryDissatisfied,
+} from '@mui/icons-material'
 
-const Stats = ({ stats }) => {
-  const columnSize = stats.length === 3 ? 4 : 3
+const Stats = ({ stats, type }) => {
+  const icons = {
+    electrical: <Bolt sx={{ fontSize: '60px', color: 'red' }} />,
+    plumbing: <Plumbing sx={{ fontSize: '60px', color: 'blue' }} />,
+    general: <Handyman sx={{ fontSize: '60px', color: 'purple' }} />,
+    ac: <AcUnit sx={{ fontSize: '60px', color: 'green' }} />,
+    overdue: (
+      <SentimentVeryDissatisfied sx={{ fontSize: '60px', color: 'orange' }} />
+    ),
+  }
+  const subText = {
+    electrical: 'Electrical Requests',
+    plumbing: 'Plumbing',
+    general: 'General repairs',
+    ac: 'Air conditioning',
+    overdue: 'Overdue work orders',
+  }
   return (
     <Paper
       style={{
         padding: '20px',
-        minHeight: '100px',
+        height: '200px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
         textAlign: 'center',
+        width: '200px',
+        flexDirection: 'column',
       }}>
-      <Grid container xs={12}>
-        {stats.map((item, index) => (
-          <Grid key={index} xs={columnSize}>
-            <Typography variant='h5' style={{ color: '#00B286' }}>
-              {item.title}
-            </Typography>
-            <Typography variant='h6' style={{ color: '#868E96' }}>
-              {item.data}
-            </Typography>
-          </Grid>
-        ))}
-      </Grid>
+      {icons[type]}
+      <Typography>{stats}</Typography>
+      <Typography>{subText[type]} </Typography>
     </Paper>
   )
 }
