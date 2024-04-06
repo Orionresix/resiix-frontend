@@ -21,7 +21,7 @@ const RepairRequests = () => {
     {
       ticketNumber: 1,
       description: 'Description 1',
-      status: 'new',
+      status: 'newwww',
       date: '2023-12-01',
       title: 'Request title',
     },
@@ -62,6 +62,7 @@ const RepairRequests = () => {
   }, []);
 
   const [groupedrepairdata, setGroupedRepairdata] = useState([]);
+  const [repairdata, setRepairdata] = useState([]);
   const [uniqueType, setUniquetype] = useState([]);
   const [uniquepriorities, setUniquepriority] = useState([]);
   const [uniquestatuses, setUniquestatus] = useState([]);
@@ -87,6 +88,7 @@ const RepairRequests = () => {
           return acc;
         }, {});
         setGroupedRepairdata(Object.values(groupedData));
+        setRepairdata(data);
 
         const typefilters = data.map(item => ({
           r_type: item.r_type
@@ -142,7 +144,8 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}  />
+        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}
+        onViewDetailsClick={handleViewDetailsClick}  />
         )}
       </Box>
     </>
@@ -175,7 +178,8 @@ const RepairRequests = () => {
       case 'TableView':
         return <TableView />
       case 'RequestDetails':
-        return <RequestDetails tickets= {tickets}     /> // Replace with actual rendering logic for RequestDetails
+        return <RequestDetails tickets= {tickets} repairdata={repairdata} selectedrequest={selectedTicket}
+        onViewDetailsClick={handleViewDetailsClick} onselectClick={handleSelectRepairClick}  /> // Replace with actual rendering logic for RequestDetails
       default:
         return null
     }
@@ -187,6 +191,16 @@ const RepairRequests = () => {
   const handleCancel = () => {
     setShowAddrepairForm(false); 
   };
+  const [selectedTicket, setSelectedTicket] = useState([])
+  const handleViewDetailsClick = (rowIndex) => {
+    setCurrentView('RequestDetails')
+    setSelectedTicket(rowIndex)
+  };
+  const handleSelectRepairClick = (rowIndex) => {
+    setSelectedTicket(rowIndex)
+  };
+
+  console.log(selectedTicket)
 
   const handleSubmit = (propertyData) => {
     // Define the URL for the POST request

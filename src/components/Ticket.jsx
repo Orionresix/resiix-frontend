@@ -4,14 +4,14 @@ import { Card, CardContent, Typography, Box, Chip } from '@mui/material'
 
 const colors = {
   NEW: 'green',
-  DONE: '#3CA38F',
+  DONE: 'blue',
   WIP: 'orange',
   CANCELLED: 'red',
 }
 
 const TicketComponent = ({
-  wo_id,wo_status, r_type, r_description,
-  //  wo_pm_description, wo_l_id, wo_u_id, wo_created_time,
+   r_type, r_description,r_id,wo_pm_description,r_status, wo_status,
+  // wo_id , wo_l_id, wo_u_id, wo_created_time,
   // wo_assigned_to, wo_assigned_by,  wo_due_date, wo_r_id,
   // r_id, r_img_url, r_img_url1, r_img_url2,
   // r_l_id, r_u_id, r_created_time, r_phone,
@@ -25,19 +25,20 @@ const TicketComponent = ({
     marginBottom: '5px',
     cursor: 'pointer',
     backgroundColor: '#FAF9F6',
+    minHeight: "100px",
     boxShadow: isSelected ? 'default' : 'none',
   }
   return (
-    <Card sx={styles} onClick={handleClick}>
+    <Card sx={styles} onClick={handleClick}  >
       <CardContent>
         <Box display='flex' justifyContent='space-between'>
           <Typography variant='h6' gutterBottom>
-            Ticket #{wo_id}
+            Ticket #{r_id}
           </Typography>
           <Chip
-            label={wo_status === 'progress' ? 'IN PROGRESS' : wo_status}
+            label={r_status === 'progress' ? 'IN PROGRESS' : r_status}
             sx={{
-              backgroundColor: colors[wo_status],
+              backgroundColor: colors[r_status],
               color: '#fff',
               fontSize: 10,
             }}
@@ -47,6 +48,17 @@ const TicketComponent = ({
         <Typography variant='body2' gutterBottom>
           {r_description} 
         </Typography>
+
+        <Typography variant='body2' gutterBottom>
+          {wo_pm_description} 
+        </Typography>
+        <Typography variant='body2' gutterBottom>
+          {wo_status} 
+        </Typography>
+      
+        
+        
+        
 
         <Box display='flex' justifyContent='space-between' alignItems='center'>
           <Chip label={title} size='small' />

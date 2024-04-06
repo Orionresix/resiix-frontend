@@ -1,17 +1,21 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
-import { Box, Grid, Typography, Card, CardContent, Paper } from '@mui/material'
+import React from 'react'
+import { Box, Grid, Typography, Card, CardContent, Paper, CardMedia } from '@mui/material'
+import nyumba from '../../assets/nyumbaicon.svg'
 import TicketComponent from '../../components/Ticket'
 
-const RequestDetails = ({ tickets }) => {
-  const [selectedTicket, setSelectedTicket] = useState(tickets[0])
+const RequestDetails = ({ repairdata, selectedrequest, onViewDetailsClick }) => {
+
+  // const [selectedTicket, setSelectedTicket] = useState([])
+
+  const selectedRequest = repairdata.find(request => request.r_id === selectedrequest);
 
   const handleTicketClick = (idx) => {
-    setSelectedTicket(tickets[idx])
+    onViewDetailsClick(idx);
   }
 
   return (
-    <Box sx={{ minHeight: '80vh' }}>
+    <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Box
@@ -21,44 +25,71 @@ const RequestDetails = ({ tickets }) => {
               display: 'flex',
               flexDirection: 'column',
             }}>
-            {tickets.map((ticket, idx) => (
+
+
+            {repairdata.map((order, idx) => (
+
+
               <TicketComponent
                 key={idx}
-                {...ticket}
-                isSelected={ticket.id === selectedTicket.id} // Pass isSelected prop
+                {...order}
+                isSelected={selectedRequest.r_id} // Pass isSelected prop
                 handleClick={() => handleTicketClick(idx)}
               />
+
+
+              
             ))}
           </Box>
         </Grid>
+
         <Grid
           item
           xs={12}
           md={8}
-          sx={{ height: '100%' }}
-          className='requestDetailsPane'>
-          <Paper color='red'>
-            <Card sx={{ height: '80vh' }}>
-              <CardContent>
-                <Typography variant='h6' gutterBottom>
-                  {selectedTicket?.title}
-                </Typography>
-                <Typography variant='body1' gutterBottom>
-                  {selectedTicket?.description}
-                </Typography>
-                <Typography variant='body1' gutterBottom>
-                  Status: {selectedTicket?.status}
-                </Typography>
-                <Typography variant='body1' gutterBottom>
-                  Date: {selectedTicket?.date}
-                </Typography>
-              </CardContent>
-            </Card>
+          sx={{ height: "100%" }}
+          className="requestDetailsPane"
+        >
+          <Paper color="red">
+            {selectedRequest && (
+              <Card sx={{ height: "80vh" }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {selectedRequest.r_id}
+                  </Typography>
+
+                  <CardMedia
+                    component="img"
+                    image={nyumba}
+                    alt={selectedRequest.p_name}
+                    height="40"
+                    width="40"
+                    sx={{ marginRight: "1rem" }} // Add margin to separate from the content on the right
+                  />
+
+                  <Typography variant="body2" color="text.secondary" noWrap>
+                    {selectedRequest.p_name} {selectedRequest.u_name}
+                  </Typography>
+
+                  <Typography variant="body1" gutterBottom>
+                    {selectedRequest.r_description}
+                  </Typography>
+                 
+                  <Typography variant="body1" gutterBottom>
+                    Date: {selectedRequest.r_type}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Status: {selectedRequest.r_status}
+                  </Typography>
+
+                </CardContent>
+              </Card>
+            )}
           </Paper>
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }
 
 export default RequestDetails
