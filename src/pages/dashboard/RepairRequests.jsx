@@ -9,6 +9,7 @@ import Reorder from '@mui/icons-material/Reorder'
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Import DisabledByDefault icon
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
+import AddworkorderForm from '../../components/workorder/Addworkorder'
 import { Typography} from '@mui/material'
 
 const RepairRequests = () => {
@@ -144,7 +145,7 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}
+        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddWorkorderClick}  
         onViewDetailsClick={handleViewDetailsClick}  />
         )}
       </Box>
@@ -191,6 +192,14 @@ const RepairRequests = () => {
   const handleCancel = () => {
     setShowAddrepairForm(false); 
   };
+  const [showAddworkorderForm, setShowAddworkorderForm] = useState(false);
+  const [selectedrequest, setSelectedRequest] = useState([])
+  const handleAddWorkorderClick = (rowIndex) => {
+    setShowAddworkorderForm(true);
+    setSelectedRequest(rowIndex)
+
+  };
+  
   const [selectedTicket, setSelectedTicket] = useState([])
   const handleViewDetailsClick = (rowIndex) => {
     setCurrentView('RequestDetails')
@@ -245,12 +254,23 @@ const RepairRequests = () => {
       <ActionNav  icons={icons}  onAddClick ={handleAddRepairClick}
        icontitle='New Request' uniqueProperties={uniqueProperties}  uniqueType={uniqueType}
        uniquepriorities={uniquepriorities} uniquestatuses={uniquestatuses} />
+
       <div className="modal-container">
           <div className="modal-content">
           {showAddrepairForm &&  <AddrepairForm onSubmit={handleSubmit} onCancel={handleCancel}
            properties={properties}  uniqueProperties={uniqueProperties}/>}
           </div>
         </div>
+
+        <div className="modal-container">
+          <div className="modal-content">
+          {showAddworkorderForm &&  <AddworkorderForm onSubmit={handleSubmit} onCancel={handleCancel}
+           properties={properties}  uniqueProperties={uniqueProperties} selectedrequest={selectedrequest}
+           repairdata={repairdata}  />}
+          </div>
+        </div>
+
+        
 
       {renderView()}
     </>
