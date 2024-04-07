@@ -1,72 +1,89 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { Card, CardContent, Typography, Box, Chip } from '@mui/material'
+import React from "react";
+import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
+import { PlaceOutlined } from "@mui/icons-material";
 
 const colors = {
-  NEW: 'green',
-  DONE: 'blue',
-  WIP: 'orange',
-  CANCELLED: 'red',
-}
+  NEW: "#FFC107",
+  DONE: "Green",
+  ASSIGNED:"Orange",
+  INSPECTION: "Orange",
+  WIP: "Blue",
+  CANCELLED: "red",
+};
+const typecolors = {
+  Electric: "green",
+  Plumbing: "blue",
+  general: "green",
+  Carpentry: "green",
+  Painting:"orange",
+  Masonary:"orange"
+};
 
 const TicketComponent = ({
-   r_type, r_description,r_id,wo_pm_description,r_status, wo_status,
-  // wo_id , wo_l_id, wo_u_id, wo_created_time,
-  // wo_assigned_to, wo_assigned_by,  wo_due_date, wo_r_id,
-  // r_id, r_img_url, r_img_url1, r_img_url2,
-  // r_l_id, r_u_id, r_created_time, r_phone,
-  title,
+  r_type,
+  r_description,
+  r_id,
+  r_status,
+  p_name,
+  u_name,
   handleClick,
   isSelected,
 }) => {
   const styles = {
-    border: isSelected ? '1px solid green' : null,
-    padding: '10px',
-    marginBottom: '5px',
-    cursor: 'pointer',
-    backgroundColor: '#FAF9F6',
-    minHeight: "100px",
-    boxShadow: isSelected ? 'default' : 'none',
-  }
+    border: isSelected ? "1px solid green" : null,
+    padding: "10px",
+    marginBottom: "5px",
+    cursor: "pointer",
+    backgroundColor: "#FAF9F6",
+    boxShadow: isSelected ? "default" : "none",
+  };
   return (
-    <Card sx={styles} onClick={handleClick}  >
+    <Card className={styles} onClick={handleClick}>
       <CardContent>
-        <Box display='flex' justifyContent='space-between'>
-          <Typography variant='h6' gutterBottom>
-            Ticket #{r_id}
+        <Box display="flex" justifyContent="space-between">
+          <Typography variant="caption" gutterBottom>
+            {/* Tck-{`${r_id}`.padStart(5, '0')} */}
+            TKT-{r_id}
           </Typography>
+        
           <Chip
-            label={r_status === 'progress' ? 'IN PROGRESS' : r_status}
+            label={r_type}
             sx={{
-              backgroundColor: colors[r_status],
-              color: '#fff',
+              backgroundColor: typecolors[r_type],
+              color: "#fff",
               fontSize: 10,
             }}
-            size='small'
+            size="small"
           />
-        </Box>
-        <Typography variant='body2' gutterBottom>
-          {r_description} 
-        </Typography>
 
-        <Typography variant='body2' gutterBottom>
-          {wo_pm_description} 
-        </Typography>
-        <Typography variant='body2' gutterBottom>
-          {wo_status} 
-        </Typography>
-      
-        
-        
-        
 
-        <Box display='flex' justifyContent='space-between' alignItems='center'>
-          <Chip label={title} size='small' />
-          <Typography variant='body2'>{r_type} </Typography>
         </Box>
+        <Typography
+          variant="body1"
+          sx={{ fontWeight: "bold", margin: "10px 0 20px 0" }}
+        >
+          {r_description}
+        </Typography>
+        <Box display="flex" alignItems="center">
+          <PlaceOutlined />
+          <Typography variant="caption">
+          {p_name} -- {u_name}
+          </Typography>
+        </Box>
+
+        <Chip
+            label={r_status}
+            sx={{
+              backgroundColor: colors[r_status],
+              color: "#fff",
+              fontSize: 10,
+            }}
+            size="small"
+          />
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default TicketComponent
+export default TicketComponent;

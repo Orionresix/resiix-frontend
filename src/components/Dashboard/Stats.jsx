@@ -1,34 +1,27 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import {Paper, Box , Typography} from '@mui/material'
 
 const Stats = ({ stats }) => {
   const columnSize = stats.length === 3 ? 4 : 3
   return (
     <Paper
       style={{
-        padding: '20px',
-        minHeight: '100px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        textAlign: 'center',
       }}>
-      <Grid container xs={12}>
+      <Box container xs={12}  display='flex' justifyContent='space-evenly'  >
         {stats.map((item, index) => (
-          <Grid key={index} xs={columnSize}>
+          <Box key={index} xs={columnSize}   >
+            {item.icon}
             <Typography variant='h5' style={{ color: '#00B286' }}>
-              {item.title}
-            </Typography>
-            <Typography variant='h6' style={{ color: '#868E96' }}>
               {item.data}
             </Typography>
-          </Grid>
+            <Typography variant='h6' style={{ color: '#868E96' }}>
+              {item.title}
+            </Typography>
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Paper>
   )
 }

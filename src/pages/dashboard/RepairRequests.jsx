@@ -14,7 +14,7 @@ import { Typography} from '@mui/material'
 const RepairRequests = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
- 
+
   const tickets = [
     { id: 1, title: 'Task 1', status: 'new' },
     { id: 2, title: 'Task 2', status: 'progress' },

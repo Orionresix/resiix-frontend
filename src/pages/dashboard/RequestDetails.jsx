@@ -20,26 +20,24 @@ const RequestDetails = ({ repairdata, selectedrequest, onViewDetailsClick }) => 
         <Grid item xs={12} md={4}>
           <Box
             sx={{
-              maxHeight: '50vh',
-              overflowY: 'auto',
+              maxHeight: '70vh',
+              overflow: 'auto',
               display: 'flex',
               flexDirection: 'column',
             }}>
 
-
-            {repairdata.map((order, idx) => (
-
-
+<Box>
+            {repairdata.map((order, idx) => (      
               <TicketComponent
                 key={idx}
                 {...order}
                 isSelected={selectedRequest.r_id} // Pass isSelected prop
                 handleClick={() => handleTicketClick(idx)}
               />
-
-
-              
             ))}
+
+</Box>
+
           </Box>
         </Grid>
 

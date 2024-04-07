@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
-import { Box, Grid } from '@mui/material'
-import DonutChartComponent from '../../components/DonutChart'
+import { Box, Grid, Link,Button  } from '@mui/material'
 import TicketComponent from '../../components/Ticket'
+import {
+  AcUnit,
+  Bolt,
+  Handyman,
+  Plumbing,
+  SentimentVeryDissatisfied,
+} from '@mui/icons-material'
 
 
 const DashboardHome = () => {
@@ -70,12 +76,6 @@ const DashboardHome = () => {
   // }, []);
 
 
-
-  const propertyStats = [
-    { id: 0, value: 20, label: 'Property A' },
-    { id: 1, value: 15, label: 'Property B' },
-  ]
-
   const [counts, setCounts] = useState([
     { title: 'Total maintenance request', data: 'Loading...' },
     { title: 'Total open work orders', data: 'Loading...' },
@@ -100,10 +100,12 @@ const fetchCounts = () => {
         })
         .then(data => {
             const updatedCounts = [
-                { title: 'Total maintenance request', data: data.totalMaintenanceRequest },
-                { title: 'Total open work orders', data: data.totalOpenWorkOrders },
-                { title: 'Overdue requests', data: data.overdueRequests },
-                { title: 'Total expenses', data: data.totalExpenses }
+                { title: 'Electrical', data: data.totalMaintenanceRequest, icon:<Bolt sx={{ fontSize: '60px', color: 'red' }} />  },
+                { title: 'Plumbing', data: data.totalOpenWorkOrders,icon: <Plumbing sx={{ fontSize: '60px', color: 'blue' }} />  },
+                { title: 'General repairs ', data: data.overdueRequests, icon:<Handyman sx={{ fontSize: '60px', color: 'purple' }} /> },
+                { title: 'Air conditioning', data: data.totalExpenses,icon: <AcUnit sx={{ fontSize: '60px', color: 'green' }} />  },
+                { title: 'Overdue', data: data.totalExpenses,icon:  <SentimentVeryDissatisfied sx={{ fontSize: '60px', color: 'orange' }} />  }
+              
             ];
             setCounts(updatedCounts);
         })
@@ -117,7 +119,7 @@ const fetchCounts = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Define the URL of your backend API endpoint
-    const apiUrl = 'http://127.0.0.1:5000/work_orders/'; // Replace with your actual backend API URL
+    const apiUrl = 'http://127.0.0.1:5000/repairs/'; // Replace with your actual backend API URL
 
     // Fetch data from the backend API
     fetch(apiUrl)
@@ -143,44 +145,46 @@ const fetchCounts = () => {
 
 
   return (
-    <div>
-      <Stats stats={counts} />
-     <div>
+   <Box sx={{ padding: '50px', display: 'flex', flexDirection: 'column' }}>
+      <Box  >
+        <Stats stats={counts} />
+      </Box>
+
+     <Box>
      {userData ? (
-                <div>
+                <Box>
                     <p>welcome -  {userData.name} </p>
-                </div>
+                </Box>
             ) : (
                 <p>Loading user details...</p>
             )}
-     </div>
+     </Box>
 
 
       <Box className='dailyRequests'>
         <Box>
         {!loading && (
+          <>
           <Grid container spacing={2}>
             {tickets.map((ticket, index) => (
-              <Grid item xs={12} sm={6} key={index}>
+              <Grid item xs={12} sm={4} key={index}>
                 <TicketComponent {...ticket} xs={6} />
               </Grid>
             ))}
           </Grid>
+
+             <Box alignSelf={'flex-end'} marginTop='20px'>
+             <Link href='/dashboard/requests'>
+               <Button variant='outlined'>View More</Button>
+             </Link>
+           </Box>
+           </>
+
         )}
-          <Box display='flex' justifyContent='space-between'>
-            <DonutChartComponent
-              data={propertyStats}
-              title='Maintenance Request by property'
-            />
-            <DonutChartComponent
-              data={propertyStats}
-              title='Total Maintenance costs'
-            />
-          </Box>
         </Box>
-       
       </Box>
-    </div>
+
+      </Box>
   )
 }
 
