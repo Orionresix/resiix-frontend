@@ -83,6 +83,8 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
       {groupeddata.map((group) =>
         group.orders.map((order) => (
           <TableRow key={order.r_id}>
+
+            
             <TableCell>{order.r_id}</TableCell>
 
             <TableCell>

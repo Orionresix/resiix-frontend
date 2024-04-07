@@ -11,6 +11,7 @@ import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import AddworkorderForm from '../../components/workorder/Addworkorder'
 import { Typography} from '@mui/material'
+const baseURL = 'https://orionbackend-1.onrender.com';
 
 const RepairRequests = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
@@ -32,7 +33,7 @@ const RepairRequests = () => {
   const [uniqueProperties, setUniqueProperties] = useState([]);
   useEffect(() => {
     // Fetch data from the backend API
-    fetch('http://127.0.0.1:5000/properties/units') // Replace with your actual backend API URL
+    fetch(`${baseURL}/properties/units`) // Replace with your actual backend API URL
       .then(response => response.json())
       .then(data => {
         // Extract properties and units from the fetched data
@@ -70,7 +71,7 @@ const RepairRequests = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Fetch data from backend API
-    fetch('http://127.0.0.1:5000/repairs/')
+    fetch(`${baseURL}/repairs`)
       .then(response => {
         // Check if the response is successful
         if (!response.ok) {
@@ -89,6 +90,7 @@ const RepairRequests = () => {
           return acc;
         }, {});
         setGroupedRepairdata(Object.values(groupedData));
+
         setRepairdata(data);
 
         const typefilters = data.map(item => ({
@@ -213,7 +215,7 @@ const RepairRequests = () => {
 
   const handleSubmit = (propertyData) => {
     // Define the URL for the POST request
-    const url = 'http://127.0.0.1:5000/repairs/create';
+    const url = `${baseURL}/repairs/create`;
     const data = {
       p_name: propertyData.p_name,
       p_id: propertyData.p_id,

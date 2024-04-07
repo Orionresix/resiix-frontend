@@ -10,6 +10,7 @@ import {
   Plumbing,
   SentimentVeryDissatisfied,
 } from '@mui/icons-material'
+const baseURL = 'https://orionbackend-1.onrender.com';
 
 
 const DashboardHome = () => {
@@ -18,7 +19,7 @@ const DashboardHome = () => {
   const location = useLocation();
   const [userData, setUserData] = useState(null);
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/user_details')
+    fetch( `${baseURL}/user_details`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -42,7 +43,7 @@ const DashboardHome = () => {
   // };
   // console.log(getToken());
   // useEffect(() => {
-  //   const apiUrl = 'http://127.0.0.1:5000/user_details'; // Replace with your actual backend API URL
+  //   const apiUrl = `${baseURL}/user_details`; // Replace with your actual backend API URL
 
   //   // Fetch data from the backend API
   //   fetch(apiUrl
@@ -88,7 +89,7 @@ useEffect(() => {
 }, []);
 
 const fetchCounts = () => {
-  const apiUrl = 'http://127.0.0.1:5000/work_orders/get_request_count'; // Replace with your actual backend API URL
+  const apiUrl = `${baseURL}/work_orders/get_request_count`; // Replace with your actual backend API URL
 
   // Fetch data from the backend API
     fetch(apiUrl)
@@ -119,7 +120,7 @@ const fetchCounts = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Define the URL of your backend API endpoint
-    const apiUrl = 'http://127.0.0.1:5000/repairs/'; // Replace with your actual backend API URL
+    const apiUrl = `${baseURL}/repairs/`; // Replace with your actual backend API URL
 
     // Fetch data from the backend API
     fetch(apiUrl)

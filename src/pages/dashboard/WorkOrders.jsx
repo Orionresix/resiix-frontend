@@ -10,6 +10,8 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Imp
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import { Typography} from '@mui/material'
+const baseURL = 'https://orionbackend-1.onrender.com';
+
 
 const WorkOrdersBoard = () => {
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
@@ -31,7 +33,9 @@ const WorkOrdersBoard = () => {
   const [uniqueProperties, setUniqueProperties] = useState([]);
   useEffect(() => {
     // Fetch data from the backend API
-    fetch('http://127.0.0.1:5000/properties/units') // Replace with your actual backend API URL
+    fetch(`${baseURL}/properties/units`) 
+    
+    // Replace with your actual backend API URL
       .then(response => response.json())
       .then(data => {
         // Extract properties and units from the fetched data
@@ -69,7 +73,7 @@ const WorkOrdersBoard = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Fetch data from backend API
-    fetch('http://127.0.0.1:5000/work_orders/')
+    fetch(`${baseURL}/work_orders/`)
       .then(response => {
         // Check if the response is successful
         if (!response.ok) {
@@ -204,7 +208,7 @@ const WorkOrdersBoard = () => {
 
   const handleSubmit = (propertyData) => {
     // Define the URL for the POST request
-    const url = 'http://127.0.0.1:5000/repairs/create';
+    const url =`${baseURL}/repairs/create`;
     const data = {
       p_name: propertyData.p_name,
       p_id: propertyData.p_id,

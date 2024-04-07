@@ -8,6 +8,7 @@ import CloseFullscreen from '@mui/icons-material/CloseFullscreen'
 import PropCard from '../../components/PropCard'
 import PropertiesEmpty from './PropertiesEmpty'
 import AddPropertyForm from '../../components/properties/AddProperty'
+const baseURL = 'https://orionbackend-1.onrender.com';
 
 const icons = [<Reorder />, <DragIndicator />, <CloseFullscreen />]
 
@@ -16,7 +17,8 @@ const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const apiUrl = 'http://127.0.0.1:5000/properties'; // to be corrected to dynamic
+    const apiUrl = `${baseURL}/properties`;
+     // to be corrected to dynamic
     fetch(apiUrl)
       .then(response => {
         if (!response.ok) {
@@ -38,7 +40,7 @@ const Properties = () => {
 
   const handleSubmit = (propertyData) => {
     // Define the URL for the POST request
-    const url = 'http://127.0.0.1:5000/properties/create';
+    const url = `${baseURL}/properties/create`;
     const data = {
       p_name: propertyData.p_name,
       p_num_units: propertyData.p_num_units,
