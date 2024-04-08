@@ -14,21 +14,55 @@ const ReportIssue = () => {
     const [mantainanceType, setMantainanceType] = useState('Electrical');
     const [image, setImage] = useState('');
 
-    const reportIssue = (e) => {
+    // const reportIssue = (e) => {
+    //     e.preventDefault();
+    //     const notify = () => toast("Your Request has been successfully submitted.");
+    //     setApartmentName('');
+    //     setUnitNumber('');
+    //     setTenantName('');
+    //     setContactNumber('');
+    //     setDescription('');
+    //     setMantainanceType('Electrical');
+    //     setImage('');
+    //     notify();
+    //     setTimeout(() => {
+    //         navigate('/resix/rating');
+    //     }, 3000);
+    // }
+
+    const reportIssue = async (e) => {
         e.preventDefault();
-        const notify = () => toast("Your Request has been successfully submitted.");
-        setApartmentName('');
-        setUnitNumber('');
-        setTenantName('');
-        setContactNumber('');
-        setDescription('');
-        setMantainanceType('Electrical');
-        setImage('');
-        notify();
-        setTimeout(() => {
-            navigate('/resix/rating');
-        }, 3000);
+        
+        try {
+            const formData = new FormData();
+            formData.append('apartmentName', apartmentName);
+            formData.append('unitNumber', unitNumber);
+            formData.append('tenantName', tenantName);
+            formData.append('contactNumber', contactNumber);
+            formData.append('description', description);
+            formData.append('mantainanceType', mantainanceType);
+            formData.append('image', image);
+
+            const response = await fetch('API_ENDPOINT', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                toast.success("Your Request has been successfully submitted.");
+                setTimeout(() => {
+                    navigate('/resix/rating');
+                }, 3000);
+            } else {
+                throw new Error('Failed to submit request');
+            }
+        } catch (error) {
+            console.error('Error submitting request:', error);
+            toast.error("Failed to submit request. Please try again later.");
+        }
     }
+
+
   return (
     <div className='report-issue'>
         <div className="report-welcome">
