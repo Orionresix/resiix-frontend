@@ -18,8 +18,8 @@ import TenantLanding from './pages/tenant/landing_page/Landing.jsx';
 import TReportIssue from './pages/tenant/report_issue/ReportIssue.jsx';
 import TRating from './pages/tenant/rating/Rating.jsx';
 import TFeedback from './pages/tenant/feedback/Feedback.jsx';
-import CompleteWork from './Pages/technician/completework/CompleteWork';
-import StartWork from './Pages/technician/startwork/StartWork';
+import CompleteWork from './pages/technician/completework/CompleteWork.jsx';
+import StartWork from './pages/technician/startwork/StartWork';
 
 function App() {
   return (

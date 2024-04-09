@@ -56,7 +56,7 @@ const CompleteWork = () => {
     };
 
 
-}
+
 return (
     <div className='complete-issue'>
         <div className="complete-welcome">
@@ -96,6 +96,7 @@ return (
         </form>
     </div>
 )
+            }
 
 
-export default CompleteWork
+export default CompleteWork;

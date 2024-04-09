@@ -69,6 +69,7 @@ const RepairRequests = () => {
   const [uniquepriorities, setUniquepriority] = useState([]);
   const [uniquestatuses, setUniquestatus] = useState([]);
   const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     // Fetch data from backend API
     fetch(`${baseURL}/repairs`)

@@ -1,18 +1,51 @@
-import React, {useState} from 'react';
+import { React, useState, useEffect } from 'react'
 import './Signin.css';
 import logo from '../../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
+// const baseURL = 'https://orionbackend-1.onrender.com';
+const baseURL = 'http://127.0.0.1:5000';
 
 const Signin = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [passcode, setPasscode] = useState('');
+    const [unitDetails, setUnitDetails] = useState(null); // State to store unit details
+    const [loggedIn, setLoggedIn] = useState(false)
 
-    const login = (e) => {
-        e.preventDefault();
-        console.log(email, password);
-        navigate('/resix/report-issue');
-    }
+
+    const handleLogin = () => {
+        // Call the API to authenticate user
+        fetch(`${baseURL}/tenantlogin?email=${email}&passcode=${passcode}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setUnitDetails(data);
+                setLoggedIn(true);
+                console.log(data)
+            })
+            
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    };
+   
+
+    useEffect(() => {
+        if (loggedIn) {
+            navigate('/resix/report-issue', { state: { unitDetails } });
+            console.log(unitDetails)
+        }
+    }, [loggedIn, navigate, unitDetails]);
+    
+
+
+
+
+
   return (
     <div className='auth-container'>
         <div className="logo">
@@ -22,18 +55,20 @@ const Signin = () => {
             <h1>Log in to your account</h1>
             <p>Welcome back! Please enter your details.</p>
         </div>
-        <form className="auth-form" onSubmit={(e) => {login(e)}}>
+        <form className="auth-form" 
+        // onSubmit={(e) => {handlelogin(e)}}
+        >
             <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                <label htmlFor="email">Unit code</label>
+                <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                <label htmlFor="passcode">Unit Passcode</label>
+                <input type="passcode" id="passcode" name="passcode" value={passcode} onChange={(e) => setPasscode(e.target.value)} required/>
             </div>
             <div className="flex-row-space">
                 <div className="flex-row">
-                    <input type="checkbox" id="remember-me" name="remember-me" required/>
+                    <input type="checkbox" id="remember-me" name="remember-me" />
                     <label htmlFor="remember-me">Remember me</label>
                 </div>
                 <div className="form-group">
@@ -41,7 +76,7 @@ const Signin = () => {
                 </div>
             </div>
             <div className="form-group">
-                <button type="submit">Sign in</button>
+                <button type="button" onClick={handleLogin}>Sign in</button>
             </div>
         </form>
     </div>
