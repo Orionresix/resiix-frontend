@@ -29,10 +29,8 @@ const getStatusColor = (r_status) => {
   }
 };
 
-const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(
-    Array(groupeddata.length).fill(false)
-  );
+const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(repairdata.length);
   const handleCellClick = (rowIndex) => {
     setIsDropdownOpen((prevState) => {
       const newDropdowns = [...prevState];
@@ -80,8 +78,7 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
         <TableCell>Action</TableCell>
       </TableRow>
 
-      {groupeddata.map((group) =>
-        group.orders.map((order) => (
+      {repairdata.map((order) => (
           <TableRow key={order.r_id}>
             <TableCell>{order.r_id}</TableCell>
 
@@ -275,7 +272,7 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
             </TableCell>
           </TableRow>
         ))
-      )}
+    }
     </div>
   );
 };

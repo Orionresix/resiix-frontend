@@ -4,12 +4,12 @@ import { Typography, Box, IconButton, MenuItem,  TextField } from '@mui/material
 import AddIcon from '@mui/icons-material/Add';
 import { React, useState } from 'react'
 
-export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniqueType, uniquepriorities, uniquestatuses }) => {
+export const ActionNav = ({ icons, onAddClick, onfilterClick, icontitle, uniqueProperties, uniqueType, uniquepriorities, uniquestatuses }) => {
   const filterOptions = [
-    { value: 'Property', label: 'Property' },
-    { value: 'Type', label: 'Type' },
-    { value: 'Priority', label: 'Priority' },
-    { value: 'Status', label: 'Status' },
+    { value: 'r_p_id', label: 'Property' },
+    { value: 'r_type', label: 'Type' },
+    { value: 'r_priority', label: 'Priority' },
+    { value: 'r_status', label: 'Status' },
   ];
 
 
@@ -22,6 +22,7 @@ export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniq
   const [filtervalue, setFiltervalue] = useState('');
   const handleFiltervalue = (event) => {
     setFiltervalue(event.target.value);
+    onfilterClick(selectedFilter, filtervalue)
     console.log(event.target.value);
   };
   
@@ -80,28 +81,28 @@ export const ActionNav = ({ icons, onAddClick, icontitle, uniqueProperties, uniq
           onChange={handleFiltervalue}
           sx={{ width: '180px' }} 
         >
-{selectedFilter === 'Property' && (
+{selectedFilter === 'r_p_id' && (
       uniqueProperties.map((property) => (
         <MenuItem key={property.p_id} value={property.p_id}>
           {property.p_name}
         </MenuItem>
       ))
     )}
-    {selectedFilter === 'Type' && (
+    {selectedFilter === 'r_type' && (
       uniqueType.map((item) => (
         <MenuItem key={item.r_type} value={item.r_type}>
           {item.r_type}
         </MenuItem>
       ))
     )}
-    {selectedFilter === 'Status' && (
+    {selectedFilter === 'r_status' && (
       uniquestatuses.map((item) => (
         <MenuItem key={item.r_status} value={item.r_status}>
           {item.r_status}
         </MenuItem>
       ))
     )}
-    {selectedFilter === 'Priority' && (
+    {selectedFilter === 'r_priority' && (
       uniquepriorities.map((item) => (
         <MenuItem key={item.r_priority} value={item.r_priority}>
           {item.r_priority}

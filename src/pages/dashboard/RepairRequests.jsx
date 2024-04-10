@@ -69,6 +69,35 @@ const RepairRequests = () => {
   const [uniquepriorities, setUniquepriority] = useState([]);
   const [uniquestatuses, setUniquestatus] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [filterType, setFilterType] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+  const onhandlefilterClick = (selectedFilter, value)=>{
+    console.log('filterType:',selectedFilter, 'filterValue:',value )
+    setFilterType(selectedFilter);
+    setFilterValue(value);
+  };
+console.log('filterType:',filterType, 'filterValue:',filterValue )
+
+useEffect(() => {
+  // Fetch data from backend API
+  fetch(`${baseURL}/repairs?${filterType}=${filterValue}`)
+    .then(response => {
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setRepairdata(data);
+      setLoading(false); // Set loading to false after data is fetched
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      setLoading(false); // Set loading to false if an error occurs
+    });
+}, [filterType ,filterValue]);
   
   useEffect(() => {
     // Fetch data from backend API
@@ -91,8 +120,6 @@ const RepairRequests = () => {
           return acc;
         }, {});
         setGroupedRepairdata(Object.values(groupedData));
-
-        setRepairdata(data);
 
         const typefilters = data.map(item => ({
           r_type: item.r_type
@@ -132,10 +159,6 @@ const RepairRequests = () => {
               setUniquestatus(status)
   
 
-
-          
-
-
         setLoading(false); // Set loading to false after data is fetched
       })
       .catch(error => {
@@ -148,7 +171,7 @@ const RepairRequests = () => {
     <>
       <Box>
       {!loading && (
-        <RepairsTable    groupeddata={groupedrepairdata} onAddClick={handleAddWorkorderClick}  
+        <RepairsTable    groupeddata={groupedrepairdata} repairdata={repairdata} onAddClick={handleAddWorkorderClick}  
         onViewDetailsClick={handleViewDetailsClick}  />
         )}
       </Box>
@@ -195,6 +218,7 @@ const RepairRequests = () => {
   const handleCancel = () => {
     setShowAddrepairForm(false); 
   };
+ 
   const [showAddworkorderForm, setShowAddworkorderForm] = useState(false);
   const [selectedrequest, setSelectedRequest] = useState([])
   const handleAddWorkorderClick = (rowIndex) => {
@@ -254,7 +278,7 @@ const RepairRequests = () => {
     Maintenance requests
       </Typography>
 
-      <ActionNav  icons={icons}  onAddClick ={handleAddRepairClick}
+      <ActionNav  icons={icons}  onAddClick ={handleAddRepairClick} onfilterClick={onhandlefilterClick}
        icontitle='New Request' uniqueProperties={uniqueProperties}  uniqueType={uniqueType}
        uniquepriorities={uniquepriorities} uniquestatuses={uniquestatuses} />
 
