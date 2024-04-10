@@ -7,6 +7,7 @@ import {
   Typography,
   Paper,
   MenuItem,
+  Input,
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 const baseURL = 'https://orionbackend-1.onrender.com';
@@ -59,6 +60,7 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
   // const [UniqueProperties, setUniqueProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState('');
   const [units, setUnits] = useState([]);
+  const [selectedUnit, setSelectedUnit] = useState('');
 
 
   const handlePropertyChange = (e) => {
@@ -97,13 +99,13 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
         console.error('Error fetching data:', error);
       });
   }, []);
-
-  const [pmRemarks, setPmRemarks] = useState('');
-  const handleChangePmRemarks = (event) => {
-    setPmRemarks(event.target.value);
-  };
  
 
+
+  const handleChangeUnit = (event) => {
+    const selectedUnitId = event.target.value;
+    setSelectedUnit(selectedUnitId);
+  };
   const handleClose = () => { };
   return (
 
@@ -117,6 +119,40 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} sx={{ p: 4 }}>
 
+        <Grid item xs={12} sm={6}>
+        <TextField
+          select
+          required
+          fullWidth
+          label="Select Property"
+          value={selectedProperty}
+          onChange={handlePropertyChange}
+        >
+          {uniqueProperties.map((property) => (
+            <MenuItem key={property.p_id} value={property.p_id}>
+              {property.p_name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <TextField
+          select
+          required
+          fullWidth
+          label="Select Unit"
+          name="u_id"
+          value={selectedUnit}
+          onChange={handleChangeUnit}
+        >
+          {units.map(unit => (
+            <MenuItem key={unit.u_id} value={unit.u_id}>
+              {unit.u_name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid>
 
 
 <Grid item xs={12} sm={6}>
@@ -140,10 +176,10 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
             <TextField
               required
               fullWidth
-              label="Remarks"
-              name="r_pm_description"
-              value={pmRemarks}
-              onChange={handleChangePmRemarks}
+              label="Description"
+              name="r_description"
+              value={requestdetails.r_description}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -153,7 +189,7 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           select
           required
           fullWidth
-          label="set Priority"
+          label="Select Priority"
           name="r_priority"
           value={requestdetails.r_priority}
           onChange={handleChange}
@@ -171,7 +207,7 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
               select
               required
               fullWidth
-              label="change Maintenance"
+              label="Select Maintenance"
               name="r_type"
               value={requestdetails.r_type}
               onChange={handleChange}
@@ -195,7 +231,7 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           </Button>
 
           <Button type="submit" variant="contained" color="primary">
-            Assign 
+            Create request
           </Button>
         </span>
       </Grid>

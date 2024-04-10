@@ -73,11 +73,9 @@ const RepairRequests = () => {
   const [filterType, setFilterType] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const onhandlefilterClick = (selectedFilter, value)=>{
-    console.log('filterType:',selectedFilter, 'filterValue:',value )
     setFilterType(selectedFilter);
     setFilterValue(value);
   };
-console.log('filterType:',filterType, 'filterValue:',filterValue )
 
 useEffect(() => {
   // Fetch data from backend API
@@ -218,16 +216,19 @@ useEffect(() => {
   const handleCancel = () => {
     setShowAddrepairForm(false); 
   };
+
+  const handleCancelWorkorder = ()=>{
+    setShowAddworkorderForm(false);
+  }
  
   const [showAddworkorderForm, setShowAddworkorderForm] = useState(false);
-  const [selectedrequest, setSelectedRequest] = useState([])
+  const [selectedTicket, setSelectedTicket] = useState([])
+  // const [selectedrequest, setSelectedRequest] = useState([])
   const handleAddWorkorderClick = (rowIndex) => {
     setShowAddworkorderForm(true);
-    setSelectedRequest(rowIndex)
-
+    setSelectedTicket(rowIndex)
   };
   
-  const [selectedTicket, setSelectedTicket] = useState([])
   const handleViewDetailsClick = (rowIndex) => {
     setCurrentView('RequestDetails')
     setSelectedTicket(rowIndex)
@@ -291,8 +292,8 @@ useEffect(() => {
 
         <div className="modal-container">
           <div className="modal-content">
-          {showAddworkorderForm &&  <AddworkorderForm onSubmit={handleSubmit} onCancel={handleCancel}
-           properties={properties}  uniqueProperties={uniqueProperties} selectedrequest={selectedrequest}
+          {showAddworkorderForm &&  <AddworkorderForm onSubmit={handleSubmit} onCancel={handleCancelWorkorder}
+           properties={properties}  uniqueProperties={uniqueProperties} selectedrequest={selectedTicket}
            repairdata={repairdata}  />}
           </div>
         </div>

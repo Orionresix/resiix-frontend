@@ -30,7 +30,7 @@ const getStatusColor = (r_status) => {
 };
 
 const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(repairdata.length);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(Array(repairdata.length).fill(false));
   const handleCellClick = (rowIndex) => {
     setIsDropdownOpen((prevState) => {
       const newDropdowns = [...prevState];
@@ -49,7 +49,6 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
         onViewDetailsClick(rowIndex);
         break;
       case "reject":
-        onAddClick(rowIndex);
         // onDeleteClick(rowIndex);
         break;
       default:
