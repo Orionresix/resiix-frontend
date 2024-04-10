@@ -44,7 +44,7 @@ export default function VerticalSidebar({ children }) {
           }}
           variant='persistent'
           anchor='left'>
-          <DrawerHeader>
+          <DrawerHeader sx={{ display: 'flex', justifyContent: 'center' }}>
             <img src={Logo} alt='' style={{ maxWidth: '100%' }} />
           </DrawerHeader>
           <Divider />
