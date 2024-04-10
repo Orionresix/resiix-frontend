@@ -9,7 +9,7 @@ const Stats = ({ stats }) => {
         display: 'flex',
         flexWrap: 'wrap', // Change to wrap to allow items to wrap onto the next line
         justifyContent: 'center',
-        alignItems: 'left',
+        alignContent: 'left',
         gap: '40px',
         overflowX: 'auto',
         padding: '30px' // Allow horizontal scrolling for smaller screens

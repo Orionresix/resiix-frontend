@@ -148,7 +148,7 @@ const fetchCounts = () => {
 
   return (
     <>
-      <Typography variant="h5" sx={{ color: '#00B286', fontWeight: 'bold', marginBottom: '50px' }}>
+      <Typography variant="h5" sx={{ color: '#00B286', fontWeight: 'bold', marginBottom: '20px' }}>
     Maintenance requests
       </Typography>
         <Stats stats={counts} />
