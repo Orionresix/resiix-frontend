@@ -228,6 +228,11 @@ useEffect(() => {
     setShowAddworkorderForm(true);
     setSelectedTicket(rowIndex)
   };
+  const handleWorkorderSubmit =  () =>{
+    setShowAddrepairForm(false); 
+  }
+
+  
   
   const handleViewDetailsClick = (rowIndex) => {
     setCurrentView('RequestDetails')
@@ -272,6 +277,8 @@ useEffect(() => {
       });
   };
 
+  
+
 
   return (
     <>
@@ -292,7 +299,7 @@ useEffect(() => {
 
         <div className="modal-container">
           <div className="modal-content">
-          {showAddworkorderForm &&  <AddworkorderForm onSubmit={handleSubmit} onCancel={handleCancelWorkorder}
+          {showAddworkorderForm &&  <AddworkorderForm onSubmit={handleWorkorderSubmit} onCancel={handleCancelWorkorder}
            properties={properties}  uniqueProperties={uniqueProperties} selectedrequest={selectedTicket}
            repairdata={repairdata}  />}
           </div>

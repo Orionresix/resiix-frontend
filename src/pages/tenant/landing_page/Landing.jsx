@@ -20,8 +20,7 @@ const Landing = () => {
                 <p>You can easily request for maintenance repairs by clicking the button below. To track the grogress of your report, sign in using the details.</p>
             </div>
             <div className="landing-cta">
-                <a href="/resix/report-issue" className="btn-link1">Request Mantainance</a>
-                <a href="/resix/login" className="btn-link2">Sign in</a>
+                <a href="/resix/login" className="btn-link1">Request Mantainance</a>
             </div>
         </div>
     </div>

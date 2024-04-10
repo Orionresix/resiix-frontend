@@ -2,10 +2,12 @@
 import React, { useState } from 'react'
 import CardContent from '@mui/material/CardContent'
 import './Onboarding.css'
-import logo from '../../assets/logo .png'
+import logo from '../../assets/logo.svg'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import { Link, useNavigate } from 'react-router-dom'
+import { Typography } from '@mui/material'
+const baseURL = 'https://orionbackend-1.onrender.com';
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -14,6 +16,7 @@ const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const googlelogin = `${baseURL}/login`
 
   const signUp = () => {
     navigate('/instructions')
@@ -26,10 +29,10 @@ const Signup = () => {
       </CardContent>
 
       <CardContent className='Welcome'>
-        <h3>Welcome to Nyumbafix</h3>
+        <h3>Welcome to Resiix</h3>
         <p>
-          Ready to join the Nyumbafix community?<br/>
-          Sign up now to start managing
+         Welcome to the Resiix community?<br/>
+          Sign in now to start managing
           your properties and work orders with ease. Let's fix things together!
         </p>
       </CardContent>
@@ -129,21 +132,25 @@ const Signup = () => {
             Sign Up
           </Button>
 
+           <Typography>Send your issue to your property manager</Typography>
+           <a href="/resix">
+          <Button  className='signup_button' variant='contained'>
+          preoceed as a Tenant 
+          </Button>
+          </a>
+
 
 
         </form>
 
-
-        <p> Or </p>
-
-        <div> <a href="http://127.0.0.1:5000/login"> Login with Google  </a>  </div>
       </CardContent>
 
       <CardContent>
-        <Link className='green' to='/signin'>
-          Have an account? Sign in{' '}
+        <Link className='green' to={googlelogin} >
+        Login with Google
         </Link>
       </CardContent>
+      
     </Stack>
   )
 }
