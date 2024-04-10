@@ -22,6 +22,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.7",
+    "resolve": "^1.22.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

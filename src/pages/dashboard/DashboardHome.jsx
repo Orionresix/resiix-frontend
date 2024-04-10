@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
-import { Box, Grid, Link,Button  } from '@mui/material'
+import { Box, Grid, Link,Button, } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import TicketComponent from '../../components/Ticket'
 import {
   AcUnit,
@@ -146,46 +147,52 @@ const fetchCounts = () => {
 
 
   return (
-   <Box sx={{ padding: '50px', display: 'flex', flexDirection: 'column' }}>
-      <Box  >
+    <>
+      <Typography variant="h5" sx={{ color: '#00B286', fontWeight: 'bold', marginBottom: '20px' }}>
+    Maintenance requests
+      </Typography>
         <Stats stats={counts} />
-      </Box>
-
-     <Box>
-     {userData ? (
-                <Box>
-                    <p>welcome -  {userData.name} </p>
-                </Box>
-            ) : (
-                <p>Loading user details...</p>
-            )}
-     </Box>
-
-
-      <Box className='dailyRequests'>
-        <Box>
-        {!loading && (
-          <>
-          <Grid container spacing={2}>
-            {tickets.map((ticket, index) => (
-              <Grid item xs={12} sm={4} key={index}>
-                <TicketComponent {...ticket} xs={6} />
-              </Grid>
-            ))}
-          </Grid>
-
-             <Box alignSelf={'flex-end'} marginTop='20px'>
-             <Link href='/dashboard/requests'>
-               <Button variant='outlined'>View More</Button>
-             </Link>
-           </Box>
-           </>
-
-        )}
+      <Box sx={{  display: 'flex', flexDirection: 'column',  }}>  
+       <Box>
+       {userData ? (
+                  <Box>
+                      <p>welcome -  {userData.name} </p>
+                  </Box>
+              ) : (
+                <Typography variant="h5" sx={{ color: '#00B286', fontWeight: 'bold', marginTop: '50px' }}>
+                Daily Requests
+                  </Typography>
+              )}
+       </Box>
+  
+  
+        <Box className='dailyRequests'>
+          <Box>
+          {!loading && (
+            <>
+            <Grid container spacing={2}>
+              {tickets.map((ticket, index) => (
+                <Grid item xs={12} sm={4} key={index}>
+                  <TicketComponent {...ticket} xs={6} />
+                </Grid>
+              ))}
+            </Grid>
+  
+               <Box alignSelf={'flex-end'} marginTop='20px'>
+               <Link href='/dashboard/requests'>
+                 <Button variant='outlined'>View More</Button>
+               </Link>
+             </Box>
+             </>
+  
+          )}
+          </Box>
         </Box>
-      </Box>
+  
+        </Box>
 
-      </Box>
+    </>
+   
   )
 }
 
