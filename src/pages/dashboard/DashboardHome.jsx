@@ -152,7 +152,7 @@ const fetchCounts = () => {
     Maintenance requests
       </Typography>
         <Stats stats={counts} />
-      <Box sx={{  display: 'flex', flexDirection: 'column' }}>  
+      <Box sx={{  display: 'flex', flexDirection: 'column',  }}>  
        <Box>
        {userData ? (
                   <Box>

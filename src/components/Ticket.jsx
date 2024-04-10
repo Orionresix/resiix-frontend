@@ -61,7 +61,17 @@ const TicketComponent = ({
         </Box>
         <Typography
           variant="body1"
-          sx={{ fontWeight: "bold", margin: "10px 0 20px 0" }}
+          sx={{
+            fontWeight: "bold",
+            margin: "10px 0 20px 0",
+            lineHeight: "1.2", // Set line height
+            maxHeight: "1.2em", // Set max height to truncate
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: 1, // Limit to one line
+            WebkitBoxOrient: "vertical",
+          }}
         >
           {r_description}
         </Typography>

@@ -9,8 +9,10 @@ const Stats = ({ stats }) => {
         display: 'flex',
         flexWrap: 'wrap', // Change to wrap to allow items to wrap onto the next line
         justifyContent: 'center',
-        gap: '20px',
-        overflowX: 'auto', // Allow horizontal scrolling for smaller screens
+        alignItems: 'left',
+        gap: '40px',
+        overflowX: 'auto',
+        padding: '30px' // Allow horizontal scrolling for smaller screens
       }}
     >
       {stats.map((item, index) => (
@@ -27,8 +29,7 @@ const Stats = ({ stats }) => {
             height: '186px',
             padding: '20px',
             borderRadius: '4px',
-            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-            border: '1px solid #E0E0E0',
+            filter: 'drop-shadow(-4px 9px 15px rgba(0,0,0,0.1))',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -37,7 +38,7 @@ const Stats = ({ stats }) => {
           }}
         >
           {item.icon}
-          <Typography variant="h5" style={{ color: '#00B286', marginTop: '12px' }}>
+          <Typography variant="h4" style={{ color: '#00B286', marginTop: '12px' }}>
             {item.data}
           </Typography>
           <Typography variant="h6" style={{ color: '#868E96', marginTop: '8px' }}>
