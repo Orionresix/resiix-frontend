@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
-import ActionNav from '../../components/ActionNav'
+import ActionNav from '../../components/properties/ActionpropertyNav'
 import DragIndicator from '@mui/icons-material/DragIndicator'
 import Reorder from '@mui/icons-material/Reorder'
-import CloseFullscreen from '@mui/icons-material/CloseFullscreen'
-import PropCard from '../../components/PropCard'
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault'
+import PropertyTable from '../../components/properties/PropertyTable'
 import PropertiesEmpty from './PropertiesEmpty'
 import AddPropertyForm from '../../components/properties/AddProperty'
+import RequestDetails from '../../components/properties/UnitTable'
 const baseURL = 'https://orionbackend-1.onrender.com';
 
-const icons = [<Reorder />, <DragIndicator />, <CloseFullscreen />]
-
 const Properties = () => {
-
+  const [currentView, setCurrentView] = useState('TableView') // Initial view state
+  const [selectedTicket, setSelectedTicket] = useState([])
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -80,28 +80,74 @@ const Properties = () => {
     setShowAddPropertyForm(true);
   };
 
+  const TableView = () => (
+    <>
+
+      {!loading && (
+
+<div className='fluidGrid'>
+
+  <PropertyTable properties={properties} onViewDetailsClick={handleViewDetailsClick}/>
+
+
+</div>
+)}
+
+    </>
+  )
+
+  const handleIconClick = (iconIndex) => {
+    const newView = iconIndex === 0 ? 'TableView' : 'RequestDetails' // Determine view based on index
+    setCurrentView(newView)
+  }
+
+  const icons = [
+    currentView === 'TableView' ? (
+      <DisabledByDefaultIcon />
+    ) : (<>
+      <Reorder onClick={() => handleIconClick(0)} />
+    
+      </>
+    ),
+
+
+    currentView === 'RequestDetails' ? (
+      <DisabledByDefaultIcon />
+    ) : (
+      <DragIndicator onClick={() => handleIconClick(1)} />
+    ),
+  ]
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'TableView':
+        return <TableView />
+      case 'RequestDetails':
+        return <RequestDetails   selectedProperty={selectedTicket} onViewDetailsClick={handleViewDetailsClick}  /> // Replace with actual rendering logic for RequestDetails
+      default:
+        return null
+    }
+  }
+
+
+  const handleViewDetailsClick = (rowIndex) => {
+    setCurrentView('RequestDetails')
+    setSelectedTicket(rowIndex)
+  };
+  console.log(currentView, selectedTicket)
+
   
   return (
     <>
     {setProperties.length > 0 ? (
     <>
     <div>
-      <ActionNav title='Properties' icons={icons} onAddClick={handleAddPropertyClick} />
+      <ActionNav title='Properties'  icons={icons} onAddClick={handleAddPropertyClick} icontitle="Add Property"/>
       {showAddPropertyForm && <AddPropertyForm onSubmit={handleSubmit} onCancel={handleCancel}  />}
       </div>
 
-      {!loading && (
-
-      <div className='fluidGrid'>
-      
-        <PropCard
-          properties={properties}
-        />
     
-
-      </div>
-    )}
-
+      {renderView()}
 
       </>
     ) : (
