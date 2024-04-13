@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import {React }from 'react'
 import {
   Table,
   TableBody,
@@ -11,21 +11,21 @@ import {
 } from '@mui/material'
 
 // Separate component for rendering a single row in the table
-const TableRowItem = ({ property }) => {
+const TableRowItem = ({ selectedProperty,  onViewDetailsClick}) => {
+ 
+  console.log(onViewDetailsClick)
+
   return (
-    <TableRow key={property.p_id}>
-      <TableCell>{property.p_id}</TableCell>
-      <TableCell>{property.p_name}</TableCell>
-      <TableCell>{property.p_num_units}</TableCell>
-      <TableCell>{property.p_city}</TableCell>
-      <TableCell>{property.p_num_units}</TableCell>
-      <TableCell>{property.p_num_units}</TableCell>
-      <TableCell>{property.p_num_units}</TableCell>
+    <TableRow key={selectedProperty}>
+      
+      <TableCell>saple unit </TableCell>
+      
+    
     </TableRow>
   );
 };
 
-const PropCard = ({ properties }) => {
+const PropCard = ({ selectedProperty }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -35,17 +35,21 @@ const PropCard = ({ properties }) => {
             <TableCell>Name</TableCell>
             <TableCell>Number of Units</TableCell>
             <TableCell>City</TableCell>
-            <TableCell>Field 1</TableCell>
-            <TableCell>Field 2</TableCell>
-            <TableCell>Field 3</TableCell>
-            <TableCell>Field 4</TableCell>
+            <TableCell>Requests</TableCell>
+            <TableCell>Workorders</TableCell>
+            <TableCell>Caretaker </TableCell>
+            <TableCell>Caretaker No</TableCell>
+            <TableCell>Caretaker Email </TableCell>
+           
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* Render a TableRowItem for each property in the properties array */}
+          {/* Render a TableRowItem for each property in the properties array
           {properties.map((property) => (
             <TableRowItem key={property.p_id} property={property} />
-          ))}
+          ))} */}
+
+<TableRowItem key={selectedProperty} property={selectedProperty} />
         </TableBody>
       </Table>
     </TableContainer>

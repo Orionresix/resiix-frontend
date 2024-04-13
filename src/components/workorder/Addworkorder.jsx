@@ -8,9 +8,9 @@ import {
   Paper,
   MenuItem,
 } from '@mui/material';
-import { DatePicker } from '@mui/lab'
 import Dialog from '@mui/material/Dialog';
 import { toast } from "react-hot-toast";
+import {  DatePicker } from '@mui/x-date-pickers';
 const baseURL = 'https://orionbackend-1.onrender.com';
 
 
@@ -44,16 +44,20 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
     }));
   };
 
+  const [selectedTechnician, setSelectedTechnician] = useState('');
+  const handleTechnicianChange = (e) =>{
+    setSelectedTechnician(e.target.value)
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
     const url = `${baseURL}/work_orders/create`;
     const data = {
       wo_pm_description: repair.wo_pm_description ,
-      wo_assigned_to: repair.wo_assigned_to,
+      wo_assigned_to: selectedTechnician,
       wo_r_id: repair.wo_r_id ,
-      wo_due_date: repair.wo_due_date,
-     
+      // wo_due_date: repair.wo_due_date,  
     };
     const options = {
       method: 'POST', // Specify the HTTP method
@@ -110,6 +114,8 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
       });
   }, []);
 
+  
+
 
  
 
@@ -134,8 +140,8 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
           required
           fullWidth
           label="Select technician"
-          value={repair.wo_assigned_to}
-          onChange={handleChange}
+          value={selectedTechnician}
+          onChange={handleTechnicianChange}
         >
           {technicians.map((technician) => (
             <MenuItem key={technician.t_id} value={technician.t_id}>
@@ -160,7 +166,6 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
           <Grid item xs={12} sm={6}>
         <TextField
           select
-          required
           fullWidth
           label="set Priority"
           name="r_priority"
@@ -174,6 +179,22 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
           ))}
         </TextField>
       </Grid>
+
+<Grid item xs={12} sm={6}>
+<TextField
+select
+        fullWidth
+        label="Select Date"
+        variant="outlined"
+      >
+       
+        <DatePicker label="Basic date picker" />
+      
+
+          </TextField>
+
+</Grid>
+
 
           <Grid item xs={12} sm={6}>
             <TextField
@@ -194,14 +215,7 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
           </Grid>
         </Grid>
 
-    <Grid item xs={12} sm={6}>
-    <DatePicker
-        label="Select Date"
-        value={repair.wo_due_date}
-        onChange={handleChange}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </Grid>
+    
 
         <br/> 
 
