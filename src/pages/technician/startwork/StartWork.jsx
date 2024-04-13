@@ -58,6 +58,7 @@ const ParentComponent = () => {
     setOpenModal(false);
   };
 
+  
   return (
     <div>
    {showTicketDetails && (
