@@ -3,7 +3,8 @@ import './CompleteWork.css';
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
 
-const CompleteWork = () => {
+const CompleteWork = (selectedrequest) => {
+    console.log(selectedrequest)
     const navigate = useNavigate();
     const [description, setDescription] = useState('');
     const [materials, setMaterials] = useState('');

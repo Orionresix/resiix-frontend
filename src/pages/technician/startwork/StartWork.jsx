@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Chip, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link } from "react-router-dom"; // Import Link from React Router\
+import DetailModal from '../completework/CompleteWork'
 const baseURL = 'https://orionbackend-1.onrender.com';
 
 const colors = {
@@ -44,10 +45,14 @@ const ParentComponent = () => {
     fetchAssignedTickets();
   }, []);
 
+  const [showTicketDetails, setShowTicketDetails] = useState(false);
   const handleViewTicket = (ticket) => {
     setSelectedTicket(ticket);
-    setOpenModal(true);
+    setShowTicketDetails(true);
+
   };
+
+
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -55,6 +60,10 @@ const ParentComponent = () => {
 
   return (
     <div>
+   {showTicketDetails && (
+    <DetailModal selectedrequest={selectedTicket} />
+   ) }
+
       {assignedTickets.map(ticket => (
         <Card key={ticket.r_id} sx={{ marginBottom: "10px", maxWidth: "400px", margin: "auto" }}>
           <CardContent>
@@ -112,7 +121,9 @@ const ParentComponent = () => {
             </Box>
             <Box mt={2} display="flex" justifyContent="center">
               {/* Button to redirect to complete work order page */}
-              <Button component={Link} to={`/complete/${ticket.r_id}`} variant="contained">Complete Work</Button>
+              <Button component={Link} 
+              onClick={() => handleViewTicket(ticket.r_id)}
+               variant="contained">Complete Work</Button>
             </Box>
           </CardContent>
         </Card>
