@@ -32,14 +32,14 @@ function App() {
           <Route path="/step_two" element={<Step2 />} />
 
 
-          <Route path="/resix" element={<TenantLanding />} />
-          <Route path="/resix/login" element={<TenantSignIn />} />/
-          <Route path="/resix/signup" element={<Tenant />} />
-          <Route path="/resix/report-issue" element={<TReportIssue />} />
-          <Route path="/resix/rating" element={<TRating />} />
-          <Route path="/resix/feedback" element={<TFeedback />} />
-          <Route path="/resix/completework" element={<CompleteWork />} />
-          <Route path="/resix/startwork" element={< StartWork />} />
+          <Route path="/resiix" element={<TenantLanding />} />
+          <Route path="/resiix/login" element={<TenantSignIn />} />/
+          <Route path="/resiix/signup" element={<Tenant />} />
+          <Route path="/resiix/report-issue" element={<TReportIssue />} />
+          <Route path="/resiix/rating" element={<TRating />} />
+          <Route path="/resiix/feedback" element={<TFeedback />} />
+          <Route path="/resiix/completework" element={<CompleteWork />} />
+          <Route path="/resiix/startwork" element={< StartWork />} />
 
         </Route>
         <Route path="/dashboard/home" element={<Layout><DashboardHome /></Layout>}>
