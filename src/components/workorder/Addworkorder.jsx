@@ -9,26 +9,31 @@ import {
   MenuItem,
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
+import { toast } from "react-hot-toast";
+import {  DatePicker } from '@mui/x-date-pickers';
 const baseURL = 'https://orionbackend-1.onrender.com';
 
 
 
-const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selectedrequest, repairdata }) => {
+const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
   console.log(repairdata)
   const requestdetailsarray = repairdata.filter(item => item.r_id === selectedrequest); 
   const requestdetails = requestdetailsarray[0];
-  console.log(requestdetails.p_name)
-//   const classes = useStyles();
-
   const [repair, setRepair] = useState({
     p_name: '',
     p_id: '',
     u_id: '',
     u_name: '',
-    r_description: '',
+    r_description: selectedrequest.r_description,
     r_priority: '',
     r_type: '',
-    r_img_url: ''
+    r_img_url: '',
+
+
+      wo_pm_description: '' ,
+      wo_assigned_to: '',
+      wo_r_id: selectedrequest ,
+      wo_due_date: '',
   });
 
   const handleChange = (e) => {
@@ -39,45 +44,43 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
     }));
   };
 
+  const [selectedTechnician, setSelectedTechnician] = useState('');
+  const handleTechnicianChange = (e) =>{
+    setSelectedTechnician(e.target.value)
+  }
+
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(repair);
-    // Optionally, you can reset the form after submission
-    setRepair({
-        p_name: '',
-        p_id: '',
-        u_id: '',
-        u_name: '',
-        r_description: '',
-        r_priority: '',
-        r_type:'',
-        r_img_url:''
-    });
+    e.preventDefault(); 
+    const url = `${baseURL}/work_orders/create`;
+    const data = {
+      wo_pm_description: repair.wo_pm_description ,
+      wo_assigned_to: selectedTechnician,
+      wo_r_id: repair.wo_r_id ,
+      // wo_due_date: repair.wo_due_date,  
+    };
+    const options = {
+      method: 'POST', // Specify the HTTP method
+      headers: {
+        'Content-Type': 'application/json', // Specify the content type of the request body
+      },
+      body: JSON.stringify(data), // Convert data to JSON string for the request body
+    };
+    fetch(url, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to add repair request');
+        }
+        toast.success("Your Request has been successfully submitted.");
+        onSubmit()
+        console.log('repair request added successfully');
+
+      })
+      .catch(error => {
+        console.error('Error adding repair request:', error);
+      });
   };
 
-  // const [properties, setProperties] = useState([]);
-  // const [UniqueProperties, setUniqueProperties] = useState([]);
-  const [selectedProperty, setSelectedProperty] = useState('');
-  const [units, setUnits] = useState([]);
-
-
-  const handlePropertyChange = (e) => {
-    setSelectedProperty(e.target.value)
-    const selectedPropertyId = e.target.value;
-    // Filter units based on selected property
-    const filteredUnits = properties.filter(item => item.p_id === selectedPropertyId); 
-  
-
-   
-    
-    setRepair(prevState => ({
-      ...prevState,
-      p_id: selectedPropertyId,
-      u_id: filteredUnits.length > 0 ? filteredUnits[0].u_id : '' // Set default unit if available
-    }));
-    setUnits(filteredUnits)
-    console.log(units)
-  };
 
   const priorities = [
     {id: 1, priority: "HIGH"},
@@ -98,10 +101,22 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
       });
   }, []);
 
-  const [pmRemarks, setPmRemarks] = useState('');
-  const handleChangePmRemarks = (event) => {
-    setPmRemarks(event.target.value);
-  };
+  const [technicians, setTechnicians] = useState([]);
+  useEffect(() => {
+    // Fetch data from the backend API
+    fetch( `${baseURL}/technicians`) 
+      .then(response => response.json())
+      .then(data => {   
+        setTechnicians(data);     
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  
+
+
  
 
   const handleClose = () => { };
@@ -125,12 +140,12 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           required
           fullWidth
           label="Select technician"
-          value={selectedProperty}
-          onChange={handlePropertyChange}
+          value={selectedTechnician}
+          onChange={handleTechnicianChange}
         >
-          {uniqueProperties.map((property) => (
-            <MenuItem key={property.p_id} value={property.p_id}>
-              {property.p_name}
+          {technicians.map((technician) => (
+            <MenuItem key={technician.t_id} value={technician.t_id}>
+              {technician.t_username} -- {technician.t_exepertise}
             </MenuItem>
           ))}
         </TextField>
@@ -141,9 +156,9 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
               required
               fullWidth
               label="Remarks"
-              name="r_pm_description"
-              value={pmRemarks}
-              onChange={handleChangePmRemarks}
+              name="wo_pm_description"
+              value={repair.wo_pm_description}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -151,7 +166,6 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           <Grid item xs={12} sm={6}>
         <TextField
           select
-          required
           fullWidth
           label="set Priority"
           name="r_priority"
@@ -165,6 +179,22 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           ))}
         </TextField>
       </Grid>
+
+<Grid item xs={12} sm={6}>
+<TextField
+select
+        fullWidth
+        label="Select Date"
+        variant="outlined"
+      >
+       
+        <DatePicker label="Basic date picker" />
+      
+
+          </TextField>
+
+</Grid>
+
 
           <Grid item xs={12} sm={6}>
             <TextField
@@ -183,9 +213,10 @@ const AddrepairForm = ({ onSubmit, onCancel, properties, uniqueProperties, selec
           ))}
             </TextField>
           </Grid>
+        </Grid>
 
     
-        </Grid>
+
         <br/> 
 
         <Grid item xs={12} sm={6} sx={{ p: 4 }} spacing={4}>

@@ -4,10 +4,8 @@ import './OnboardingPage.css'
 const OnboardingPage = () => {
   return (
     <div className='Center'>
-      {/* <CssBaseline/> */}
-      {/* <Container> */}
       <Outlet />
-      {/* </Container> */}
+     
     </div>
   )
 }

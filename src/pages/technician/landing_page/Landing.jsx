@@ -16,11 +16,11 @@ const Landing = () => {
         </div>
         <div className="second-cont">
             <div className="welcome">
-                <h1>Welcome to Resix</h1>
-                <p>You can easily request for maintenance repairs by clicking the button below. To track the grogress of your report, sign in using the details.</p>
+                <h1>Welcome to Resiix</h1>
+                <p>You can easily work on your assigned maintenaince repairs by clicking the button below. To track the progress of your assigned tasks, sign in using the details.</p>
             </div>
             <div className="landing-cta">
-                <a href="/resix/login" className="btn-link1">Request Mantainance</a>
+                <a href="/resix/startwork" className="btn-link1">Assigned Maintenance Requests</a>
             </div>
         </div>
     </div>

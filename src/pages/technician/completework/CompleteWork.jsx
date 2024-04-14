@@ -1,102 +1,145 @@
-import React, { useState } from 'react';
-import './CompleteWork.css';
-import { toast, Toaster } from "react-hot-toast";
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import "./CompleteWork.css";
+import { toast } from "react-hot-toast";
+import { Box, Card, TextField, Button } from "@mui/material";
+const baseURL = 'https://orionbackend-1.onrender.com';
+//const baseURL = "http://127.0.0.1:5000";
 
-const CompleteWork = () => {
-    const navigate = useNavigate();
-    const [description, setDescription] = useState('');
-    const [materials, setMaterials] = useState('');
-    const [labour, setLabour] = useState('');
-    const [cost, setCost] = useState('');
+const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
+  const selectedRequest = assignedTickets.find(
+    (request) => request.wo_id === selectedticketid
+  );
+  const [repair, setRepair] = useState({
+    wo_technician_remarks: selectedRequest.wo_technician_remarks,
+    wo_material_used: selectedRequest.wo_material_used,
+    wo_material_cost: selectedRequest.wo_material_cost,
+    wo_labor_cost: selectedRequest.wo_labor_cost,
+    wo_id: selectedRequest.wo_id,
+    wo_r_id: selectedRequest.r_id,
+  });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRepair((prevRepair) => ({
+      ...prevRepair,
+      [name]: value,
+    }));
+  };
 
-
-    // const completeWork = (e) => {
-    //     e.preventDefault();
-    //     const notify = () => toast("Your Work Order has been successfully submitted.");
-    //     setDescription('');
-    //     setMaterials('');
-    //     setLabour('');
-    //     setCost('');
-    //     notify();
-    //     setTimeout(() => {
-    //         navigate('/rating');
-    //     }, 3000);
-
-    const completeWork = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch('API_ENDPOINT', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    description,
-                    materials,
-                    labour,
-                    cost
-                }),
-            });
-
-            if (response.ok) {
-                toast.success("Your Work Order has been successfully submitted.");
-                setTimeout(() => {
-                    navigate('/rating');
-                }, 3000);
-            } else {
-                throw new Error('Failed to submit work order');
-            }
-        } catch (error) {
-            console.error('Error submitting work order:', error);
-            toast.error("Failed to submit work order. Please try again later.");
-        }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const url = `${baseURL}/work_orders/close`;
+    const data = {
+      wo_technician_remarks: repair.wo_technician_remarks,
+      wo_material_used: repair.wo_material_used,
+      wo_material_cost: repair.wo_material_cost,
+      wo_labor_cost: repair.wo_labor_cost,
+      wo_id: repair.wo_id,
+      wo_r_id: repair.wo_r_id,
     };
+    const options = {
+      method: "POST", // Specify the HTTP method
+      headers: {
+        "Content-Type": "application/json", // Specify the content type of the request body
+      },
+      body: JSON.stringify(data), // Convert data to JSON string for the request body
+    };
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add repair request");
+        }
+        toast.success("Your Work order has been successfully submitted.");
+        onClose(data.wo_id);
+        console.log("Your Work order has been successfully submitted");
+      })
+      .catch((error) => {
+        console.error("Error adding repair request:", error);
+      });
+  };
 
+  const handleClose = (rowIndex) => {
+    onClose(rowIndex);
+  };
 
-
-return (
-    <div className='complete-issue'>
-        <div className="complete-welcome">
-            <h1>Complete Work Order</h1>
-            <p>Describe the work done and cost below</p>
-        </div>
-        <form className="complete-form" onSubmit={(e) => { completeWork(e) }}>
-            <div className="form-group">
-                <label htmlFor="description">Description of work</label>
-                <input type="text" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="materials">Materials Used</label>
-                <input type="text" id="materials" name="materials" value={materials} onChange={(e) => setMaterials(e.target.value)} required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="labour">Labour Cost</label>
-                <input type="integer" id="labour" name="labour" value={labour} onChange={(e) => setLabour(e.target.value)} required />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="cost">Material Cost</label>
-                <textarea id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} required />
-            </div>
-
-            <div className="form-group">
-                <button type="submit">Submit Work Order</button>
-            </div>
-            <Toaster
-                toastOptions={{
-                    style: {
-                        background: "green",
-                        color: "#fff",
-                    },
-                }}
+  return (
+    <>
+      {selectedRequest && (
+        <Card sx={{ marginBottom: "10px", maxWidth: "400px", margin: "auto" }}>
+          <form className="complete-form" onSubmit={handleSubmit}>
+            <TextField
+              id="description"
+              label="Description of work"
+              variant="outlined"
+              name="wo_technician_remarks"
+              value={repair.wo_technician_remarks}
+              onChange={handleChange}
+              required
             />
-        </form>
-    </div>
-)
-            }
 
+            <TextField
+              id="materials"
+              label="Materials Used"
+              variant="outlined"
+              name="wo_material_used"
+              value={repair.wo_material_used}
+              onChange={handleChange}
+              required
+            />
+
+            <TextField
+              id="cost"
+              label="Material Cost"
+              variant="outlined"
+              type="number"
+              name="wo_material_cost"
+              value={repair.wo_material_cost}
+              onChange={handleChange}
+              required
+            />
+
+            <TextField
+              id="labour"
+              label="Labour Cost"
+              variant="outlined"
+              type="number"
+              name="wo_labor_cost"
+              value={repair.wo_labor_cost}
+              onChange={handleChange}
+              required
+            />
+
+            <Box>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ width: "40%" }}
+              >
+                Submit
+              </Button>
+
+              <Button
+                onClick={() => handleClose(selectedticketid)}
+                variant="contained"
+                color="primary"
+                style={{ width: "40%" }}
+              >
+                Back
+              </Button>
+            </Box>
+          </form>
+        </Card>
+      )}
+    </>
+  );
+};
+
+CompleteWork.propTypes = {
+  assignedTickets: PropTypes.func,
+  selectedticketid: PropTypes.func,
+  onClose: PropTypes.func,
+};
 
 export default CompleteWork;

@@ -44,8 +44,6 @@ const Signin = () => {
 
 
 
-
-
   return (
     <div className='auth-container'>
         <div className="logo">
@@ -76,7 +74,7 @@ const Signin = () => {
                 </div>
             </div>
             <div className="form-group">
-                <button type="button" onClick={handleLogin}>Sign in</button>
+                <button type="button" onClick={handleLogin}>Submit</button>
             </div>
         </form>
     </div>

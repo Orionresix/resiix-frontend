@@ -7,26 +7,36 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  Box
+   Chip
 } from "@mui/material";
 import nyumba from "../assets/nyumbaicon.svg";
 import actionicon from "../assets/actionicon.svg"
 
-const getStatusColor = (r_status) => {
-  switch (r_status) {
-    case "NEW":
-      return "orange";
-    case "ASSIGNED":
-      return "blue";
-    case "WIP":
-      return "yellow";
-    case "DONE":
-      return "green";
-    case "CANCELLED":
-      return "red";
-    default:
-      return "gray";
-  }
+// const getStatusColor = (r_status) => {
+//   switch (r_status) {
+//     case "NEW":
+//       return "orange";
+//     case "ASSIGNED":
+//       return "blue";
+//     case "WIP":
+//       return "yellow";
+//     case "DONE":
+//       return "green";
+//     case "CANCELLED":
+//       return "red";
+//     default:
+//       return "gray";
+//   }
+// };
+
+
+const colors = {
+  NEW: "#FFC107",
+  DONE: "Green",
+  ASSIGNED:"Orange",
+  INSPECTION: "Orange",
+  WIP: "Blue",
+  CANCELLED: "red",
 };
 
 const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
@@ -210,24 +220,18 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
             </TableCell>
 
             <TableCell>
-              <Box
-                sx={{
-                  backgroundColor: getStatusColor(order.r_status),
-                  fontSize: "0.5rem",
-                  borderRadius: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "auto",
-                  width: "fit-content",
-                  padding: "4px 8px",
-                  lineHeight: 1,
-                }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  {order.r_status}
-                </Typography>
-              </Box>
+
+            <Chip
+                  label={order.wo_status}
+                  sx={{
+                    backgroundColor: colors[order.wo_status],
+                    color: "#fff",
+                    fontSize: 10,
+                  }}
+                  size="small"
+                />
+                
+            
             </TableCell>
 
             <TableCell onClick={() => handleCellClick(order.r_id)}>

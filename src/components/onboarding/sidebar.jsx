@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import Logo from '../../assets/logo_white.png'
-import technician from '../../assets/technician_icon.svg'
+// import technician from '../../assets/technician_icon.svg'
 import settings from '../../assets/settings_icon.svg'
 import repair from '../../assets/request_icon.svg'
 import workorder from '../../assets/workorder_icon.svg'
@@ -69,15 +69,15 @@ export default function VerticalSidebar({ children }) {
               icon={<ApartmentIcon />}
               to='/dashboard/properties'
             />
-             <ListItemWithLink
+             {/* <ListItemWithLink
               label='Technician'
               icon={ <img src={technician} alt="Custom Icon" />}
-              to='/dashboard/properties'
-            />
+              to='#'
+            /> */}
              <ListItemWithLink
               label='Settings'
               icon={ <img src={settings} alt="Custom Icon" />}
-              to='/dashboard/properties'
+              to='#'
             />
           </List>
           <Divider />

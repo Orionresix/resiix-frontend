@@ -14,14 +14,17 @@ import nyumba from "../assets/nyumbaicon.svg";
 import actionicon from "../assets/actionicon.svg"
 
 
-const typecolors = {
-  Electric: "green",
-  Plumbing: "blue",
-  general: "green",
-  Carpentry: "green",
-  Painting:"orange",
-  Masonary:"orange"
+const colors = {
+  NEW: "#FFC107",
+  DONE: "Green",
+  ASSIGNED:"Orange",
+  INSPECTION: "Orange",
+  WIP: "Blue",
+  CANCELLED: "red",
 };
+
+
+
 
 
 // const getStatusColor = (r_status) => {
@@ -220,7 +223,7 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                 <Chip
                   label={order.r_status}
                   sx={{
-                    backgroundColor: typecolors[order.r_status],
+                    backgroundColor: colors[order.r_status],
                     color: "#fff",
                     fontSize: 10,
                   }}

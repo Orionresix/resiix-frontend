@@ -12,10 +12,10 @@ const colors = {
   CANCELLED: "red",
 };
 const typecolors = {
-  Electric: "green",
+  Electric: "red",
   Plumbing: "blue",
-  general: "green",
-  Carpentry: "green",
+  general: "purple",
+  Carpentry: "indigo",
   Painting:"orange",
   Masonary:"orange"
 };
