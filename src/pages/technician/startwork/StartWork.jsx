@@ -65,10 +65,16 @@ const ParentComponent = () => {
   //   setOpenModal(false);
   // };
 
-  
+
   return (
     <div>
+<<<<<<< HEAD
   
+=======
+   {showTicketDetails && (
+    <DetailModal selectedrequestid={selectedTicket} assignedTickets={assignedTickets} />
+   ) }
+>>>>>>> d8950fe8e97768ae18fcee8b18aa7909430cd832
 
       {assignedTickets.map(ticket => (
         <Card key={ticket.r_id} sx={{ marginBottom: "10px", maxWidth: "400px", margin: "auto" }}>
