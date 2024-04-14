@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Box, Chip, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Card, CardContent, Typography, Box, Chip, Button, } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom"; // Import Link from React Router\
 import DetailModal from '../completework/CompleteWork'
 const baseURL = 'https://orionbackend-1.onrender.com';
+// const baseURL = "http://127.0.0.1:5000";
 
 const colors = {
   NEW: "#FFC107",
@@ -24,7 +25,7 @@ const typecolors = {
 const ParentComponent = () => {
   const [assignedTickets, setAssignedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
   const technicianId = 1; // Example technician ID
 
   useEffect(() => {
@@ -45,32 +46,36 @@ const ParentComponent = () => {
     fetchAssignedTickets();
   }, []);
 
-  const [showTicketDetails, setShowTicketDetails] = useState(false);
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(Array(assignedTickets.length).fill(false));
   const handleViewTicket = (ticket) => {
     setSelectedTicket(ticket);
-    setShowTicketDetails(true);
+
+    setIsDropdownOpen((prevState) => {
+      const newDropdowns = [...prevState];
+      newDropdowns[ticket] = !newDropdowns[ticket];
+      return newDropdowns;
+    });
 
   };
 
 
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   setOpenModal(false);
+  // };
 
   
   return (
     <div>
-   {showTicketDetails && (
-    <DetailModal selectedrequest={selectedTicket} />
-   ) }
+  
 
       {assignedTickets.map(ticket => (
         <Card key={ticket.r_id} sx={{ marginBottom: "10px", maxWidth: "400px", margin: "auto" }}>
           <CardContent>
             <Box display="flex" justifyContent="space-between" flexDirection="column">
               <Typography variant="caption" gutterBottom>
-                TKT-{ticket.r_id}
+                WO-TKT:{ticket.wo_id}
               </Typography>
               <Box display="flex" justifyContent="space-between" flexDirection="column">
                 <Box mb={1}>
@@ -120,26 +125,43 @@ const ParentComponent = () => {
                 {ticket.p_name} -- {ticket.u_name}
               </Typography>
             </Box>
-            <Box mt={2} display="flex" justifyContent="center">
-              {/* Button to redirect to complete work order page */}
-              <Button component={Link} 
-              onClick={() => handleViewTicket(ticket.r_id)}
-               variant="contained">Complete Work</Button>
-            </Box>
+
+<Box>
+
+            {isDropdownOpen[ticket.wo_id] && (
+             <> 
+             <DetailModal selectedticketid={selectedTicket}  assignedTickets={assignedTickets} onClose={handleViewTicket} />
+            </>
+
+          )}
+
+</Box>
+
+{!isDropdownOpen[ticket.r_id] && (
+  <Box mt={2} display="flex" justifyContent="center">
+  {/* Button to redirect to complete work order page */}
+  <Button component={Link} 
+  onClick={() => handleViewTicket(ticket.wo_id)}
+   variant="contained">View Details</Button>
+</Box>
+)}
+
+            
+
+
+
           </CardContent>
+
+
+
+
         </Card>
       ))}
-      <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>{selectedTicket && `TKT-${selectedTicket.r_id}`}</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            {selectedTicket && selectedTicket.r_description}
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Close</Button>
-        </DialogActions>
-      </Dialog>
+  
+
+
+
+
     </div>
   );
 };
