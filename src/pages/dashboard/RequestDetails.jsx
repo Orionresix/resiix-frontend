@@ -56,6 +56,7 @@ const RequestDetails = ({ repairdata, selectedrequest, onViewDetailsClick }) => 
                   {...order}
                   isSelected={selectedRequest.r_id} // Pass isSelected prop
                   handleClick={() => handleTicketClick(idx)}
+                  sx={{ marginBottom: "20px" }}
                 />
               ))}
 
