@@ -34,7 +34,7 @@ const Rating = () => {
         <div className="rating-cont">
             <div className="rating-welcome">
                 <h1>Welcome</h1>
-                <p>Jairus Musa,Penzi Technician</p>
+                <p>Jaylon,Penzi Technician</p>
             </div>
             <form className="rating-form" onSubmit={(e) => {submitRating(e)}}>
                 <div className="flex-row-space">
