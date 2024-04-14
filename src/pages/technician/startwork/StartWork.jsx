@@ -58,11 +58,11 @@ const ParentComponent = () => {
     setOpenModal(false);
   };
 
-  
+
   return (
     <div>
    {showTicketDetails && (
-    <DetailModal selectedrequest={selectedTicket} />
+    <DetailModal selectedrequestid={selectedTicket} assignedTickets={assignedTickets} />
    ) }
 
       {assignedTickets.map(ticket => (

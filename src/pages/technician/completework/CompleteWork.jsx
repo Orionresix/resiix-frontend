@@ -3,8 +3,11 @@ import './CompleteWork.css';
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
 
-const CompleteWork = (selectedrequest) => {
-    console.log(selectedrequest)
+const CompleteWork = ({selectedrequestid, assignedTickets}) => {
+    console.log(selectedrequestid)
+    const selectedRequest = assignedTickets.find(request => request.r_id === selectedrequestid);
+
+
     const navigate = useNavigate();
     const [description, setDescription] = useState('');
     const [materials, setMaterials] = useState('');
@@ -60,6 +63,7 @@ const CompleteWork = (selectedrequest) => {
 
 return (
     <div className='complete-issue'>
+    <div> {selectedRequest.r_id}  {selectedRequest.r_description}</div>
         <div className="complete-welcome">
             <h1>Complete Work Order</h1>
             <p>Describe the work done and cost below</p>
