@@ -20,7 +20,7 @@ const Landing = () => {
                 <p>You can easily work on your assigned maintenaince repairs by clicking the button below. To track the progress of your assigned tasks, sign in using the details.</p>
             </div>
             <div className="landing-cta">
-                <a href="/resix/startwork" className="btn-link1">Assigned Maintenance Requests</a>
+                <a href="/resiix/startwork" className="btn-link1">Assigned Maintenance Requests</a>
             </div>
         </div>
     </div>

@@ -133,7 +133,7 @@ const Signup = () => {
           </Button>
 
            <Typography>Send your issue to your property manager</Typography>
-           <a href="/resix">
+           <a href="/resiix">
           <Button  className='signup_button' variant='contained'>
           preoceed as a Tenant 
           </Button>

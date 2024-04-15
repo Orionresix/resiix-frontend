@@ -19,7 +19,7 @@ const Rating = () => {
         setMessage('');
         notify();
         setTimeout(() => {
-            navigate('/resix/feedback');
+            navigate('/resiix/feedback');
         }, 3000);
         
     }

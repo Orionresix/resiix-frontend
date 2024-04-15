@@ -36,7 +36,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (loggedIn) {
-            navigate('/resix/report-issue', { state: { unitDetails } });
+            navigate('/resiix/report-issue', { state: { unitDetails } });
             console.log(unitDetails)
         }
     }, [loggedIn, navigate, unitDetails]);
