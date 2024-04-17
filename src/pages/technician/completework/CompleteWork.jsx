@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import "./CompleteWork.css";
 import { toast } from "react-hot-toast";
 import { Box, Card, TextField, Button } from "@mui/material";
-const baseURL = 'https://orionbackend-1.onrender.com';
-//const baseURL = "http://127.0.0.1:5000";
 
 const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const selectedRequest = assignedTickets.find(
     (request) => request.wo_id === selectedticketid
   );

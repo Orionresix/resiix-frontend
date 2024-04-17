@@ -11,9 +11,9 @@ import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import AddworkorderForm from '../../components/workorder/Addworkorder'
 import { Typography} from '@mui/material'
-const baseURL = 'https://orionbackend-1.onrender.com';
 
 const RepairRequests = () => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
 

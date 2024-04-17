@@ -3,8 +3,6 @@ import { Card, CardContent, Typography, Box, Chip, Button, } from "@mui/material
 import { PlaceOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom"; // Import Link from React Router\
 import DetailModal from '../completework/CompleteWork'
-const baseURL = 'https://orionbackend-1.onrender.com';
-// const baseURL = "http://127.0.0.1:5000";
 
 const colors = {
   NEW: "#FFC107",
@@ -23,6 +21,7 @@ const typecolors = {
 };
 
 const ParentComponent = () => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const [assignedTickets, setAssignedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   // const [openModal, setOpenModal] = useState(false);

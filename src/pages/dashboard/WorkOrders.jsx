@@ -10,10 +10,10 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Imp
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import { Typography} from '@mui/material'
-const baseURL = 'https://orionbackend-1.onrender.com';
 
 
 const WorkOrdersBoard = () => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
 

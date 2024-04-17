@@ -10,17 +10,16 @@ import {
   Input,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import Switch from "@material-ui/core/Switch";
 // const baseURL = 'https://orionbackend-1.onrender.com';
 
 const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
   //   const classes = useStyles();
   const [unit, setUnit] = useState({
-    u_p_id: selectedProperty,
     u_name: "",
-    r_description: "",
-    r_type: "",
-    r_img_url: "",
+    u_type: "",
+    u_status: "",
+    u_description: "",
+    u_p_id: selectedProperty,
   });
 
   const handleChange = (e) => {
@@ -36,27 +35,37 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
     onSubmit(unit);
     // Optionally, you can reset the form after submission
     setUnit({
-      p_name: "",
-      u_p_id: "",
-      u_name: "",
-      r_description: "",
-      r_priority: "",
-      u_type: "",
-      r_img_url: "",
+    u_name: "",
+    u_type: "",
+    u_status: "",
+    u_description: "",
+    u_p_id: selectedProperty,
     });
   };
 
+
+  const [occupied, setOccupied] = useState(false);
+  const handleUnitStatus = (e) => {
+    if(e.target.value == "OCCUPIED"){
+      setOccupied(true);
+    }else{
+      setOccupied(false);
+    }
+    handleChange(e)
+  };
+
   const Types = [
-    { id: 1, name: "ACTIVE" },
-    { id: 2, name: "VACANT" },
+    { id: 1, name: "RESIDENTIAL" },
+    { id: 2, name: "COMMON-AREAS" },
     { id: 3, name: "OTHER" },
   ];
 
-  const [checked, setChecked] = useState(false);
+  const Status = [
+    {id:1, name:"OCCUPIED"},
+    {id:2, name:"VACANT"}
+  ]
 
-  const handleUnitStatus = () => {
-    setChecked((prev) => !prev);
-  };
+
 
   const handleClose = () => {};
 
@@ -84,7 +93,7 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
                 required
                 fullWidth
                 label="Description"
-                name="r_description"
+                name="u_description"
                 value={unit.u_description}
                 onChange={handleChange}
               />
@@ -108,23 +117,33 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
               </TextField>
             </Grid>
 
-         
 
-<Switch
-        checked={checked}
-        onChange={handleUnitStatus}
-        color="primary"
-        name="Occupied"
-        inputProps={{ 'aria-label': 'toggle switch' }}
-      />
+
+
+<Grid item xs={12} sm={6}>
+              <TextField
+                select
+                required
+                fullWidth
+                label="Select status"
+                name="u_status"
+                value={unit.u_status}
+                onChange={handleUnitStatus}
+              >
+                {Status.map((type) => (
+                  <MenuItem key={type.id} value={type.name}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
 
             <hr></hr>
 
-            {checked && (
+            {occupied && (
               <>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     label="Lease No"
                     name="l_code"
@@ -135,7 +154,6 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     label="Lease expiry date"
                     name="l_end_date"
@@ -146,7 +164,6 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     label="Tenant name"
                     name="l_lessee_name"
@@ -157,7 +174,6 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     label="Tenant number"
                     name="l_phone"
@@ -168,7 +184,6 @@ const AddUnitForm = ({ onSubmit, onCancel, selectedProperty }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     label="Tenant email"
                     name="l_email"

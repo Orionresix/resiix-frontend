@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
@@ -10,11 +11,15 @@ import {
   Handyman,
   Plumbing,
   SentimentVeryDissatisfied,
-} from '@mui/icons-material'
-const baseURL = 'https://orionbackend-1.onrender.com';
+} from '@mui/icons-material';
+
 
 
 const DashboardHome = () => {
+
+  const baseURL = process.env.REACT_APP_BASE_URL ;
+
+  console.log(baseURL);
 
 
   const location = useLocation();
