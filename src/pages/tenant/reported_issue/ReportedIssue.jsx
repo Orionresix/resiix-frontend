@@ -54,6 +54,10 @@ const RequestDetails = ({ userId, selectedRequest, onViewDetailsClick }) => {
     <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
+
+        <Typography variant="h1" gutterBottom>
+            Pending Requests
+          </Typography>
           <Box sx={{ maxHeight: '70vh', overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
             <Box>
               {pendingRequests.map((request, idx) => (
