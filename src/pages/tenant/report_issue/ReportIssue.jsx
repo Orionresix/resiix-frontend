@@ -1,19 +1,15 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import "./ReportIssue.css";
 import { toast, Toaster } from "react-hot-toast";
-
 import { TextField, Grid, MenuItem, Button, Dialog, Paper, Typography } from "@mui/material";
-// import TenantContext from '../tenantContext.js'
-
+import PropTypes from "prop-types"; // Import PropTypes
 const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
-  // eslint-disable-next-line no-undef
   const baseURL = process.env.REACT_APP_BASE_URL;
 
   const [contactNumber, setContactNumber] = useState("");
   const [description, setDescription] = useState("");
   const [mantainanceType, setMantainanceType] = useState("Electrical");
   const [image, setImage] = useState("");
+  const [categories, setCategory] = useState([]);
 
   const handlereportIssue = (e) => {
     e.preventDefault();
@@ -27,11 +23,11 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
       r_img_url: image,
     };
     const options = {
-      method: "POST", // Specify the HTTP method
+      method: "POST",
       headers: {
-        "Content-Type": "application/json", // Specify the content type of the request body
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data), // Convert data to JSON string for the request body
+      body: JSON.stringify(data),
     };
     fetch(url, options)
       .then((response) => {
@@ -46,10 +42,8 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
       });
   };
 
-  const [categories, setCategory] = useState([]);
   useEffect(() => {
-    // Fetch data from the backend API
-    fetch(`${baseURL}/repairs/category`) // Replace with your actual backend API URL
+    fetch(`${baseURL}/repairs/category`)
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
@@ -61,15 +55,13 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
 
   return (
     <Dialog open={true} onClose={onCancel}>
-    <Paper className={'classes.paper'} sx={{ pt: 4, }}>
-
-    <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
+      <Paper className="complete-issue" sx={{ pt: 4, padding: 4, gap: 2 }}>
+        <Typography variant="h6" gutterBottom>
           Pending Requests
         </Typography>
-    <form  onSubmit={handlereportIssue}>
-
-
-    <Grid item xs={12} sm={6}>
+        <form onSubmit={handlereportIssue}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
@@ -79,8 +71,7 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
                 onChange={(e) => setContactNumber(e.target.value)}
               />
             </Grid>
-
-        <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
@@ -90,56 +81,44 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Grid>
-
-    
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            select
-            required
-            fullWidth
-            label="Select Maintenance"
-            name="r_type"
-            value={mantainanceType}
-            onChange={(e) => setMantainanceType(e.target.value)}
-          >
-            {categories.map((category) => (
-              <MenuItem key={category.m_id} value={category.m_name}>
-                {category.m_name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-
-        <div className="form-group">
-          <label htmlFor="image">Image</label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            required
-          />
-        </div>
-
-        <Grid item xs={12} sm={6} sx={{ p: 4 }} spacing={4}>
-          <span>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onCancel}
-              sx={{ mr: 2 }}
-            >
-              cancel
-            </Button>
-
-            <Button type="submit" variant="contained" color="primary">
-              Submit
-            </Button>
-          </span>
-        </Grid>
-
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                required
+                fullWidth
+                label="Select Maintenance"
+                name="r_type"
+                value={mantainanceType}
+                onChange={(e) => setMantainanceType(e.target.value)}
+              >
+                {categories.map((category) => (
+                  <MenuItem key={category.m_id} value={category.m_name}>
+                    {category.m_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label htmlFor="image">Image</label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} sx={{ textAlign: "center" }}>
+              <Button variant="contained" color="secondary" onClick={onCancel} sx={{ mr: 2 }}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
         <Toaster
           toastOptions={{
             style: {
@@ -148,17 +127,15 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
             },
           }}
         />
-      </form>
-      </Paper></Dialog>
-
-
-
-  
-
-
-
-
+      </Paper>
+    </Dialog>
   );
 };
+ReportIssue.propTypes = {
+  unitId: PropTypes.any.isRequired, // Validate unitId as required
+  onSubmit: PropTypes.func.isRequired, // Validate onSubmit as a function and required
+  onCancel: PropTypes.func.isRequired, // Validate onCancel as a function and required
+};
+
 
 export default ReportIssue;
