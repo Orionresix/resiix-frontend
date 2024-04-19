@@ -10,7 +10,9 @@ import {
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import { toast } from "react-hot-toast";
-import {  DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const baseURL = 'https://orionbackend-1.onrender.com';
 
 
@@ -181,17 +183,16 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
       </Grid>
 
 <Grid item xs={12} sm={6}>
-<TextField
-select
-        fullWidth
-        label="Select Date"
-        variant="outlined"
-      >
-       
-        <DatePicker label="Basic date picker" />
-      
-
-          </TextField>
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label="Helper text example"
+        slotProps={{
+          textField: {
+            helperText: 'MM/DD/YYYY',
+          },
+        }}
+      />
+    </LocalizationProvider>
 
 </Grid>
 
