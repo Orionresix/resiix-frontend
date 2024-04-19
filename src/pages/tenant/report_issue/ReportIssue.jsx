@@ -2,21 +2,27 @@ import React, {useState ,useEffect} from 'react';
 import './ReportIssue.css';
 import { toast, Toaster } from "react-hot-toast";
 import { useLocation } from 'react-router-dom';
+
+// import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Grid,
   MenuItem,
 } from '@mui/material';
+// import TenantContext from '../tenantContext.js'
 
 const ReportIssue = () => {
   const baseURL = process.env.REACT_APP_BASE_URL
     // const navigate = useNavigate();
     const location = useLocation();
     const { state } = location;
-    const unitDetails = state ? state.unitDetails : null;
+    const user = state ? state.unitDetails : null;
 
-    const [unitNumber, setUnitNumber] = useState(unitDetails.u_name);
-    const [contactNumber, setContactNumber] = useState(unitDetails.l_phone);
+
+    // const { user, logoutUser } = useContext(TenantContext);
+
+    const [unitNumber, setUnitNumber] = useState(user.u_name);
+    const [contactNumber, setContactNumber] = useState(user.l_phone);
     const [description, setDescription] = useState('');
     const [mantainanceType, setMantainanceType] = useState('Electrical');
     const [image, setImage] = useState('');
@@ -38,16 +44,16 @@ const ReportIssue = () => {
     e.preventDefault(); 
     const url = `${baseURL}/repairs/create`;
     const data = {
-      p_name: unitDetails.p_name,
-      p_id: unitDetails.p_id,
-      u_id: unitDetails.u_id,
-      u_name: unitDetails.u_name,
+      p_name: user.p_name,
+      p_id: user.p_id,
+      u_id: user.u_id,
+      u_name: user.u_name,
       r_description: description,
       r_phone: contactNumber,
       priority: 'HIGH',
       r_type: mantainanceType,
       r_img_url: image,
-      r_l_id:unitDetails.l_id
+      r_l_id:user.l_id
     };
     const options = {
       method: 'POST', // Specify the HTTP method
@@ -82,19 +88,28 @@ const ReportIssue = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
+
+
+
+  // const handleLogout = () => {
+  //   logoutUser();
+  //   navigate('/resiix/login');
+  // };
  
 
 
 
   return (
     <div className='report-issue'>
+
+{/* {user && <button onClick={handleLogout}>Logout</button>} */}
         <div className="report-welcome">
             <h1>Report an issue</h1>
             <p>Describe below the issues you are facing.</p>
         </div>
         <form className="report-form" onSubmit={handlereportIssue} >
             <div className="form-group">
-                <label htmlFor="r_p_id">Apartment: {unitDetails.p_name} </label>
+                <label htmlFor="r_p_id">Apartment: {user.p_name} </label>
             </div>
             <div className="form-group">
                 <label htmlFor="unit-number">Unit Name</label>
@@ -102,7 +117,7 @@ const ReportIssue = () => {
             </div>
             <div className="form-group">
                 <label htmlFor="tenant-name">Tenant Name</label>
-                <input type="text" id="tenant_name" name="tenant_name" value={unitDetails.tenant_name} required/>
+                <input type="text" id="tenant_name" name="tenant_name" value={user.tenant_name} required/>
             </div>
             <div className="form-group">
                 <label htmlFor="contact-number">Contact Number</label>

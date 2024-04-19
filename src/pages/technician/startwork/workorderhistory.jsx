@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Box, Chip, Button, Grid, } from "@mui/material";
+import { Card, CardContent, Typography, Box, Chip, Button, } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom"; // Import Link from React Router\
-import DetailModal from '../completework/CompleteWork'
+import DetailModal from '../completework/Completedwork'
 
 const colors = {
   NEW: "#FFC107",
@@ -26,7 +26,9 @@ const ParentComponent = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   // const [openModal, setOpenModal] = useState(false);
   const technicianId = 1; // Example technician ID
-  const wo_status = 'ASSIGNED';
+  const wo_status = 'DONE';
+
+  
 
   useEffect(() => {
     // Fetch assigned tasks from the API
@@ -60,10 +62,16 @@ const ParentComponent = () => {
   };
 
 
+
+  // const handleCloseModal = () => {
+  //   setOpenModal(false);
+  // };
+
+
   return (
-    <Grid>
+    <div>
       {assignedTickets.map(ticket => (
-        <Card key={ticket.r_id} >
+        <Card key={ticket.r_id} sx={{ marginBottom: "10px", maxWidth: "100%", margin: "auto" }}>
           <CardContent>
             <Box display="flex" justifyContent="space-between" flexDirection="column">
               <Typography variant="caption" gutterBottom>
@@ -154,7 +162,7 @@ const ParentComponent = () => {
 
 
 
-    </Grid>
+    </div>
   );
 };
 

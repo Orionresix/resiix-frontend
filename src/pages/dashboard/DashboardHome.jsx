@@ -12,15 +12,14 @@ import {
   Plumbing,
   SentimentVeryDissatisfied,
 } from '@mui/icons-material';
+import Loader from '../../components/loader'
 
 
 
 const DashboardHome = () => {
 
   const baseURL = process.env.REACT_APP_BASE_URL ;
-
-  console.log(baseURL);
-
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
   const [userData, setUserData] = useState(null);
@@ -84,10 +83,10 @@ const DashboardHome = () => {
 
 
   const [counts, setCounts] = useState([
-    { title: 'Total maintenance request', data: 'Loading...' },
-    { title: 'Total open work orders', data: 'Loading...' },
-    { title: 'Overdue requests', data: 'Loading...' },
-    { title: 'Total expenses', data: 'Loading...' }
+    { title: 'Total maintenance request', data: <>   { loading && (<Loader/> )}</> },
+    { title: 'Total open work orders', data: <>   { loading && (<Loader/> )} </> },
+    { title: 'Overdue requests', data: <> { loading && (<Loader/> )}</> },
+    { title: 'Total expenses', data: <>   { loading && (<Loader/> )} </> }
 ]);
 
 useEffect(() => {
@@ -123,7 +122,7 @@ const fetchCounts = () => {
 
 
   const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     // Define the URL of your backend API endpoint
     const apiUrl = `${baseURL}/repairs/`; // Replace with your actual backend API URL
@@ -191,6 +190,8 @@ const fetchCounts = () => {
              </>
   
           )}
+
+{ loading && (<Loader/> )}
           </Box>
         </Box>
   

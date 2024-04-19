@@ -10,6 +10,7 @@ import PropertiesEmpty from "./PropertiesEmpty";
 import AddPropertyForm from "../../components/properties/AddProperty";
 import AddUnitForm from "../../components/properties/AddUnit";
 import UnitTable from "../../components/properties/UnitTable";
+import Loader from "../../components/loader";
 
 const Properties = () => {
   
@@ -143,10 +144,13 @@ const Properties = () => {
           </div>
           <PropertyTable
             properties={properties}
-            onViewDetailsClick={handleViewDetailsClick}
+            onViewUnitsClick={handleViewDetailsClick}
           />
         </div>
       )}
+
+
+{ loading && (<Loader/> )}
     </>
   );
 
@@ -171,10 +175,11 @@ const Properties = () => {
           </div>
           <UnitTable
             selectedProperty={selectedTicket}
-            onViewDetailsClick={handleViewDetailsClick}
           />
         </div>
       )}
+
+{ loading && (<Loader/> )}
     </>
   );
 
@@ -205,10 +210,7 @@ const Properties = () => {
         return <PropertyView />;
       case "RequestDetails":
         return (
-          <UnitView
-            selectedProperty={selectedTicket}
-            onViewDetailsClick={handleViewDetailsClick}
-          />
+          <UnitView/>
         ); // Replace with actual rendering logic for RequestDetails
       default:
         return null;

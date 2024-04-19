@@ -2,9 +2,13 @@ import { React, useState, useEffect } from 'react'
 import './Signin.css';
 import logo from '../../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
+// import TenantContext from '../tenantContext';
 
 const Signin = () => {
     const baseURL = process.env.REACT_APP_BASE_URLs
+
+    // const { loginUser } = useContext(TenantContext);
+    
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [passcode, setPasscode] = useState('');
@@ -24,13 +28,14 @@ const Signin = () => {
             .then(data => {
                 setUnitDetails(data);
                 setLoggedIn(true);
-                console.log(data)
             })
             
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     };
+
+    console.log(unitDetails)
    
 
     useEffect(() => {

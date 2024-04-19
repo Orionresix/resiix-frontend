@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {React }from 'react'
+import { React, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,40 +8,77 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material'
+} from "@mui/material";
+import Loader from '../loader'
 
-;
+const PropCard = ({ selectedProperty }) => {
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
-const PropCard = ({ selectedProperty, onViewDetailsClick }) => {
-  console.log(onViewDetailsClick)
+  const [units, setUnits] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const apiUrl = `${baseURL}/units`;
+    // to be corrected to dynamic
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUnits(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+
+  const propertyUnits = units.filter(
+    (unit) => unit["u_p_id"] === selectedProperty
+  );
+
+  console.log(selectedProperty);
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Number of Units</TableCell>
-            <TableCell>City</TableCell>
-            <TableCell>Requests</TableCell>
-            <TableCell>Workorders</TableCell>
-            <TableCell>Caretaker </TableCell>
-            <TableCell>Caretaker No</TableCell>
-            <TableCell>Caretaker Email </TableCell>
-           
+            <TableCell>Unitcode</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Type</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Start-date</TableCell>
+            <TableCell>End-date</TableCell>
+            <TableCell>Tenant </TableCell>
+            <TableCell>Tenant Mobile</TableCell>
+            <TableCell>Lease No </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-        {selectedProperty.map((unit) => (
-                <TableRow key={unit.u_id}> 
-                
-        <TableCell>{unit.u_name}</TableCell>
-      <TableCell>{unit.u_type}</TableCell>
-                
-                
-                </TableRow>))}
-        </TableBody>
+        {!loading && (
+          <>
+            <TableBody>
+              {propertyUnits.map((unit) => (
+                <TableRow key={unit.u_id}>
+                  <TableCell>{unit.u_name}</TableCell>
+                  <TableCell>{unit.u_description}</TableCell>
+                  <TableCell>{unit.u_type}</TableCell>
+                  <TableCell>{unit.u_status}</TableCell>
+                  <TableCell>{unit.l_start_date}</TableCell>
+                  <TableCell>{unit.l_end_date}</TableCell>
+                  <TableCell>{unit.l_lessee_name}</TableCell>
+                  <TableCell>{unit.l_code}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </>
+        )}
+        
+        { loading && ( <Loader/>
+        )}
       </Table>
     </TableContainer>
   );

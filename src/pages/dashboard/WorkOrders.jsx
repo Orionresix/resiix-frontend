@@ -10,6 +10,7 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Imp
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import { Typography} from '@mui/material'
+import Loader from '../../components/loader'
 
 
 const WorkOrdersBoard = () => {
@@ -151,6 +152,8 @@ const WorkOrdersBoard = () => {
         <WorkorderTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}
         onViewDetailsClick={handleViewDetailsClick}  />
         )}
+
+{ loading && (<Loader/> )}
       </Box>
     </>
   )

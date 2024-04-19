@@ -11,6 +11,7 @@ import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import AddworkorderForm from '../../components/workorder/Addworkorder'
 import { Typography} from '@mui/material'
+import Loader from '../../components/loader'
 
 const RepairRequests = () => {
   const baseURL = process.env.REACT_APP_BASE_URL
@@ -172,6 +173,8 @@ useEffect(() => {
         <RepairsTable    groupeddata={groupedrepairdata} repairdata={repairdata} onAddClick={handleAddWorkorderClick}  
         onViewDetailsClick={handleViewDetailsClick}  />
         )}
+
+{ loading && (<Loader/> )}
       </Box>
     </>
   )
