@@ -68,6 +68,9 @@ const RequestDetails = ({ userId, selectedRequest, onViewDetailsClick }) => {
             </Box>
           </Box>
         </Grid>
+        <Typography variant="h1" gutterBottom>
+            Completed requests
+          </Typography>
 
         <Grid item xs={12}>
           <Paper color="red">
