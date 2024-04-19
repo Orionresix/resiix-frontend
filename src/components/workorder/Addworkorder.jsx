@@ -185,7 +185,7 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
 <Grid item xs={12} sm={6}>
 <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        label="Helper text example"
+        label="Due date"
         slotProps={{
           textField: {
             helperText: 'MM/DD/YYYY',
