@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
   TableCell,
   TableRow,
@@ -64,29 +64,29 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
   return (
     <div
       style={{
-        height: 400,
-        width: "100%",
+        height: `calc(100vh - 200px)`, // Adjust the height dynamically
+        width: "100%", // Take the entire available screen width
         border: "1px solid #e0e0e0",
         borderRadius: "8px",
         overflow: "auto",
       }}
     >
       <TableRow>
-        <TableCell>ID</TableCell>
-        <TableCell>Description</TableCell>
-        <TableCell>Phone</TableCell>
-        <TableCell>Type</TableCell>
-        <TableCell>Date</TableCell>
-        <TableCell>Tenant Name</TableCell>
-        <TableCell>Status</TableCell>
-        <TableCell>Action</TableCell>
+        <TableCell width="1%">ID</TableCell>
+        <TableCell width="1%">Description</TableCell>
+        <TableCell width="1%">Phone</TableCell>
+        <TableCell width="1%">Type</TableCell>
+        <TableCell width="1%">Date</TableCell>
+        <TableCell width="1%">Tenant Name</TableCell>
+        <TableCell width="1%">Status</TableCell>
+        <TableCell width="1%">Action</TableCell>
       </TableRow>
 
       {repairdata.map((order) => (
           <TableRow key={order.r_id}>
-            <TableCell>{order.r_id}</TableCell>
+            <TableCell width="1%">{order.r_id}</TableCell>
 
-            <TableCell>
+            <TableCell width="1%">
               <Card
                 sx={{
                   display: "flex",
@@ -136,6 +136,7 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
                 </CardContent>
               </Card>
             </TableCell>
+
 
             <TableCell>
               <Card
@@ -235,7 +236,7 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
                   horizontal: 'center',
                 }}
               >
-                <CardContent style={{ padding: "4px" }}>
+                <CardContent style={{ padding: "4px", width: 200 }}>
                   <div style={{ marginBottom: "4px", width: "100%" }}>
                     <Button
                       variant="text"
