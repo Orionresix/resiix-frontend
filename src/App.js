@@ -23,7 +23,9 @@ import TFeedback from "./pages/tenant/feedback/Feedback.jsx";
 import CompleteWork from "./pages/technician/completework/CompleteWork.jsx";
 import WorkOrdersHistory from "./pages/technician/startwork/workorderhistory.jsx";
 import StartWork from "./pages/technician/startwork/StartWork";
-import { UserProvider } from './pages/tenant/tenantContext.js';
+import { UserProvider } from './components/layout/userContext.js';
+import Landing from './pages/landing.jsx';
+// import { UserProvider } from './pages/tenant/tenantContext.js';
 
 
 
@@ -109,7 +111,7 @@ function App() {
         </Route>    
 
         
-    
+    <Route path="/landing" element={Landing} />
 
         <Route
           path="/dashboard/home"

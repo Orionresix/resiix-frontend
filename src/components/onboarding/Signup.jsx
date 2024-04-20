@@ -22,7 +22,7 @@ const Signup = () => {
   };
 
   return (
-    <Grid
+<Grid
       container
       direction="column"
       justifyContent="center"
@@ -46,7 +46,7 @@ const Signup = () => {
           <Grid item xs={12} sm={4}>
             <Link
               to="/resiix"
-              className={`card ${selectedCard === "tenant" ? "selected" : ""}`}
+              className={card ${selectedCard === "tenant" ? "selected" : ""}}
               onClick={() => handleCardClick("tenant")}
             >
               <CardContent className="card-content">
@@ -68,7 +68,7 @@ const Signup = () => {
           <Grid item xs={12} sm={4}>
             <Link
               to="/resiix"
-              className={`card ${selectedCard === "technician" ? "selected" : ""}`}
+              className={card ${selectedCard === "technician" ? "selected" : ""}}
               onClick={() => handleCardClick("technician")}
             >
               <CardContent className="card-content">
@@ -90,7 +90,7 @@ const Signup = () => {
           <Grid item xs={12} sm={4}>
             <Link
               to={googlelogin}
-              className={`card ${selectedCard === "propertyManager" ? "selected" : ""}`}
+              className={card ${selectedCard === "propertyManager" ? "selected" : ""}}
               onClick={() => handleCardClick("propertyManager")}
             >
               <CardContent className="card-content">
