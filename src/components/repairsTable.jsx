@@ -7,11 +7,12 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  // Box,
+  Popover,
+  IconButton,
   Chip
 } from "@mui/material";
 import nyumba from "../assets/nyumbaicon.svg";
-import actionicon from "../assets/actionicon.svg"
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 const colors = {
@@ -24,38 +25,25 @@ const colors = {
 };
 
 
+const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
 
-
-
-// const getStatusColor = (r_status) => {
-//   switch (r_status) {
-//     case "NEW":
-//       return "orange";
-//     case "ASSIGNED":
-//       return "blue";
-//     case "WIP":
-//       return "yellow";
-//     case "DONE":
-//       return "green";
-//     case "CANCELLED":
-//       return "red";
-//     default:
-//       return "gray";
-//   }
-// };
-
-const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(Array(repairdata.length).fill(false));
-  const handleCellClick = (rowIndex) => {
-    setIsDropdownOpen((prevState) => {
-      const newDropdowns = [...prevState];
-      newDropdowns[rowIndex] = !newDropdowns[rowIndex];
-      return newDropdowns;
-    });
+  const handleClick = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedId(id);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedId(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   const handleMenuItemClick = (action, rowIndex) => {
-    setIsDropdownOpen(false); // Close dropdown after selection
+    handleClose(); // Close the popover
     switch (action) {
       case "add":
         onAddClick(rowIndex);
@@ -106,7 +94,6 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                   boxShadow: "none",
                 }}
               >
-                {/* Left Column with fixed-size CardMedia */}
                 <CardMedia
                   component="img"
                   image={nyumba}
@@ -114,12 +101,10 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                   height="40"
                   width="40"
                   sx={{
-                    // Add margin to separate from the content on the right
-                    flex: "0 0 40px", // Set a fixed width and height for CardMedia
+                    flex: "0 0 40px",
                   }}
                 />
 
-                {/* Right Column */}
                 <CardContent
                   sx={{
                     display: "flex",
@@ -219,36 +204,36 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
             </TableCell>
 
             <TableCell>
-              
-                <Chip
-                  label={order.r_status}
-                  sx={{
-                    backgroundColor: colors[order.r_status],
-                    color: "#fff",
-                    fontSize: 10,
-                  }}
-                  size="small"
-                />
-            
-             
+              <Chip
+                label={order.r_status}
+                sx={{
+                  backgroundColor: colors[order.r_status],
+                  color: "#fff",
+                  fontSize: 10,
+                }}
+                size="small"
+              />
             </TableCell>
 
-            <TableCell onClick={() => handleCellClick(order.r_id)}>
-              {!isDropdownOpen[[order.r_id]] && (
-                 <CardMedia
-                 component="img"
-                 image={actionicon}
-                 alt={order.p_name}
-                 height="40"
-                 width="40"
-                 sx={{flex: "0 0 40px",  }}
-               />
-
-
-              )}
-
-              {isDropdownOpen[order.r_id] && (
-                <>
+            <TableCell>
+              <IconButton onClick={(event) => handleClick(event, order.r_id)}>
+                <MoreVertIcon />
+              </IconButton>
+              <Popover
+                id={id}
+                open={open && selectedId === order.r_id}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <CardContent style={{ padding: "4px" }}>
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -275,14 +260,13 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                   >
                     reject
                   </Typography>
-                </>
-              )}
+                </CardContent>
+              </Popover>
             </TableCell>
           </TableRow>
-        ))
-    }
+        ))}
     </div>
   );
 };
 
-export default repairsTable;
+export default RepairsTable;
