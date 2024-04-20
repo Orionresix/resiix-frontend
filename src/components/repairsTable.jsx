@@ -9,7 +9,9 @@ import {
   Typography,
   Popover,
   IconButton,
-  Chip
+  Chip,
+  Button,
+  Divider,
 } from "@mui/material";
 import nyumba from "../assets/nyumbaicon.svg";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -234,32 +236,41 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
                 }}
               >
                 <CardContent style={{ padding: "4px" }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() => handleMenuItemClick("add", order.r_id)}
-                  >
-                    create workorder
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() =>
-                      handleMenuItemClick("viewDetails", order.r_id)
-                    }
-                  >
-                    view details
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() => handleMenuItemClick("reject", order.r_id)}
-                  >
-                    reject
-                  </Typography>
+                  <div style={{ marginBottom: "4px", width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("add", order.r_id)}
+                    >
+                      Create Workorder
+                    </Button>
+                  </div>
+                  <Divider />
+                  <div style={{ marginBottom: "4px", width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("viewDetails", order.r_id)}
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                  <Divider />
+                  <div style={{ width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("reject", order.r_id)}
+                    >
+                      Reject
+                    </Button>
+                  </div>
                 </CardContent>
               </Popover>
             </TableCell>
