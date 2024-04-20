@@ -202,6 +202,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid #ccc; /* Grey stroke */
+    border-radius: 8px; /* Optional: Rounded corners */
+    transition: box-shadow 0.3s, transform 0.3s; /* Add transition for smooth effect */
+    background-color: #fff; 
+    box-shadow: none;
   }
   
   .card-content {
@@ -233,4 +238,18 @@
       width: 80%; /* Adjust as needed */
     }
   }
-  
+ 
+  .card:hover {
+    border: 1px solid #4caf50;
+    background-color: #e2f1e2; /* Green 50 */
+    box-shadow: 0 4px 8px rgba(154, 177, 154, 0.799); /* Add box shadow on hover */
+  }
+.card.selected {
+  background-color: #f0f0f0; /* Change the background color to indicate selection */
+  border: 2px solid #007bff; /* Add a border to indicate selection */
+}
+
+.card:hover .icon {
+    color: #1b5e20; /* Green 500 on hover */
+    transform: scale(1.2); /* Scale up on hover */
+  }

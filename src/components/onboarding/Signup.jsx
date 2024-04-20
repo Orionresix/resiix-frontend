@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
 import "./Onboarding.css";
 import logo from "../../assets/logo.svg";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import PersonIcon from "@mui/icons-material/Person";
@@ -14,6 +12,14 @@ const baseURL = "https://orionbackend-1.onrender.com";
 
 const Signup = () => {
   const googlelogin = `${baseURL}/login`;
+
+  // State variables to track the selected state of each card
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  // Function to handle card selection
+  const handleCardClick = (cardId) => {
+    setSelectedCard(cardId);
+  };
 
   return (
     <Grid
@@ -38,68 +44,69 @@ const Signup = () => {
       <Grid item container justifyContent="center">
         <div className="cards-container">
           <Grid item xs={12} sm={4}>
-            <div className="card-wrapper">
-              <Card className="card">
-                <CardContent className="card-content">
-                  <PersonIcon fontSize="large" />
-                  <h4>Tenant</h4>
-                </CardContent>
-              </Card>
-              <div className="button-wrapper">
-                <Button
-                  className="signup_button"
-                  variant="contained"
-                  component={Link}
-                  to="/resiix"
-                >
-                  Proceed 
-                </Button>
-              </div>
-            </div>
+            <Link
+              to="/resiix"
+              className={`card ${selectedCard === "tenant" ? "selected" : ""}`}
+              onClick={() => handleCardClick("tenant")}
+            >
+              <CardContent className="card-content">
+                <PersonIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Tenant</h4>
+              </CardContent>
+            </Link>
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <div className="card-wrapper">
-              <Card className="card">
-                <CardContent className="card-content">
-                  <BuildIcon fontSize="large" />
-                  <h4>Technician</h4>
-                </CardContent>
-              </Card>
-              <div className="button-wrapper">
-                <Button
-                  className="signup_button"
-                  variant="contained"
-                  component={Link}
-                  to="/resiix"
-                >
-                  Proceed 
-                </Button>
-              </div>
-            </div>
+            <Link
+              to="/resiix"
+              className={`card ${selectedCard === "technician" ? "selected" : ""}`}
+              onClick={() => handleCardClick("technician")}
+            >
+              <CardContent className="card-content">
+                <BuildIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Technician</h4>
+              </CardContent>
+            </Link>
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <div className="card-wrapper">
-              <Card className="card">
-                <CardContent className="card-content">
-                  <BusinessIcon fontSize="large" />
-                  <h4>Property Manager</h4>
-                </CardContent>
-              </Card>
-              <div className="button-wrapper">
-                <Link className="green" to={googlelogin}>
-                  <Button
-                    className="signup_button"
-                    variant="contained"
-                    component={Link}
-                    to={googlelogin}
-                  >
-                    Login with Google
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            <Link
+              to={googlelogin}
+              className={`card ${selectedCard === "propertyManager" ? "selected" : ""}`}
+              onClick={() => handleCardClick("propertyManager")}
+            >
+              <CardContent className="card-content">
+                <BusinessIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Property Manager</h4>
+              </CardContent>
+            </Link>
           </Grid>
         </div>
       </Grid>
