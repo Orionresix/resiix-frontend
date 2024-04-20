@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
   TableCell,
   TableRow,
@@ -7,11 +7,14 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  // Box,
-  Chip
+  Popover,
+  IconButton,
+  Chip,
+  Button,
+  Divider,
 } from "@mui/material";
 import nyumba from "../assets/nyumbaicon.svg";
-import actionicon from "../assets/actionicon.svg"
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 const colors = {
@@ -24,38 +27,25 @@ const colors = {
 };
 
 
+const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
 
-
-
-// const getStatusColor = (r_status) => {
-//   switch (r_status) {
-//     case "NEW":
-//       return "orange";
-//     case "ASSIGNED":
-//       return "blue";
-//     case "WIP":
-//       return "yellow";
-//     case "DONE":
-//       return "green";
-//     case "CANCELLED":
-//       return "red";
-//     default:
-//       return "gray";
-//   }
-// };
-
-const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(Array(repairdata.length).fill(false));
-  const handleCellClick = (rowIndex) => {
-    setIsDropdownOpen((prevState) => {
-      const newDropdowns = [...prevState];
-      newDropdowns[rowIndex] = !newDropdowns[rowIndex];
-      return newDropdowns;
-    });
+  const handleClick = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedId(id);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedId(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   const handleMenuItemClick = (action, rowIndex) => {
-    setIsDropdownOpen(false); // Close dropdown after selection
+    handleClose(); // Close the popover
     switch (action) {
       case "add":
         onAddClick(rowIndex);
@@ -74,29 +64,29 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
   return (
     <div
       style={{
-        height: 400,
-        width: "100%",
+        height: `calc(100vh - 200px)`, // Adjust the height dynamically
+        width: "100%", // Take the entire available screen width
         border: "1px solid #e0e0e0",
         borderRadius: "8px",
         overflow: "auto",
       }}
     >
       <TableRow>
-        <TableCell>ID</TableCell>
-        <TableCell>Description</TableCell>
-        <TableCell>Phone</TableCell>
-        <TableCell>Type</TableCell>
-        <TableCell>Date</TableCell>
-        <TableCell>Tenant Name</TableCell>
-        <TableCell>Status</TableCell>
-        <TableCell>Action</TableCell>
+        <TableCell width="1%">ID</TableCell>
+        <TableCell width="1%">Description</TableCell>
+        <TableCell width="1%">Phone</TableCell>
+        <TableCell width="1%">Type</TableCell>
+        <TableCell width="1%">Date</TableCell>
+        <TableCell width="1%">Tenant Name</TableCell>
+        <TableCell width="1%">Status</TableCell>
+        <TableCell width="1%">Action</TableCell>
       </TableRow>
 
       {repairdata.map((order) => (
           <TableRow key={order.r_id}>
-            <TableCell>{order.r_id}</TableCell>
+            <TableCell width="1%">{order.r_id}</TableCell>
 
-            <TableCell>
+            <TableCell width="1%">
               <Card
                 sx={{
                   display: "flex",
@@ -106,7 +96,6 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                   boxShadow: "none",
                 }}
               >
-                {/* Left Column with fixed-size CardMedia */}
                 <CardMedia
                   component="img"
                   image={nyumba}
@@ -114,12 +103,10 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                   height="40"
                   width="40"
                   sx={{
-                    // Add margin to separate from the content on the right
-                    flex: "0 0 40px", // Set a fixed width and height for CardMedia
+                    flex: "0 0 40px",
                   }}
                 />
 
-                {/* Right Column */}
                 <CardContent
                   sx={{
                     display: "flex",
@@ -149,6 +136,7 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
                 </CardContent>
               </Card>
             </TableCell>
+
 
             <TableCell>
               <Card
@@ -219,70 +207,78 @@ const repairsTable = ({  repairdata, onAddClick, onViewDetailsClick }) => {
             </TableCell>
 
             <TableCell>
-              
-                <Chip
-                  label={order.r_status}
-                  sx={{
-                    backgroundColor: colors[order.r_status],
-                    color: "#fff",
-                    fontSize: 10,
-                  }}
-                  size="small"
-                />
-            
-             
+              <Chip
+                label={order.r_status}
+                sx={{
+                  backgroundColor: colors[order.r_status],
+                  color: "#fff",
+                  fontSize: 10,
+                }}
+                size="small"
+              />
             </TableCell>
 
-            <TableCell onClick={() => handleCellClick(order.r_id)}>
-              {!isDropdownOpen[[order.r_id]] && (
-                 <CardMedia
-                 component="img"
-                 image={actionicon}
-                 alt={order.p_name}
-                 height="40"
-                 width="40"
-                 sx={{flex: "0 0 40px",  }}
-               />
-
-
-              )}
-
-              {isDropdownOpen[order.r_id] && (
-                <>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() => handleMenuItemClick("add", order.r_id)}
-                  >
-                    create workorder
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() =>
-                      handleMenuItemClick("viewDetails", order.r_id)
-                    }
-                  >
-                    view details
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    noWrap
-                    onClick={() => handleMenuItemClick("reject", order.r_id)}
-                  >
-                    reject
-                  </Typography>
-                </>
-              )}
+            <TableCell>
+              <IconButton onClick={(event) => handleClick(event, order.r_id)}>
+                <MoreVertIcon />
+              </IconButton>
+              <Popover
+                id={id}
+                open={open && selectedId === order.r_id}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <CardContent style={{ padding: "4px", width: 200 }}>
+                  <div style={{ marginBottom: "4px", width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("add", order.r_id)}
+                    >
+                      Create Workorder
+                    </Button>
+                  </div>
+                  <Divider />
+                  <div style={{ marginBottom: "4px", width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("viewDetails", order.r_id)}
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                  <Divider />
+                  <div style={{ width: "100%" }}>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      size="small"
+                      sx={{ fontSize: "body6.fontSize", width: "100%" }}
+                      onClick={() => handleMenuItemClick("reject", order.r_id)}
+                    >
+                      Reject
+                    </Button>
+                  </div>
+                </CardContent>
+              </Popover>
             </TableCell>
           </TableRow>
-        ))
-    }
+        ))}
     </div>
   );
 };
 
-export default repairsTable;
+export default RepairsTable;
