@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Grid, Typography, Card, CardContent, Paper, CardMedia, Chip } from '@mui/material';
 import nyumba from '../../assets/nyumbaicon.svg';
 import TicketComponent from '../../components/Ticket';
+const baseURL = process.env.REACT_APP_BASE_URL
 
 const typecolors = {
   Electric: "green",
@@ -25,6 +26,8 @@ const color = {
   new: "#FFC107",
 };
 
+const status = "PENDING "
+
 const RequestDetails = ({ userId, selectedRequest, onViewDetailsClick }) => {
   const [pendingRequests, setPendingRequests] = useState([]);
 
@@ -32,7 +35,7 @@ const RequestDetails = ({ userId, selectedRequest, onViewDetailsClick }) => {
     const fetchPendingRequests = async () => {
       try {
         // Fetch repair requests submitted by the logged-in tenant and are pending
-        const response = await fetch(`API_ENDPOINT/repair-requests?userId=${userId}&status=NEW`);
+        const response = await fetch(`${baseURL}/repairs?r_u_id=${userId}&r_status=${status}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
