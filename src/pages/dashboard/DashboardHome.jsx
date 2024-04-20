@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState,  } from 'react';
+import { useLocation,  } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
 import { Box, Grid, Link,Button, } from '@mui/material'
 import Typography from '@mui/material/Typography'
@@ -13,15 +13,21 @@ import {
   SentimentVeryDissatisfied,
 } from '@mui/icons-material';
 import Loader from '../../components/loader'
+// import {UserContext} from '../../components/layout/userContext.js'
 
 
 
 const DashboardHome = () => {
-
   const baseURL = process.env.REACT_APP_BASE_URL ;
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
+  // const { setLoggedInUser } = useContext(UserContext);
+
+
+
+
+
   const [userData, setUserData] = useState(null);
   useEffect(() => {
     fetch( `${baseURL}/user_details`)
@@ -39,6 +45,10 @@ const DashboardHome = () => {
         console.error('Error fetching user data:', error);
       });
   }, [location.search]);
+
+  
+
+ 
 
   // const [userDetails, setUserDetails] = useState(null);
   // const getToken = () => {

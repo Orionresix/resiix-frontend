@@ -21,6 +21,7 @@ const typecolors = {
 };
 
 const ParentComponent = () => {
+  // eslint-disable-next-line no-undef
   const baseURL = process.env.REACT_APP_BASE_URL
   const [assignedTickets, setAssignedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { React, useState } from "react";
 import {
   TableCell,
@@ -7,28 +6,12 @@ import {
   CardMedia,
   CardContent,
   Typography,
-   Chip
+  Chip,
+  IconButton // Import IconButton
 } from "@mui/material";
 import nyumba from "../assets/nyumbaicon.svg";
-import actionicon from "../assets/actionicon.svg"
-
-// const getStatusColor = (r_status) => {
-//   switch (r_status) {
-//     case "NEW":
-//       return "orange";
-//     case "ASSIGNED":
-//       return "blue";
-//     case "WIP":
-//       return "yellow";
-//     case "DONE":
-//       return "green";
-//     case "CANCELLED":
-//       return "red";
-//     default:
-//       return "gray";
-//   }
-// };
-
+// import actionicon from "../assets/actionicon.svg";
+import MoreVertIcon from '@mui/icons-material/MoreVert'; // Import MoreVertIcon
 
 const colors = {
   NEW: "#FFC107",
@@ -127,7 +110,7 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "left",
-                    boxShadow: "none",
+                    boxShadow: "red",
                   }}
                 >
                   <Typography
@@ -236,16 +219,9 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
 
             <TableCell onClick={() => handleCellClick(order.r_id)}>
               {!isDropdownOpen[[order.r_id]] && (
-                 <CardMedia
-                 component="img"
-                 image={actionicon}
-                 alt={order.p_name}
-                 height="40"
-                 width="40"
-                 sx={{flex: "0 0 40px",  }}
-               />
-
-
+                <IconButton onClick={() => handleCellClick(order.r_id)}>
+                  <MoreVertIcon />
+                </IconButton>
               )}
 
               {isDropdownOpen[order.r_id] && (
@@ -285,5 +261,6 @@ const repairsTable = ({ groupeddata, onAddClick, onViewDetailsClick }) => {
     </div>
   );
 };
+
 
 export default repairsTable;
