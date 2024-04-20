@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import nyumba from "/Users/mac/Documents/GitHub/orion/resiix-frontend/src/assets/nyumbaicon.svg";
+import nyumba from "../../assets/nyumbaicon.svg";
 const baseURL = 'https://orionbackend-1.onrender.com';
 
 
