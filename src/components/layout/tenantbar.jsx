@@ -47,12 +47,6 @@ export default function BottomNavbarSidebar({ children }) {
             anchor="bottom"
           >
             <HorizontalList>
-              <ListItemWithLink
-                label="Add Requests"
-                icon={<img src={repair} alt="Custom Icon" />}
-                to="/resiix/report-issue"
-                sx={{ width: "70px" }}
-              />
 
 <ListItemWithLink
                 label="Active Requests"
