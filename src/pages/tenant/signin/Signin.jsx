@@ -17,8 +17,9 @@ const Signin = () => {
 
 
     const handleLogin = () => {
+        const url = `${baseURL}/tenantlogin?email=${email}&passcode=${passcode}`
         // Call the API to authenticate user
-        fetch(`${baseURL}/tenantlogin?email=${email}&passcode=${passcode}`)
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -40,7 +41,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (loggedIn) {
-            navigate('/resiix/report-issue', { state: { unitDetails } });
+            navigate('/resiix/reported', { state: { unitDetails } });
             console.log(unitDetails)
         }
     }, [loggedIn, navigate, unitDetails]);

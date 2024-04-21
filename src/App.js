@@ -18,8 +18,12 @@ import Tenant from "./pages/tenant/signup/Signup.jsx";
 import TenantSignIn from "./pages/tenant/signin/Signin.jsx";
 import TenantLanding from "./pages/tenant/landing_page/Landing.jsx";
 import TReportIssue from "./pages/tenant/report_issue/ReportIssue.jsx";
+import TreportedHistory from './pages/tenant/report_issue/ReportedHistory.jsx';
+import Treported from './pages/tenant/report_issue/ReportedIssue.jsx';
 import TRating from "./pages/tenant/rating/Rating.jsx";
 import TFeedback from "./pages/tenant/feedback/Feedback.jsx";
+
+
 import CompleteWork from "./pages/technician/completework/CompleteWork.jsx";
 import WorkOrdersHistory from "./pages/technician/startwork/workorderhistory.jsx";
 import StartWork from "./pages/technician/startwork/StartWork";
@@ -59,6 +63,25 @@ function App() {
               </TenantLayout>
             }
           />
+
+<Route
+            path="/resiix/reported"
+            element={
+              <TenantLayout>
+                <Treported />
+              </TenantLayout>
+            }
+          />
+
+<Route
+            path="/resiix/reportedhistory"
+            element={
+              <TenantLayout>
+                <TreportedHistory/>
+              </TenantLayout>
+            }
+          />
+
           <Route
             path="/resiix/rating"
             element={

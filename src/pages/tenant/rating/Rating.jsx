@@ -7,6 +7,7 @@ import { Rating as RatingComponent } from 'react-simple-star-rating';
 import icon from '../../../assets/icon.png';
 import { Card, CardContent, Typography, Button, TextareaAutosize, Avatar, Grid } from '@mui/material';
 
+// eslint-disable-next-line react/prop-types
 const Rating = ({ ticketId }) => {
   const navigate = useNavigate();
   const [rating, setRating] = useState(0);
