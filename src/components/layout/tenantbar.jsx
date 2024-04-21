@@ -54,6 +54,13 @@ export default function BottomNavbarSidebar({ children }) {
                 to="/resiix/reported"
                 sx={{ width: "70px" }}
               />
+
+<ListItemWithLink
+                label="Active Requests"
+                icon={<img src={repair} alt="Custom Icon" />}
+                to="/resiix/reported"
+                sx={{ width: "70px" }}
+              />
               <ListItemWithLink
                 label="History"
                 icon={<DashboardIcon />}

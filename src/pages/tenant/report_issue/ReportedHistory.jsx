@@ -61,17 +61,16 @@ const RequestDetails = ({ userId }) => {
     <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
         
-
-          <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
-          Completed requests
-        </Typography>
+        <Typography variant="h1" gutterBottom>
+            Completed requests
+          </Typography>
 
 {completedRequests.map(request => (
         <Grid item xs={12}>
         <Paper color="red">
 
 
-            <Card sx={{ height: "Auto", display: "flex",  flexDirection: "column", border: "1px solid #ccc" }}>
+            <Card sx={{ height: "80vh", display: "flex", flexDirection: "column", border: "1px solid #ccc" }}>
               <CardContent>
                 <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px", flexGrow: "1" }}>
                   <Box sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
