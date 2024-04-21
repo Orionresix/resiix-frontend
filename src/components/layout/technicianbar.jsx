@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
+// import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import repair from "../../assets/request_icon.svg";
@@ -29,7 +29,7 @@ export default function BottomNavbarSidebar({ children }) {
         <CssBaseline />
         <main style={{ flexGrow: 1, padding: "20px" }}>{children}</main>
         <BottomNavbar>
-          <Drawer
+          {/* <Drawer
             open={true}
             sx={{
               display: "flex",
@@ -45,22 +45,22 @@ export default function BottomNavbarSidebar({ children }) {
             }}
             variant="persistent"
             anchor="bottom"
-          >
+          > */}
             <HorizontalList>
               <ListItemWithLink
                 label="Workorders"
                 icon={<img src={repair} alt="Custom Icon" />}
                 to="/resiix/startwork"
-                sx={{ width: "70px" }}
+                sx={{ width: "40px" }}
               />
               <ListItemWithLink
                 label="History"
                 icon={<DashboardIcon />}
                 to="/resiix/workorderhistory"
-                sx={{ width: "70px" }}
+                sx={{ width: "40px" }}
               />
             </HorizontalList>
-          </Drawer>
+          {/* </Drawer> */}
         </BottomNavbar>
       </Box>
 
