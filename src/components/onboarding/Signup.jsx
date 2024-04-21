@@ -1,158 +1,118 @@
-/* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react'
-import CardContent from '@mui/material/CardContent'
-import './Onboarding.css'
-import logo from '../../assets/logo.svg'
-import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
-import { Link, useNavigate } from 'react-router-dom'
-import { Typography } from '@mui/material'
-const baseURL = 'https://orionbackend-1.onrender.com';
+import React, { useState } from "react";
+import CardContent from "@mui/material/CardContent";
+import "./Onboarding.css";
+import logo from "../../assets/logo.svg";
+import { Link } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import PersonIcon from "@mui/icons-material/Person";
+import BuildIcon from "@mui/icons-material/Build";
+import BusinessIcon from "@mui/icons-material/Business";
+
+const baseURL = "https://orionbackend-1.onrender.com";
 
 const Signup = () => {
-  const navigate = useNavigate()
-  // const countries = ['Kenya', 'Botswana', 'Ghana', 'Liberia']
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const googlelogin = `${baseURL}/login`
+  const googlelogin = `${baseURL}/login`;
 
-  const signUp = () => {
-    navigate('/instructions')
-  }
+  // State variables to track the selected state of each card
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  // Function to handle card selection
+  const handleCardClick = (cardId) => {
+    setSelectedCard(cardId);
+  };
 
   return (
-    <Stack sx={{ maxWidth: 878 }} variant='outlined' className='card'>
-      <CardContent className='Welcome'>
-        <img src={logo} alt='logo' />
-      </CardContent>
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+      className="signup-container"
+      style={{ minHeight: "100vh" }}
+    >
+      <Grid item>
+        <img src={logo} alt="logo" />
+      </Grid>
 
-      <CardContent className='Welcome'>
-        <h3>Welcome to Resiix</h3>
-        <p>
-         Welcome to the Resiix community?<br/>
-          Sign in now to start managing
-          your properties and work orders with ease. Let's fix things together!
-        </p>
-      </CardContent>
+      <Grid item>
+        <CardContent className="Welcome">
+          <h3>Welcome to Resiix</h3>
+        </CardContent>
+      </Grid>
 
-      <CardContent>
-        <form
-          className='signupform'
-          onSubmit={() => {
-            signUp()
-          }}>
-          <div className='inputs'>
-         <div className='formgroup'>
-              <label htmlFor='name'>
-                {' '}
-                <span className='Red'>*</span>Name
-              </label>
+      <Grid item container justifyContent="center">
+        <div className="cards-container">
+          <Grid item xs={12} sm={4}>
+            <Link
+              to="/resiix"
+              className={`card ${selectedCard === "tenant" ? "selected" : ""}`}
+              onClick={() => handleCardClick("tenant")}
+            >
+              <CardContent className="card-content">
+                <PersonIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Tenant</h4>
+              </CardContent>
+            </Link>
+          </Grid>
 
-              <input
-                type='text'
-                value={name}
-                placeholder='Nairobi Apartments'
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              
-            </div> 
+          <Grid item xs={12} sm={4}>
+            <Link
+              to="/resiix"
+              className={`card ${selectedCard === "technician" ? "selected" : ""}`}
+              onClick={() => handleCardClick("technician")}
+            >
+              <CardContent className="card-content">
+                <BuildIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Technician</h4>
+              </CardContent>
+            </Link>
+          </Grid>
 
-            {/* <div className='formgroup'>
-              <label htmlFor='surname'>name</label>
-              <input
-                type='text'
-                value={surname}
-                placeholder='Surname'
-                onChange={(e) => setSurname(e.target.value)}
-              />
-            </div> */}
+          <Grid item xs={12} sm={4}>
+            <Link
+              to={googlelogin}
+              className={`card ${selectedCard === "propertyManager" ? "selected" : ""}`}
+              onClick={() => handleCardClick("propertyManager")}
+            >
+              <CardContent className="card-content">
+                <BusinessIcon
+                  fontSize="large"
+                  style={{
+                    color: "#757575", // Grey
+                    transition: "color 0.3s, transform 0.3s", // Smooth transition
+                    transformOrigin: "center",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#1b5e20")} // Green 500 on hover
+                  onMouseLeave={(e) => (e.target.style.color = "#757575")} // Grey on hover out
+                />
+                <h4>Property Manager</h4>
+              </CardContent>
+            </Link>
+          </Grid>
+        </div>
+      </Grid>
+    </Grid>
+  );
+};
 
-            <div className='formgroup'>
-              <label htmlFor='email'>
-                {' '}
-                <span className='Red'>*</span>Email
-              </label>
-              <input
-                type='email'
-                value={email}
-                placeholder='Nairobi@gmail.com'
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+export default Signup;
 
-            {/* <div className='formgroup'>
-              <label htmlFor='country'>Country</label>
-              <select
-                name='country'
-                id='country'
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}>
-                {countries.map((countr, index) => {
-                  return (
-                    <option value={countr} key={index}>
-                      {countr}
-                    </option>
-                  )
-                })}
-              </select>
-            </div> */}
-
-            <div className='formgroup'>
-              <label htmlFor='password'>
-                {' '}
-                <span className='Red'>*</span>Password
-              </label>
-              <input
-                type='password'
-                value={password}
-                placeholder='Password'
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <p className='small'>
-                Make sure the password is 8 characters minimum
-              </p>
-            </div>
-            <div className='formgroup'>
-              <label htmlFor='password'>Confirm Password</label>
-              <input
-                type='password'
-                value={confirmPassword}
-                placeholder='Confirm Password'
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <Button type='submit' className='signup_button' variant='contained'>
-            Sign Up
-          </Button>
-
-           <Typography>Send your issue to your property manager</Typography>
-           <a href="/resiix">
-          <Button  className='signup_button' variant='contained'>
-          preoceed as a Tenant 
-          </Button>
-          </a>
-
-
-
-        </form>
-
-      </CardContent>
-
-      <CardContent>
-        <Link className='green' to={googlelogin} >
-        Login with Google
-        </Link>
-      </CardContent>
-      
-    </Stack>
-  )
-}
-
-export default Signup

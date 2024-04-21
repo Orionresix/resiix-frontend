@@ -2,10 +2,14 @@ import { React, useState, useEffect } from 'react'
 import './Signin.css';
 import logo from '../../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
-const baseURL = 'https://orionbackend-1.onrender.com';
-// const baseURL = 'http://127.0.0.1:5000';
+// import TenantContext from '../tenantContext';
+
 
 const Signin = () => {
+    const baseURL = process.env.REACT_APP_BASE_URLs
+
+    // const { loginUser } = useContext(TenantContext);
+    
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [passcode, setPasscode] = useState('');
@@ -14,8 +18,9 @@ const Signin = () => {
 
 
     const handleLogin = () => {
+        const url = `${baseURL}/tenantlogin?email=${email}&passcode=${passcode}`
         // Call the API to authenticate user
-        fetch(`${baseURL}/tenantlogin?email=${email}&passcode=${passcode}`)
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -25,18 +30,19 @@ const Signin = () => {
             .then(data => {
                 setUnitDetails(data);
                 setLoggedIn(true);
-                console.log(data)
             })
             
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     };
+
+    console.log(unitDetails)
    
 
     useEffect(() => {
         if (loggedIn) {
-            navigate('/resiix/report-issue', { state: { unitDetails } });
+            navigate('/resiix/reported', { state: { unitDetails } });
             console.log(unitDetails)
         }
     }, [loggedIn, navigate, unitDetails]);

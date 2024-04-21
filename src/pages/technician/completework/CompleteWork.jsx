@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./CompleteWork.css";
 import { toast } from "react-hot-toast";
-import { Box, Card, TextField, Button } from "@mui/material";
-const baseURL = 'https://orionbackend-1.onrender.com';
-//const baseURL = "http://127.0.0.1:5000";
+import { Box, TextField, Button } from "@mui/material";
 
 const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const selectedRequest = assignedTickets.find(
     (request) => request.wo_id === selectedticketid
   );
@@ -66,7 +65,6 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
   return (
     <>
       {selectedRequest && (
-        <Card sx={{ marginBottom: "10px", maxWidth: "400px", margin: "auto" }}>
           <form className="complete-form" onSubmit={handleSubmit}>
             <TextField
               id="description"
@@ -110,7 +108,17 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
               required
             />
 
-            <Box>
+            <Box display="flex" gap="1rem" justifyContent="end">
+              
+              <Button
+                onClick={() => handleClose(selectedticketid)}
+                variant="contained"
+                color="primary"
+                style={{ width: "40%" }}
+              >
+                Back
+              </Button>
+
               <Button
                 type="submit"
                 variant="contained"
@@ -120,17 +128,8 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
                 Submit
               </Button>
 
-              <Button
-                onClick={() => handleClose(selectedticketid)}
-                variant="contained"
-                color="primary"
-                style={{ width: "40%" }}
-              >
-                Back
-              </Button>
             </Box>
           </form>
-        </Card>
       )}
     </>
   );

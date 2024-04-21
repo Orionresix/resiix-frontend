@@ -14,7 +14,7 @@ import {
 import actionicon from "../../assets/actionicon.svg"
 
 
-const PropertyTable = ({ properties, onAddClick, onViewDetailsClick }) => {
+const PropertyTable = ({ properties, onAddClick, onViewUnitsClick }) => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(Array(properties.length).fill(false));
   const handleCellClick = (rowIndex) => {
@@ -33,7 +33,7 @@ const PropertyTable = ({ properties, onAddClick, onViewDetailsClick }) => {
         onAddClick(rowIndex);
         break;
       case "viewDetails":
-        onViewDetailsClick(rowIndex);
+        onViewUnitsClick(rowIndex);
         break;
       case "reject":
         // onDeleteClick(rowIndex);

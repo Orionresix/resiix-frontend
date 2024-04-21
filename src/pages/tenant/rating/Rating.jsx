@@ -1,76 +1,141 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './Rating.css';
 import logo from '../../../assets/logo.svg';
-import { toast, Toaster } from "react-hot-toast";
+import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Rating as RatingComponent } from 'react-simple-star-rating';
 import icon from '../../../assets/icon.png';
+import { Card, CardContent, Typography, Button, TextareaAutosize, Avatar, Grid } from '@mui/material';
 
-const Rating = () => {
+// eslint-disable-next-line react/prop-types
+const Rating = ({ ticketId }) => {
+  const navigate = useNavigate();
+  const [rating, setRating] = useState(0);
+  const [message, setMessage] = useState('');
+  const [ticketDetails, setTicketDetails] = useState({ name: '', type: '', submittedAt: '', assignedTechnician: '' });
 
-    const navigate = useNavigate();
-    const [rating, setRating] = useState();
-    const [message, setMessage] = useState();
+  useEffect(() => {
+    const fetchTicketDetails = async () => {
+      try {
+        // Fetch ticket details from the API
+        const response = await fetch(`API_ENDPOINT/tickets/${ticketId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch ticket details');
+        }
+        const data = await response.json();
+        setTicketDetails({
+          name: data.name,
+          type: data.type,
+          submittedAt: data.submittedAt,
+          assignedTechnician: data.assignedTechnician,
+        });
+      } catch (error) {
+        console.error('Error fetching ticket details:', error);
+        toast.error('Failed to fetch ticket details. Please try again later.');
+      }
+    };
 
-    const submitRating = (e) => {
-        e.preventDefault();
-        const notify = () => toast("Thank you for your feedback.");
-        setRating('');
-        setMessage('');
-        notify();
-        setTimeout(() => {
-            navigate('/resiix/feedback');
-        }, 3000);
-        
+    fetchTicketDetails();
+  }, [ticketId]);
+
+  const submitRating = async (e) => {
+    e.preventDefault();
+    try {
+      // Submit the rating to the API
+      const response = await fetch('API_ENDPOINT/submit-rating', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ticketId: ticketId,
+          rating: rating,
+          message: message,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to submit rating');
+      }
+      const notify = () => toast.success('Thank you for your feedback.');
+      setRating(0);
+      setMessage('');
+      notify();
+      setTimeout(() => {
+        navigate('/resiix/feedback');
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      toast.error('Failed to submit rating. Please try again later.');
     }
+  };
 
   return (
-    <div className='rating'>
-        <div className="padding">
-            <div className="logo">
-                <img src={logo} alt="logo"/>
-            </div>
-        </div>
-        <div className="rating-cont">
-            <div className="rating-welcome">
-                <h1>Welcome</h1>
-                <p>Justine Imasiku, Icebergs Parlor</p>
-            </div>
-            <form className="rating-form" onSubmit={(e) => {submitRating(e)}}>
-                <div className="flex-row-space">
-                    <div className="flex-row">
-                        <img src={icon} alt="icon"/>
-                        <p>Tck0001</p>
-                    </div>
-                    <p>11 minutes ago</p>
-                </div>
-                <div className="rating-profile">
-                    <h1>KW</h1>
-                    <p>karen Wanyama</p>
-                    <p>Electrical</p>
-                </div>
-                <h4>How was the service?</h4>
-                <RatingComponent required onClick={(rate) => setRating(rate)} ratingValue={rating}/>
-                <p>Want to share your exxperience?</p>
-                <div className="form-group">
-                    <label htmlFor="message">Message</label>
-                    <textarea id="message" name="message" value={message} onChange={(e) => {setMessage(e.target.value)}}/>
-                </div>
-                <div className="form-group">
-                    <button type="submit">Submit</button>
-                </div>
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <form className="rating-form" onSubmit={(e) => submitRating(e)}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12}>
+                  <Typography variant="h5" component="h2" align="center">
+                    <Avatar alt="logo" src={logo} />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center">
+                    <Avatar alt="icon" src={icon} />
+                    {ticketDetails.name}
+                  </Typography>
+                  <Typography align="center">{ticketDetails.submittedAt}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center">
+                    {ticketDetails.type}
+                  </Typography>
+                  {/* Fetch the name of the assigned technician from the API */}
+                  <Typography align="center">{ticketDetails.assignedTechnician}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center">
+                    How was the service?
+                  </Typography>
+                  <RatingComponent required onClick={(rate) => setRating(rate)} ratingValue={rating} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography align="center">Want to share your experience?</Typography>
+                  <div className="form-group">
+                    <TextareaAutosize
+                      id="message"
+                      name="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      minRows={3}
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="form-group" style={{ textAlign: 'center' }}>
+                    <Button type="submit" variant="contained" color="primary">
+                      Submit
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
             </form>
-        </div>
-        <Toaster
-          toastOptions={{
-            style: {
-              background: "green",
-              color: "#fff",
-            },
-          }}
-        />
-    </div>
-  )
-}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Toaster
+        toastOptions={{
+          style: {
+            background: 'green',
+            color: '#fff',
+          },
+        }}
+      />
+    </Grid>
+  );
+};
 
-export default Rating
+export default Rating;

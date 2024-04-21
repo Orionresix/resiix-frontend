@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+/* eslint-disable no-undef */
+import React, { useEffect, useState,  } from 'react';
+import { useLocation,  } from 'react-router-dom';
 import Stats from '../../components/Dashboard/Stats'
 import { Box, Grid, Link,Button, } from '@mui/material'
 import Typography from '@mui/material/Typography'
@@ -10,14 +11,23 @@ import {
   Handyman,
   Plumbing,
   SentimentVeryDissatisfied,
-} from '@mui/icons-material'
-const baseURL = 'https://orionbackend-1.onrender.com';
+} from '@mui/icons-material';
+import Loader from '../../components/loader'
+// import {UserContext} from '../../components/layout/userContext.js'
+
 
 
 const DashboardHome = () => {
-
+  const baseURL = process.env.REACT_APP_BASE_URL ;
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
+  // const { setLoggedInUser } = useContext(UserContext);
+
+
+
+
+
   const [userData, setUserData] = useState(null);
   useEffect(() => {
     fetch( `${baseURL}/user_details`)
@@ -35,6 +45,10 @@ const DashboardHome = () => {
         console.error('Error fetching user data:', error);
       });
   }, [location.search]);
+
+  
+
+ 
 
   // const [userDetails, setUserDetails] = useState(null);
   // const getToken = () => {
@@ -79,10 +93,10 @@ const DashboardHome = () => {
 
 
   const [counts, setCounts] = useState([
-    { title: 'Total maintenance request', data: 'Loading...' },
-    { title: 'Total open work orders', data: 'Loading...' },
-    { title: 'Overdue requests', data: 'Loading...' },
-    { title: 'Total expenses', data: 'Loading...' }
+    { title: 'Total maintenance request', data: <>   { loading && (<Loader/> )}</> },
+    { title: 'Total open work orders', data: <>   { loading && (<Loader/> )} </> },
+    { title: 'Overdue requests', data: <> { loading && (<Loader/> )}</> },
+    { title: 'Total expenses', data: <>   { loading && (<Loader/> )} </> }
 ]);
 
 useEffect(() => {
@@ -118,7 +132,7 @@ const fetchCounts = () => {
 
 
   const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     // Define the URL of your backend API endpoint
     const apiUrl = `${baseURL}/repairs/`; // Replace with your actual backend API URL
@@ -186,6 +200,8 @@ const fetchCounts = () => {
              </>
   
           )}
+
+{ loading && (<Loader/> )}
           </Box>
         </Box>
   

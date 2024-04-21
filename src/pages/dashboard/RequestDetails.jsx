@@ -39,17 +39,17 @@ const RequestDetails = ({ repairdata, selectedrequest, onViewDetailsClick }) => 
   return (
     <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} >
           <Box
             sx={{
-              maxHeight: '70vh',
+              maxHeight: '80vh',
               overflow: 'auto',
               display: 'flex',
               flexDirection: 'column',
 
             }}>
 
-            <Box>
+            <Box display={"flex"} flexDirection="column" gap="1rem">
               {repairdata.map((order, idx) => (
                 <TicketComponent
                   key={idx}
@@ -69,7 +69,7 @@ const RequestDetails = ({ repairdata, selectedrequest, onViewDetailsClick }) => 
           item
           xs={12}
           md={8}
-          sx={{ height: "100%" }}
+          sx={{ height: "100%"}}
           className="requestDetailsPane"
         >
           <Paper color="red">

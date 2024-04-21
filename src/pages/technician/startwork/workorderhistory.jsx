@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Box, Chip, Grid, Modal } from "@mui/material";
+import { Card, CardContent, Typography, Box, Chip, Grid } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
-import DetailModal from '../completework/CompleteWork'
 
 const colors = {
   NEW: "#FFC107",
@@ -23,10 +22,8 @@ const ParentComponent = () => {
   // eslint-disable-next-line no-undef
   const baseURL = process.env.REACT_APP_BASE_URL
   const [assignedTickets, setAssignedTickets] = useState([]);
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const technicianId = 1; // Example technician ID
-  const wo_status = 'ASSIGNED';
+  const wo_status = 'DONE';
 
   useEffect(() => {
     // Fetch assigned tasks from the API
@@ -46,33 +43,11 @@ const ParentComponent = () => {
     fetchAssignedTickets();
   }, []);
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 350,
-    bgcolor: 'background.paper',
-    border: '2px solid white',
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-  }
-
-  const handleCardClick = (ticket) => {
-    setSelectedTicket(ticket);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
 
   return (
     <Grid display="flex" flexDirection="column" gap="1rem">
       {assignedTickets.map(ticket => (
-        <Card key={ticket.r_id} variant="outlined" onClick={() => handleCardClick(ticket.wo_id)}>
+        <Card key={ticket.r_id} variant="outlined">
           <CardContent>
             <Box display="flex" justifyContent="space-between" >
               <Typography variant="caption" gutterBottom>
@@ -131,14 +106,6 @@ const ParentComponent = () => {
           </CardContent>
         </Card>
       ))}
-
-      <Modal open={isModalOpen} onClose={handleCloseModal}>
-        <Box sx={style}>
-          <Typography variant="h6" mb={5}>Complete Work Order</Typography>
-          <DetailModal selectedticketid={selectedTicket} assignedTickets={assignedTickets} onClose={handleCloseModal} />
-        </Box>
-      </Modal>
-
 
 
 

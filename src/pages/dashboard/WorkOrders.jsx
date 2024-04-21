@@ -10,10 +10,11 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault' // Imp
 import RequestDetails from './RequestDetails'
 import AddrepairForm from '../../components/Repairs/Addrepair'
 import { Typography} from '@mui/material'
-const baseURL = 'https://orionbackend-1.onrender.com';
+import Loader from '../../components/loader'
 
 
 const WorkOrdersBoard = () => {
+  const baseURL = process.env.REACT_APP_BASE_URL
   const [currentView, setCurrentView] = useState('TableView') // Initial view state
 
 
@@ -151,6 +152,8 @@ const WorkOrdersBoard = () => {
         <WorkorderTable    groupeddata={groupedrepairdata} onAddClick={handleAddRepairClick}
         onViewDetailsClick={handleViewDetailsClick}  />
         )}
+
+{ loading && (<Loader/> )}
       </Box>
     </>
   )
