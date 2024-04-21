@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Chip, Grid, Modal } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
-import DetailModal from '../completework/CompleteWork'
+import DetailModal from '../completework/CompleteWork';
+import logo from '/Users/mac/Documents/GitHub/orion/resiix-frontend/src/assets/Resiix-logo.svg'; // Import the logo file
 
 const colors = {
   NEW: "#FFC107",
@@ -71,6 +72,16 @@ const ParentComponent = () => {
 
   return (
     <>
+    
+    <Box sx={{ textAlign: 'left' }}>
+      <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
+    </Box>
+    {/* <Box sx={{ textAlign: 'left' }}>
+      <Typography variant="h4" mt={2} mb={1}>
+        Welcome technicianfirstname
+      </Typography> */}
+    
+    {/* </Box> */}
     <Typography variant="h6" align="left" mt={2} mb={4}>Work Orders</Typography>
     <Grid display="flex" flexDirection="column" gap="1rem">
       {assignedTickets.map(ticket => (

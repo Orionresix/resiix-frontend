@@ -8,14 +8,16 @@ import {
   Card,
   CardContent,
   Paper,
-  CardMedia,
+  // CardMedia,
   Chip,
-  IconButton,
+  // IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import nyumba from "../../../assets/nyumbaicon.svg";
+// import nyumba from "../../../assets/nyumbaicon.svg";
 import AddRequest from "./ReportIssue";
-// import TicketComponent from '../../../components/Ticket';
+import { Fab } from "@mui/material";
+import logo from "../../../assets/Resiix-logo.svg";
+
 
 const typecolors = {
   Electric: "green",
@@ -104,7 +106,11 @@ const RequestDetails = ({ userId }) => {
   };
 
   return (
-    <Box sx={{ minHeight: "80vh" }}>
+    <>
+    <Box sx={{ textAlign: 'left' }}>
+      <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
+    </Box>
+    <Box sx={{ minHeight: "80vh", position: "relative" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography>
@@ -114,16 +120,22 @@ const RequestDetails = ({ userId }) => {
           </Typography>
 
           <span>
-            <IconButton
+            <Fab
+              color="primary"
+              aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
-                border: "1px solid #00B286",
-                borderRadius: " 4px",
-                padding: "4.5px",
+                position: "fixed",
+                bottom: 24,
+                right: 24,
+                width: 92, // Increase width to make it larger
+                height: 92, // Increase height to make it larger
+                borderRadius: "50%", // Make it circular
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)", // Add shadow for depth
               }}
             >
-              <AddIcon sx={{ fontSize: 20, color: "#00b286" }} /> NEW
-            </IconButton>
+              <AddIcon sx={{ fontSize: 32 }} /> {/* Adjust icon size */}
+            </Fab>
 
             <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
               Pending Requests
@@ -160,7 +172,7 @@ const RequestDetails = ({ userId }) => {
                       flexGrow: "1",
                     }}
                   >
-                    <Box
+                    {/* <Box
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -179,7 +191,7 @@ const RequestDetails = ({ userId }) => {
                       <Typography variant="h8" color="text.secondary">
                         {request.p_name} {request.u_name}
                       </Typography>
-                    </Box>
+                    </Box> */}
                     <Box sx={{ flexGrow: 1 }} />
                     <Chip
                       label={request.r_status}
@@ -194,7 +206,7 @@ const RequestDetails = ({ userId }) => {
                   </Box>
 
                   <Chip
-                    label= {`#RQ${request.r_id}`}
+                    label={`#RQ${request.r_id}`}
                     sx={{
                       backgroundColor: color[request.r_id],
                       color: "#00b286",
@@ -223,6 +235,7 @@ const RequestDetails = ({ userId }) => {
         </Grid>
       </Grid>
     </Box>
+    </>
   );
 };
 
