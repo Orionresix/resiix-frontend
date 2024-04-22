@@ -61,6 +61,8 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
     }
   };
 
+  console.log(repairdata)
+
   return (
     <div
       style={{
@@ -72,19 +74,19 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
       }}
     >
       <TableRow>
-        <TableCell width="1%">ID</TableCell>
+        <TableCell width="1%">Code</TableCell>
         <TableCell width="1%">Description</TableCell>
         <TableCell width="1%">Phone</TableCell>
         <TableCell width="1%">Type</TableCell>
         <TableCell width="1%">Date</TableCell>
-        <TableCell width="1%">Tenant Name</TableCell>
+        <TableCell width="1%">Address</TableCell>
         <TableCell width="1%">Status</TableCell>
         <TableCell width="1%">Action</TableCell>
       </TableRow>
 
       {repairdata.map((order) => (
           <TableRow key={order.r_id}>
-            <TableCell width="1%">{order.r_id}</TableCell>
+            <TableCell width="1%">#RQ{order.r_id}</TableCell>
 
             <TableCell width="1%">
               <Card
@@ -183,7 +185,7 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
               >
                 <CardContent>
                   <Typography variant="body2" color="text.secondary" noWrap>
-                    {order.r_type}
+                    {order.r_created_time}
                   </Typography>
                 </CardContent>
               </Card>
@@ -200,7 +202,7 @@ const RepairsTable = ({ repairdata, onAddClick, onViewDetailsClick }) => {
               >
                 <CardContent>
                   <Typography variant="body2" color="text.secondary" noWrap>
-                    {order.r_type}
+                    {order.p_address}
                   </Typography>
                 </CardContent>
               </Card>
