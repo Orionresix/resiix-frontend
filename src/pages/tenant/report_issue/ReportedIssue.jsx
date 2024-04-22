@@ -107,7 +107,7 @@ const RequestDetails = ({ userId }) => {
 
   return (
     <>
-    <Box sx={{ textAlign: 'left' }}>
+   <Box sx={{ textAlign: 'left' }}>
       <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
     </Box>
     <Box sx={{ minHeight: "80vh", position: "relative" }}>

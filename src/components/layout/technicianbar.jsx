@@ -6,6 +6,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import RepairIcon from "@mui/icons-material/Build";
 import HistoryIcon from "@mui/icons-material/History";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const BottomNavbar = styled(BottomNavigation)(({ theme }) => ({
   position: "fixed",
@@ -27,32 +28,36 @@ export default function BottomNavbarSidebar({ children }) {
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Box sx={{ flexGrow: 1, padding: "20px" }}>{children}</Box>
       <BottomNavbar value={value} onChange={handleChange}>
-        <BottomNavigationAction
-          label="Work Orders"
-          value="workorders"
-          icon={<RepairIcon />}
-          styleOverrides={{
-            root: {
-              color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
-            },
-            selected: {
-              color: 'white', // Set the color to white when selected
-            },
-          }}
-        />
-        <BottomNavigationAction
-          label="History"
-          value="history"
-          icon={<HistoryIcon />}
-          styleOverrides={{
-            root: {
-              color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
-            },
-            selected: {
-              color: 'white', // Set the color to white when selected
-            },
-          }}
-        />
+        <Link to="/resiix/startwork">
+          <BottomNavigationAction
+            label="Work Orders"
+            value="workorders"
+            icon={<RepairIcon />}
+            styleOverrides={{
+              root: {
+                color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
+              },
+              selected: {
+                color: 'white', // Set the color to white when selected
+              },
+            }}
+          />
+        </Link>
+        <Link to="/resiix/workorderhistory">
+          <BottomNavigationAction
+            label="History"
+            value="history"
+            icon={<HistoryIcon />}
+            styleOverrides={{
+              root: {
+                color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
+              },
+              selected: {
+                color: 'white', // Set the color to white when selected
+              },
+            }}
+          />
+        </Link>
       </BottomNavbar>
       
     </Box>
