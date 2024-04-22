@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Chip, Grid, Modal } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
-import DetailModal from '../completework/CompleteWork'
+import DetailModal from '../completework/CompleteWork';
+import logo from '/Users/mac/Documents/GitHub/orion/resiix-frontend/src/assets/Resiix-logo.svg'; // Import the logo file
 
 const colors = {
   NEW: "#FFC107",
@@ -65,14 +66,37 @@ const ParentComponent = () => {
   };
 
   const handleCloseModal = () => {
+    setSelectedTicket(null);
     setIsModalOpen(false);
   };
 
-
   return (
+    <>
+    
+    <Box sx={{ textAlign: 'left' }}>
+      <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
+    </Box>
+    {/* <Box sx={{ textAlign: 'left' }}>
+      <Typography variant="h4" mt={2} mb={1}>
+        Welcome technicianfirstname
+      </Typography> */}
+    
+    {/* </Box> */}
+    <Typography variant="h6" align="left" mt={2} mb={4}>Work Orders</Typography>
     <Grid display="flex" flexDirection="column" gap="1rem">
       {assignedTickets.map(ticket => (
-        <Card key={ticket.r_id} variant="outlined" onClick={() => handleCardClick(ticket.wo_id)}>
+        <Card
+          key={ticket.r_id}
+          variant="outlined"
+          onClick={() => handleCardClick(ticket.wo_id)}
+          sx={{
+            cursor: 'pointer',
+            ...(selectedTicket === ticket.wo_id && {
+              borderColor: 'primary.main',
+              boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+            }),
+          }}
+        >
           <CardContent>
             <Box display="flex" justifyContent="space-between" >
               <Typography variant="caption" gutterBottom>
@@ -127,7 +151,6 @@ const ParentComponent = () => {
                 {ticket.p_name} -- {ticket.u_name}
               </Typography>
             </Box>
-
           </CardContent>
         </Card>
       ))}
@@ -138,13 +161,8 @@ const ParentComponent = () => {
           <DetailModal selectedticketid={selectedTicket} assignedTickets={assignedTickets} onClose={handleCloseModal} />
         </Box>
       </Modal>
-
-
-
-
-
-
     </Grid>
+    </>
   );
 };
 
