@@ -55,9 +55,10 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
     setSelectedTechnician(e.target.value)
   }
 
-
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true
     const url = `${baseURL}/work_orders/create`;
     const data = {
       wo_pm_description: repair.wo_pm_description,
@@ -74,7 +75,9 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
     };
     fetch(url, options)
       .then(response => {
+        setIsLoading(false); 
         if (!response.ok) {
+          setIsLoading(false); // Reset loading state
           throw new Error('Failed to add repair request');
         }
         toast.success("Your Request has been successfully submitted.");
@@ -83,6 +86,7 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
 
       })
       .catch(error => {
+        setIsLoading(false); // Reset loading state
         console.error('Error adding repair request:', error);
       });
   };
@@ -285,9 +289,12 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
                 cancel
               </Button>
 
-              <Button type="submit" variant="contained" color="primary">
-                Assign
-              </Button>
+            
+
+              <Button type="submit" variant="contained" color="primary" disabled={isLoading}>
+  {isLoading ? 'Assigning...' : 'Assign'}
+</Button>
+
             </span>
           </Grid>
         </form>
@@ -299,8 +306,6 @@ const AddrepairForm = ({ onSubmit, onCancel, selectedrequest, repairdata }) => {
 AddrepairForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  properties: PropTypes.func.isRequired,
-  uniqueProperties: PropTypes.func.isRequired,
   repairdata: PropTypes.func.isRequired,
   selectedrequest: PropTypes.func.isRequired,
 };
