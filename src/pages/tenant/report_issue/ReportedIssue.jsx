@@ -41,7 +41,7 @@ const color = {
   new: "#FFC107",
 };
 
-const status = "NEW";
+const status = "PENDING";
 
 // eslint-disable-next-line react/prop-types
 const RequestDetails = ({ userId }) => {

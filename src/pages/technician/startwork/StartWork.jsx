@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Chip, Grid, Modal } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
 import DetailModal from '../completework/CompleteWork';
-import logo from '/Users/mac/Documents/GitHub/orion/resiix-frontend/src/assets/Resiix-logo.svg'; // Import the logo file
+import logo from '../../../assets/Resiix-logo.svg'
 
 const colors = {
   NEW: "#FFC107",
