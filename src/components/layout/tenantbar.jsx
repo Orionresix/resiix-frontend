@@ -1,80 +1,69 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import repair from "../../assets/request_icon.svg";
-import ListItemWithLink from "../ListItemWithLink";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import RepairIcon from "@mui/icons-material/Build";
+import HistoryIcon from "@mui/icons-material/History";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const BottomNavbar = styled("div")(() => ({
+const BottomNavbar = styled(BottomNavigation)(({ theme }) => ({
   position: "fixed",
   bottom: 0,
   left: 0,
   width: "100%",
-  backgroundColor: "#00B286",
+  backgroundColor: "#00B286", // Change the background color to the green you used earlier
+  borderTop: `1px solid ${theme.palette.primary.light}`,
 }));
 
-const HorizontalList = styled("div")({
-  display: "flex",
-  flexDirection: "row",
-  gap: "5px",
-});
-
 export default function BottomNavbarSidebar({ children }) {
-  return (
+  const [value, setValue] = React.useState("workorders");
 
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <main style={{ flexGrow: 1, padding: "20px" }}>{children}</main>
-        <BottomNavbar>
-          <Drawer
-            open={true}
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "5px",
-              width: "100%",
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: "100%",
-                boxSizing: "border-box",
-                backgroundColor: "#00b286", // Transparent background for bottom navbar
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Box sx={{ flexGrow: 1 }}>{children}</Box>
+      <BottomNavbar value={value} onChange={handleChange}>
+        <Link to="/resiix/reported">
+          <BottomNavigationAction
+            label="Work Orders"
+            value="workorders"
+            icon={<RepairIcon />}
+            styleOverrides={{
+              root: {
+                color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
+              },
+              selected: {
+                color: 'white', // Set the color to white when selected
               },
             }}
-            variant="persistent"
-            anchor="bottom"
-          >
-            <HorizontalList>
-
-<ListItemWithLink
-                label="Active Requests"
-                icon={<img src={repair} alt="Custom Icon" />}
-                to="/resiix/reported"
-                sx={{ width: "70px" }}
-              />
-
-<ListItemWithLink
-                label="Active Requests"
-                icon={<img src={repair} alt="Custom Icon" />}
-                to="/resiix/reported"
-                sx={{ width: "70px" }}
-              />
-              <ListItemWithLink
-                label="History"
-                icon={<DashboardIcon />}
-                to="/resiix/reportedhistory"
-                sx={{ width: "70px" }}
-              />
-            </HorizontalList>
-          </Drawer>
-        </BottomNavbar>
-      </Box>
-
+          />
+        </Link>
+        <Link to="/resiix/reportedhistory">
+          <BottomNavigationAction
+            label="History"
+            value="history"
+            icon={<HistoryIcon />}
+            styleOverrides={{
+              root: {
+                color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
+              },
+              selected: {
+                color: 'white', // Set the color to white when selected
+              },
+            }}
+          />
+        </Link>
+      </BottomNavbar>
+      
+    </Box>
   );
 }
 
 BottomNavbarSidebar.propTypes = {
-  children: PropTypes.node.isRequired, // Add PropTypes validation
+  children: PropTypes.node.isRequired,
 };

@@ -61,8 +61,8 @@ const RequestDetails = ({ userId }) => {
     <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
         
-        <Typography variant="h1" gutterBottom>
-            Completed requests
+        <Typography variant="h6" p="20px">
+             Completed requests
           </Typography>
 
 {completedRequests.map(request => (
@@ -70,7 +70,7 @@ const RequestDetails = ({ userId }) => {
         <Paper color="red">
 
 
-            <Card sx={{ height: "80vh", display: "flex", flexDirection: "column", border: "1px solid #ccc" }}>
+            <Card sx={{ display: "flex", flexDirection: "column", }}>
               <CardContent>
                 <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px", flexGrow: "1" }}>
                   <Box sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
