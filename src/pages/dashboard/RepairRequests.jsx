@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unescaped-entities */
 import { React, useState, useEffect } from 'react'
@@ -70,7 +71,8 @@ const RepairRequests = () => {
   const [uniquepriorities, setUniquepriority] = useState([]);
   const [uniquestatuses, setUniquestatus] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [showAddworkorderForm, setShowAddworkorderForm] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState([])
   const [filterType, setFilterType] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const onhandlefilterClick = (selectedFilter, value)=>{
@@ -96,7 +98,7 @@ useEffect(() => {
       console.error('Error fetching data:', error);
       setLoading(false); // Set loading to false if an error occurs
     });
-}, [filterType ,filterValue]);
+}, [filterType ,filterValue, showAddworkorderForm]);
   
   useEffect(() => {
     // Fetch data from backend API
@@ -224,15 +226,14 @@ useEffect(() => {
     setShowAddworkorderForm(false);
   }
  
-  const [showAddworkorderForm, setShowAddworkorderForm] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState([])
+
   // const [selectedrequest, setSelectedRequest] = useState([])
   const handleAddWorkorderClick = (rowIndex) => {
     setShowAddworkorderForm(true);
     setSelectedTicket(rowIndex)
   };
   const handleWorkorderSubmit =  () =>{
-    setShowAddrepairForm(false); 
+    setShowAddworkorderForm(false); 
   }
 
   

@@ -3,7 +3,12 @@ import React, { useState, useEffect } from "react";
 import "./ReportIssue.css";
 import { toast, Toaster } from "react-hot-toast";
 
-import { TextField, Grid, MenuItem, Button, Dialog, Paper, Typography } from "@mui/material";
+import {
+  TextField,
+  Box,
+  MenuItem,
+  Button,
+} from "@mui/material";
 // import TenantContext from '../tenantContext.js'
 
 const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
@@ -14,9 +19,11 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
   const [description, setDescription] = useState("");
   const [mantainanceType, setMantainanceType] = useState("Electrical");
   const [image, setImage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlereportIssue = (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true
     const url = `${baseURL}/repairs/create`;
     const data = {
       u_id: unitId,
@@ -35,13 +42,15 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
     };
     fetch(url, options)
       .then((response) => {
+        setIsLoading(true); // Set loading state to true
         if (!response.ok) {
           throw new Error("Failed to add repair request");
         }
         onSubmit();
-        toast.success("Your Request has been successfully submitted.");
+        toast.success("Your Request has been delivered successfully.");
       })
       .catch((error) => {
+        setIsLoading(true); // Set loading state to true
         console.error("Error adding repair request:", error);
       });
   };
@@ -60,40 +69,27 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
   }, []);
 
   return (
-    <Dialog open={true} onClose={onCancel}>
-    <Paper className={'classes.paper'} sx={{ pt: 4, }}>
+    <>
+      {unitId && (
+        <form onSubmit={handlereportIssue} className="complete-form">
+          <TextField
+            required
+            fullWidth
+            label="Preferred contact"
+            name="r_phone"
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
+          />
 
-    <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
-          Pending Requests
-        </Typography>
-    <form  onSubmit={handlereportIssue}>
+          <TextField
+            required
+            fullWidth
+            label="Description"
+            name="r_description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
 
-
-    <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Preferred contact"
-                name="r_phone"
-                value={contactNumber}
-                onChange={(e) => setContactNumber(e.target.value)}
-              />
-            </Grid>
-
-        <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                label="Description"
-                name="r_description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Grid>
-
-    
-
-        <Grid item xs={12} sm={6}>
           <TextField
             select
             required
@@ -109,55 +105,52 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
               </MenuItem>
             ))}
           </TextField>
-        </Grid>
 
-        <div className="form-group">
-          <label htmlFor="image">Image</label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="image">Image</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required
+            />
+          </div>
 
-        <Grid item xs={12} sm={6} sx={{ p: 4 }} spacing={4}>
-          <span>
+          <Box display="flex" gap="1rem" justifyContent="end">
             <Button
-              variant="contained"
-              color="secondary"
               onClick={onCancel}
-              sx={{ mr: 2 }}
+              variant="contained"
+              color="primary"
+              style={{ width: "40%" }}
             >
-              cancel
+              Cancel
             </Button>
 
-            <Button type="submit" variant="contained" color="primary">
-              Submit
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ width: "40%" }}
+              disabled={isLoading}
+            >
+               {isLoading ? 'Sending...' : 'Submit'}
+              
             </Button>
-          </span>
-        </Grid>
+          </Box>
 
-        <Toaster
-          toastOptions={{
-            style: {
-              background: "green",
-              color: "#fff",
-            },
-          }}
-        />
-      </form>
-      </Paper></Dialog>
-
-
-
-  
-
-
-
-
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "green",
+                color: "#fff",
+              },
+            }}
+          />
+        </form>
+      )}
+    </>
   );
 };
 

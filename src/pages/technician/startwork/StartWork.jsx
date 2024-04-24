@@ -45,7 +45,7 @@ const ParentComponent = () => {
     };
 
     fetchAssignedTickets();
-  }, []);
+  }, [isModalOpen]);
 
   const style = {
     position: 'absolute',
@@ -86,7 +86,7 @@ const ParentComponent = () => {
     <Grid display="flex" flexDirection="column" gap="1rem">
       {assignedTickets.map(ticket => (
         <Card
-          key={ticket.r_id}
+          key={ticket.wo_id}
           variant="outlined"
           onClick={() => handleCardClick(ticket.wo_id)}
           sx={{

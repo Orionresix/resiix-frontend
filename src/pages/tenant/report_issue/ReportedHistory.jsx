@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Typography, Card, CardContent, Paper, CardMedia, Chip } from '@mui/material';
+import { Box, Grid, Typography, Card, CardContent, Paper, CardMedia, Chip, Modal } from '@mui/material';
 import nyumba from '../../../assets/nyumbaicon.svg';
+import RatingModal from '../rating/Rating';
 // import TicketComponent from '../../../components/Ticket';
 
 const typecolors = {
@@ -26,11 +28,25 @@ const colors = {
 const color = {
   new: "#FFC107",
 };
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 350,
+  bgcolor: 'background.paper',
+  border: '2px solid white',
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+}
 
 // eslint-disable-next-line react/prop-types
 const RequestDetails = ({ userId }) => {
   const baseURL = process.env.REACT_APP_BASE_URL
   const [completedRequests, setCompletedRequests] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
   if (!userId) {
     userId = 1
   }
@@ -53,17 +69,22 @@ const RequestDetails = ({ userId }) => {
     fetchCompletedRequests();
   }, [userId]);
 
-  // const handleTicketClick = (idx) => {
-  //   onViewDetailsClick(idx);
-  // };
+  const handleCardClick = (ticket) => {
+    setSelectedTicket(ticket);
+    setIsModalOpen(true);
+  };
 
+  const handleCloseModal = () => {
+    setSelectedTicket(null);
+    setIsModalOpen(false);
+  };
   return (
     <Box sx={{ minHeight: "80vh" }}>
       <Grid container spacing={3}>
         
 
           <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
-          Completed requests
+          Requests History
         </Typography>
 
 {completedRequests.map(request => (
@@ -71,7 +92,11 @@ const RequestDetails = ({ userId }) => {
         <Paper color="red">
 
 
-            <Card sx={{ height: "Auto", display: "flex",  flexDirection: "column", border: "1px solid #ccc" }}>
+            <Card
+             key={request.wo_id}
+             variant="outlined"
+             onClick={() => handleCardClick(request.wo_id)}
+             sx={{ height: "Auto", display: "flex",  flexDirection: "column", border: "1px solid #ccc" }}>
               <CardContent>
                 <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px", flexGrow: "1" }}>
                   <Box sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
@@ -129,6 +154,13 @@ const RequestDetails = ({ userId }) => {
         </Paper>
       </Grid>
 ))}
+
+<Modal open={isModalOpen} onClose={handleCloseModal}>
+        <Box sx={style}>
+          <Typography variant="h6" mb={5}>{selectedTicket}</Typography>
+          <RatingModal selectedticketid={selectedTicket} completedRequests={completedRequests} onClose={handleCloseModal} />
+        </Box>
+      </Modal>
 
 
 

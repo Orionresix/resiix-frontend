@@ -8,7 +8,7 @@ import {
   Card,
   CardContent,
   Paper,
-  // CardMedia,
+  Modal,
   Chip,
   // IconButton,
 } from "@mui/material";
@@ -105,6 +105,19 @@ const RequestDetails = ({ userId }) => {
     setShowAddrequestForm(false);
   };
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 350,
+    bgcolor: 'background.paper',
+    border: '2px solid white',
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  }
+
   return (
     <>
    <Box sx={{ textAlign: 'left' }}>
@@ -150,6 +163,18 @@ const RequestDetails = ({ userId }) => {
             unitId={userId}
           />
         )}
+
+<Modal open={showAddrequestForm} onClose={handleCancel}>
+        <Box sx={style}>
+          <Typography variant="h6" mb={5}>Add New Request </Typography>
+          <AddRequest
+            onSubmit={handleSubmit}
+            onClose={handleCancel}
+            unitId={userId}
+          />
+        </Box>
+      </Modal>
+
 
         <Grid item xs={12}>
           <Paper color="red">
