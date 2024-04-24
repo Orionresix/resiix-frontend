@@ -12,6 +12,7 @@ import { Fab } from "@mui/material";
 import { PlaceOutlined } from "@mui/icons-material";
 import logo from "../../../assets/Resiix-logo.svg";
 import AddRequest from "./ReportIssue";
+import Divider from '@mui/material/Divider';
 
 const typecolors = {
   Electric: "green",
@@ -99,61 +100,63 @@ const RequestDetails = ({ userId }) => {
       <Box sx={{ textAlign: 'left' }}>
         <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} />
       </Box>
+      <Divider sx={{ width: '100%' }} />
       <Box sx={{ minHeight: "80vh", position: "relative" }}>
 
-          <Grid item xs={12}>
-            <Typography>
-              {!loading && unitDetails && (
-                <>Welcome : {unitDetails.tenant_name}</>
-              )}
+        <Grid item xs={12}>
+          <Typography variant="h5" align="left" mt={2} mb={4}>
+            {!loading && unitDetails && (
+              <>Welcome : {unitDetails.tenant_name}</>
+            )}
+          </Typography>
+
+          <span>
+            <Fab
+              color="#00B286" // Change the color prop to "success" for green color
+              aria-label="add"
+              onClick={handleAddRequestClick}
+              sx={{
+                position: "fixed",
+                bottom: 58,
+                right: 24,
+                width: 72,
+                height: 72,
+                borderRadius: "50%",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+              }}
+            >
+
+              <AddIcon sx={{ fontSize: 32 }} />
+            </Fab>
+
+            <Typography variant="h6" align="left" mt={2} mb={4}>
+              Pending Requests
             </Typography>
+          </span>
+        </Grid>
 
-            <span>
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={handleAddRequestClick}
-                sx={{
-                  position: "fixed",
-                  bottom: 58,
-                  right: 24,
-                  width: 72,
-                  height: 72,
-                  borderRadius: "50%",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-                }}
-              >
-                <AddIcon sx={{ fontSize: 32 }} />
-              </Fab>
+        {showAddrequestForm && (
+          <AddRequest
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            unitId={userId}
+          />
+        )}
 
-              <Typography variant="h6" align="left" mt={2} mb={4}>
-                Pending Requests
-              </Typography>
-            </span>
-          </Grid>
-
-          {showAddrequestForm && (
-            <AddRequest
-              onSubmit={handleSubmit}
-              onCancel={handleCancel}
-              unitId={userId}
-            />
-          )}
-
-          <Grid display="flex" flexDirection="column" gap="1rem">
-            {pendingRequests.map((request) => (
-              <Card
-                // variant="outlined"
-                sx={{
-                  height: "auto",
-                  // display: "flex",
-                  // flexDirection: "column",
-                  borderColor: 'primary.main',
-                  border: '1px solid #e0e0e0',
-                }}
-                key={request.r_id}
-              >
-                {/* <CardContent>
+        <Grid display="flex" flexDirection="column" gap="1rem">
+          {pendingRequests.map((request) => (
+            <Card
+              // variant="outlined"
+              sx={{
+                height: "auto",
+                // display: "flex",
+                // flexDirection: "column",
+                borderColor: 'primary.main',
+                border: '1px solid #e0e0e0',
+              }}
+              key={request.r_id}
+            >
+              {/* <CardContent>
                   <Box
                     sx={{
                       display: "flex",
@@ -199,8 +202,8 @@ const RequestDetails = ({ userId }) => {
                   />
                 </CardContent> */}
 
-<CardContent>
-                <Box display="flex"  justifyContent="space-between" >
+              <CardContent>
+                <Box display="flex" justifyContent="space-between" >
                   <Typography variant="caption" gutterBottom>
                     WO-TKT:{request.r_id}
                   </Typography>
@@ -256,9 +259,9 @@ const RequestDetails = ({ userId }) => {
               </CardContent>
 
 
-              </Card>
-            ))}
-          </Grid>
+            </Card>
+          ))}
+        </Grid>
       </Box>
     </>
   );

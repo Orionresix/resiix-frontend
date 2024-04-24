@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box, Chip, Grid, Modal } from "@mui/mate
 import { PlaceOutlined } from "@mui/icons-material";
 import DetailModal from '../completework/CompleteWork';
 import logo from '../../../assets/Resiix-logo.svg'
-// import Divider from '@mui/material/Divider';
+import Divider from '@mui/material/Divider';
 
 const colors = {
   NEW: "#FFC107",
@@ -75,10 +75,8 @@ const StartWork = () => {
         <Box sx={{ textAlign: 'left' }} >
           <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} />
         </Box>
-        {/* <Divider sx={{ width: '100%' }} />
-        <Typography variant="h5" mt={2} mb={1}>
-          Welcome technicianfirstname
-        </Typography> */}
+     <Divider sx={{ width: '100%' }} />
+         <Typography variant="h5" align="left" mt={2} mb={4}>Welcome Wachira</Typography>
         <Typography variant="h6" align="left" mt={2} mb={4}>Work Orders</Typography>
         <Grid display="flex" flexDirection="column" gap="1rem">
           {assignedTickets.map(ticket => (

@@ -55,7 +55,8 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
 
   return (
     <Dialog open={true} onClose={onCancel}>
-      <Paper className="complete-issue" sx={{ pt: 4, padding: 4, gap: 2 }}>
+      <Paper className="complete-issue" sx={{ pt: 4, padding: 4, gap: 2, display: "flex", flexDirection: "column" }}>
+
         <Typography variant="h6" gutterBottom>
           Pending Requests
         </Typography>
