@@ -1,72 +1,54 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-undef */
+import React, { useState } from 'react';
 import './Rating.css';
-import logo from '../../../assets/logo.svg';
 import { toast, Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import { Rating as RatingComponent } from 'react-simple-star-rating';
-import icon from '../../../assets/icon.png';
-import { Card, CardContent, Typography, Button, TextareaAutosize, Avatar, Grid } from '@mui/material';
+import { Card, CardContent, Typography, Button, TextareaAutosize, Grid, Box } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
-const Rating = ({ ticketId }) => {
-  const navigate = useNavigate();
+const Rating = ({ completedRequests, selectedticketid, onClose }) => {
+  console.log(completedRequests)
+  const baseURL = process.env.REACT_APP_BASE_URL
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState('');
-  const [ticketDetails, setTicketDetails] = useState({ name: '', type: '', submittedAt: '', assignedTechnician: '' });
 
-  useEffect(() => {
-    const fetchTicketDetails = async () => {
-      try {
-        // Fetch ticket details from the API
-        const response = await fetch(`API_ENDPOINT/tickets/${ticketId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch ticket details');
-        }
-        const data = await response.json();
-        setTicketDetails({
-          name: data.name,
-          type: data.type,
-          submittedAt: data.submittedAt,
-          assignedTechnician: data.assignedTechnician,
-        });
-      } catch (error) {
-        console.error('Error fetching ticket details:', error);
-        toast.error('Failed to fetch ticket details. Please try again later.');
-      }
-    };
+  const [isLoading, setIsLoading] = useState(false);
 
-    fetchTicketDetails();
-  }, [ticketId]);
-
-  const submitRating = async (e) => {
+  const submitRating = (e) => {
     e.preventDefault();
-    try {
-      // Submit the rating to the API
-      const response = await fetch('API_ENDPOINT/submit-rating', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ticketId: ticketId,
-          rating: rating,
-          message: message,
-        }),
+    setIsLoading(true); // Set loading state to true
+    const url = `${baseURL}/work_orders/close`;
+    const data = {
+      ticketId: selectedticketid,
+      rating: rating,
+      message: message,
+    };
+    const options = {
+      method: "POST", // Specify the HTTP method
+      headers: {
+        "Content-Type": "application/json", // Specify the content type of the request body
+      },
+      body: JSON.stringify(data), // Convert data to JSON string for the request body
+    };
+    fetch(url, options)
+      .then((response) => {
+        setIsLoading(false); 
+        if (!response.ok) {
+          throw new Error("Failed to add rating ");
+        }
+        toast.success("'Thank you for your feedback.'");
+        onClose(data.wo_id);
+      })
+      .catch((error) => {
+        setIsLoading(false); 
+        console.error("Error while rating:", error);
       });
-      if (!response.ok) {
-        throw new Error('Failed to submit rating');
-      }
-      const notify = () => toast.success('Thank you for your feedback.');
-      setRating(0);
-      setMessage('');
-      notify();
-      setTimeout(() => {
-        navigate('/resiix/feedback');
-      }, 3000);
-    } catch (error) {
-      console.error('Error submitting rating:', error);
-      toast.error('Failed to submit rating. Please try again later.');
-    }
+  };
+
+
+
+  const handleClose = (rowIndex) => {
+    onClose(rowIndex);
   };
 
   return (
@@ -76,31 +58,18 @@ const Rating = ({ ticketId }) => {
           <CardContent>
             <form className="rating-form" onSubmit={(e) => submitRating(e)}>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12}>
-                  <Typography variant="h5" component="h2" align="center">
-                    <Avatar alt="logo" src={logo} />
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h6" align="center">
-                    <Avatar alt="icon" src={icon} />
-                    {ticketDetails.name}
-                  </Typography>
-                  <Typography align="center">{ticketDetails.submittedAt}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h6" align="center">
-                    {ticketDetails.type}
-                  </Typography>
-                  {/* Fetch the name of the assigned technician from the API */}
-                  <Typography align="center">{ticketDetails.assignedTechnician}</Typography>
-                </Grid>
+              
+               
+             
+
+
                 <Grid item xs={12}>
                   <Typography variant="h6" align="center">
                     How was the service?
                   </Typography>
                   <RatingComponent required onClick={(rate) => setRating(rate)} ratingValue={rating} />
                 </Grid>
+
                 <Grid item xs={12}>
                   <Typography align="center">Want to share your experience?</Typography>
                   <div className="form-group">
@@ -114,13 +83,40 @@ const Rating = ({ ticketId }) => {
                     />
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <div className="form-group" style={{ textAlign: 'center' }}>
-                    <Button type="submit" variant="contained" color="primary">
-                      Submit
-                    </Button>
-                  </div>
-                </Grid>
+
+            
+
+                <Box display="flex" gap="1rem" justifyContent="end">
+              
+              <Button
+                onClick={() => handleClose(selectedticketid)}
+                variant="contained"
+                color="primary"
+                style={{ width: "40%" }}
+              >
+                Back
+              </Button>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ width: "40%" }}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Sending...' : 'Submit'}
+                
+              </Button>
+
+
+
+            </Box>
+
+
+
+
+
+
               </Grid>
             </form>
           </CardContent>
