@@ -5,6 +5,9 @@ import {
   Typography,
   Card,
   CardContent,
+
+  Paper,
+  Modal,
   Chip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -95,6 +98,19 @@ const RequestDetails = ({ userId }) => {
     setShowAddrequestForm(false);
   };
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 350,
+    bgcolor: 'background.paper',
+    border: '2px solid white',
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+  }
+
   return (
     <>
       <Box sx={{ textAlign: 'left' }}>
@@ -143,6 +159,7 @@ const RequestDetails = ({ userId }) => {
           />
         )}
 
+
         <Grid display="flex" flexDirection="column" gap="1rem">
           {pendingRequests.map((request) => (
             <Card
@@ -156,7 +173,34 @@ const RequestDetails = ({ userId }) => {
               }}
               key={request.r_id}
             >
-              {/* <CardContent>
+              <CardContent>
+
+<Modal open={showAddrequestForm} onClose={handleCancel}>
+        <Box sx={style}>
+          <Typography variant="h6" mb={5}>Add New Request </Typography>
+          <AddRequest
+            onSubmit={handleSubmit}
+            onClose={handleCancel}
+            unitId={userId}
+          />
+        </Box>
+      </Modal>
+
+
+        <Grid item xs={12}>
+          <Paper color="red">
+            {pendingRequests.map((request) => (
+              <Card
+                sx={{
+                  height: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  border: "1px solid #ccc",
+                }}
+                key={request.r_id}
+              >
+                <CardContent>
+
                   <Box
                     sx={{
                       display: "flex",
@@ -200,7 +244,7 @@ const RequestDetails = ({ userId }) => {
                     }}
                     size="small"
                   />
-                </CardContent> */}
+                </CardContent> 
 
               <CardContent>
                 <Box display="flex" justifyContent="space-between" >

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./CompleteWork.css";
@@ -25,9 +26,10 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
       [name]: value,
     }));
   };
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true
     const url = `${baseURL}/work_orders/close`;
     const data = {
       wo_technician_remarks: repair.wo_technician_remarks,
@@ -46,6 +48,7 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
     };
     fetch(url, options)
       .then((response) => {
+        setIsLoading(false); 
         if (!response.ok) {
           throw new Error("Failed to add repair request");
         }
@@ -54,6 +57,7 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
         console.log("Your Work order has been successfully submitted");
       })
       .catch((error) => {
+        setIsLoading(false); 
         console.error("Error adding repair request:", error);
       });
   };
@@ -124,9 +128,13 @@ const CompleteWork = ({ assignedTickets, selectedticketid, onClose }) => {
                 variant="contained"
                 color="primary"
                 style={{ width: "40%" }}
+                disabled={isLoading}
               >
-                Submit
+                {isLoading ? 'Sending...' : 'Submit'}
+                
               </Button>
+
+
 
             </Box>
           </form>
