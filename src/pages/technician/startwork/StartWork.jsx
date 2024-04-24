@@ -45,7 +45,7 @@ const ParentComponent = () => {
     };
 
     fetchAssignedTickets();
-  }, []);
+  }, [isModalOpen]);
 
   const style = {
     position: 'absolute',
