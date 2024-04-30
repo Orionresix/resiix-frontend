@@ -83,20 +83,30 @@ const RequestDetails = ({ userId }) => {
       <Grid container spacing={3}>
         
 
-          <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
+        <Typography variant="h6" p="20px">
+             Completed requests
+          </Typography>
+
+
+          <Typography variant="h6" p="20px" gutterBottom sx={{ ml: 4 }}>
           Requests History
         </Typography>
+
 
 {completedRequests.map(request => (
         <Grid item xs={12}>
         <Paper color="red">
 
 
+
+            <Card sx={{ display: "flex", flexDirection: "column", }}>
+
             <Card
              key={request.wo_id}
              variant="outlined"
              onClick={() => handleCardClick(request.wo_id)}
              sx={{ height: "Auto", display: "flex",  flexDirection: "column", border: "1px solid #ccc" }}>
+
               <CardContent>
                 <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px", flexGrow: "1" }}>
                   <Box sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>

@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -7,17 +5,17 @@ import {
   Typography,
   Card,
   CardContent,
+
   Paper,
   Modal,
   Chip,
-  // IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-// import nyumba from "../../../assets/nyumbaicon.svg";
-import AddRequest from "./ReportIssue";
 import { Fab } from "@mui/material";
+import { PlaceOutlined } from "@mui/icons-material";
 import logo from "../../../assets/Resiix-logo.svg";
-
+import AddRequest from "./ReportIssue";
+import Divider from '@mui/material/Divider';
 
 const typecolors = {
   Electric: "green",
@@ -37,12 +35,11 @@ const colors = {
   CANCELLED: "red",
 };
 
-const color = {
-  new: "#FFC107",
-};
+// const color = {
+//   new: "#FFC107",
+// };
 
 const status = "PENDING";
-
 // eslint-disable-next-line react/prop-types
 const RequestDetails = ({ userId }) => {
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -53,10 +50,8 @@ const RequestDetails = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [unitDetails, setUnitDetails] = useState(null);
   useEffect(() => {
-    // Fetch data from backend API
     fetch(`${baseURL}/tenantinfo?u_id=${userId}`)
       .then((response) => {
-        // Check if the response is successful
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -64,21 +59,18 @@ const RequestDetails = ({ userId }) => {
       })
       .then((data) => {
         setUnitDetails(data);
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setLoading(false); // Set loading to false if an error occurs
+        setLoading(false);
       });
   }, [userId]);
-
-  console.log(unitDetails);
 
   const [showAddrequestForm, setShowAddrequestForm] = useState(false);
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        // Fetch repair requests submitted by the logged-in tenant and are pending
         const response = await fetch(
           `${baseURL}/repairs?r_u_id=${userId}&r_status=${status}`
         );
@@ -86,6 +78,7 @@ const RequestDetails = ({ userId }) => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
+        console.log(data)
         setPendingRequests(data);
       } catch (error) {
         console.error("Error fetching pending requests:", error);
@@ -120,13 +113,14 @@ const RequestDetails = ({ userId }) => {
 
   return (
     <>
-   <Box sx={{ textAlign: 'left' }}>
-      <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
-    </Box>
-    <Box sx={{ minHeight: "80vh", position: "relative" }}>
-      <Grid container spacing={3}>
+      <Box sx={{ textAlign: 'left' }}>
+        <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} />
+      </Box>
+      <Divider sx={{ width: '100%' }} />
+      <Box sx={{ minHeight: "80vh", position: "relative" }}>
+
         <Grid item xs={12}>
-          <Typography>
+          <Typography variant="h5" align="left" mt={2} mb={4}>
             {!loading && unitDetails && (
               <>Welcome : {unitDetails.tenant_name}</>
             )}
@@ -134,23 +128,24 @@ const RequestDetails = ({ userId }) => {
 
           <span>
             <Fab
-              color="primary"
+              color="#00B286" // Change the color prop to "success" for green color
               aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
                 position: "fixed",
-                bottom: 24,
+                bottom: 58,
                 right: 24,
-                width: 92, // Increase width to make it larger
-                height: 92, // Increase height to make it larger
-                borderRadius: "50%", // Make it circular
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)", // Add shadow for depth
+                width: 72,
+                height: 72,
+                borderRadius: "50%",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
               }}
             >
-              <AddIcon sx={{ fontSize: 32 }} /> {/* Adjust icon size */}
+
+              <AddIcon sx={{ fontSize: 32 }} />
             </Fab>
 
-            <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
+            <Typography variant="h6" align="left" mt={2} mb={4}>
               Pending Requests
             </Typography>
           </span>
@@ -163,6 +158,22 @@ const RequestDetails = ({ userId }) => {
             unitId={userId}
           />
         )}
+
+
+        <Grid display="flex" flexDirection="column" gap="1rem">
+          {pendingRequests.map((request) => (
+            <Card
+              // variant="outlined"
+              sx={{
+                height: "auto",
+                // display: "flex",
+                // flexDirection: "column",
+                borderColor: 'primary.main',
+                border: '1px solid #e0e0e0',
+              }}
+              key={request.r_id}
+            >
+              <CardContent>
 
 <Modal open={showAddrequestForm} onClose={handleCancel}>
         <Box sx={style}>
@@ -189,6 +200,7 @@ const RequestDetails = ({ userId }) => {
                 key={request.r_id}
               >
                 <CardContent>
+
                   <Box
                     sx={{
                       display: "flex",
@@ -197,26 +209,6 @@ const RequestDetails = ({ userId }) => {
                       flexGrow: "1",
                     }}
                   >
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        image={nyumba}
-                        alt={request.p_name}
-                        height="60"
-                        width="60"
-                        sx={{ objectFit: "cover", marginRight: "8px" }}
-                        style={{ objectFit: "contain" }}
-                      />
-                      <Typography variant="h8" color="text.secondary">
-                        {request.p_name} {request.u_name}
-                      </Typography>
-                    </Box> */}
                     <Box sx={{ flexGrow: 1 }} />
                     <Chip
                       label={request.r_status}
@@ -246,20 +238,75 @@ const RequestDetails = ({ userId }) => {
                   <Chip
                     label={request.r_type}
                     sx={{
-                      // eslint-disable-next-line react/prop-types
                       backgroundColor: typecolors[request.r_type],
                       color: "#fff",
                       fontSize: 10,
                     }}
                     size="small"
                   />
-                </CardContent>
-              </Card>
-            ))}
-          </Paper>
+                </CardContent> 
+
+              <CardContent>
+                <Box display="flex" justifyContent="space-between" >
+                  <Typography variant="caption" gutterBottom>
+                    WO-TKT:{request.r_id}
+                  </Typography>
+                  <Box mb={1}>
+                    <Chip
+                      label={request.r_status}
+                      sx={{
+                        backgroundColor: colors[request.r_status],
+                        color: "#fff",
+                        fontSize: 10,
+                      }}
+                      size="small"
+                    />
+                  </Box>
+                </Box>
+                <Box display="flex" justifyContent="space-between" flexDirection="column">
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: "bold",
+                      margin: "8px 0 12px 0",
+                      lineHeight: "1.2",
+                      maxHeight: "1.2em",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 1,
+                      WebkitBoxOrient: "vertical",
+                      height: "60px",
+                    }}
+                  >
+                    {request.r_description}
+                  </Typography>
+                  <Box>
+                    <Chip
+                      label={request.r_type}
+                      sx={{
+                        backgroundColor: typecolors[request.r_type],
+                        color: "#fff",
+                        fontSize: 10,
+                        marginBottom: "8px",
+                      }}
+                      size="small"
+                    />
+                  </Box>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <PlaceOutlined />
+                  <Typography variant="caption">
+                    {request.p_name} -- {request.u_name}
+                  </Typography>
+                </Box>
+              </CardContent>
+
+
+            </Card>
+          ))}
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
     </>
   );
 };
