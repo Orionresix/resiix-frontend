@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import HomeIcon from "@mui/icons-material/Home";
 import RepairIcon from "@mui/icons-material/Build";
 import HistoryIcon from "@mui/icons-material/History";
 import PropTypes from "prop-types";
@@ -35,6 +36,14 @@ export default function BottomNavbarSidebar({ children }) {
       icon={<RepairIcon />}
     />
   </Link>
+  <Link to="/resiix/startwork">
+    <BottomNavigationAction
+      label="Work Orders"
+      value="workorders"
+      icon={<HomeIcon />}
+    />
+  </Link>
+
   <Link to="/resiix/workorderhistory">
     <BottomNavigationAction
       label="History"

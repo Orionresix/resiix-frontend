@@ -76,6 +76,7 @@ const StartWork = () => {
     <Box sx={{ textAlign: 'left' }}>
       <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
     </Box>
+    
     {/* <Box sx={{ textAlign: 'left' }}>
       <Typography variant="h4" mt={2} mb={1}>
         Welcome technicianfirstname
@@ -161,7 +162,10 @@ const StartWork = () => {
           <DetailModal selectedticketid={selectedTicket} assignedTickets={assignedTickets} onClose={handleCloseModal} />
 
         </Box>
+        </Modal>
+
      <Divider sx={{ width: '100%' }} />
+
          <Typography variant="h5" align="left" mt={2} mb={4}>Welcome Wachira</Typography>
         <Typography variant="h6" align="left" mt={2} mb={4}>Work Orders</Typography>
         <Grid display="flex" flexDirection="column" gap="1rem">
@@ -242,7 +246,7 @@ const StartWork = () => {
             </Box>
           </Modal>
         </Grid>
-      </Box>
+     </Grid>
     </>
   );
 };

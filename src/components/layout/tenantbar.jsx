@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import HomeIcon from "@mui/icons-material/Home";
 import RepairIcon from "@mui/icons-material/Build";
 import HistoryIcon from "@mui/icons-material/History";
 import PropTypes from "prop-types";
@@ -43,6 +44,26 @@ export default function BottomNavbarSidebar({ children }) {
             }}
           />
         </Link>
+
+
+        <Link to="/resiix/reported">
+          <BottomNavigationAction
+            label="Work Orders"
+            value="workorders"
+            icon={<HomeIcon />}
+            styleOverrides={{
+              root: {
+                color: value === 'workorders' ? 'white' : 'inherit', // Set the color to white when selected
+              },
+              selected: {
+                color: 'white', // Set the color to white when selected
+              },
+            }}
+          />
+        </Link>
+
+
+
         <Link to="/resiix/reportedhistory">
           <BottomNavigationAction
             label="History"

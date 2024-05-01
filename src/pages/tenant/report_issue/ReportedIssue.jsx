@@ -5,17 +5,15 @@ import {
   Typography,
   Card,
   CardContent,
-
-  Paper,
   Modal,
   Chip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
-import { PlaceOutlined } from "@mui/icons-material";
+// import { PlaceOutlined } from "@mui/icons-material";
 import logo from "../../../assets/Resiix-logo.svg";
 import AddRequest from "./ReportIssue";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 
 const typecolors = {
   Electric: "green",
@@ -78,7 +76,7 @@ const RequestDetails = ({ userId }) => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setPendingRequests(data);
       } catch (error) {
         console.error("Error fetching pending requests:", error);
@@ -99,36 +97,54 @@ const RequestDetails = ({ userId }) => {
   };
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 350,
-    bgcolor: 'background.paper',
-    border: '2px solid white',
+    bgcolor: "background.paper",
+    border: "2px solid white",
     borderRadius: 2,
     boxShadow: 24,
     p: 4,
-  }
+  };
 
   return (
     <>
-      <Box sx={{ textAlign: 'left' }}>
-        <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} />
-      </Box>
-      <Divider sx={{ width: '100%' }} />
-      <Box sx={{ minHeight: "80vh", position: "relative" }}>
+      <Box sx={{ textAlign: "left" }} display="flex" justifyContent="space-between" >
+        <img
+          src={logo}
+          alt="Resiix Logo"
+          style={{ height: "auto", width: "25%", maxWidth: "300px" }}
+        />
+        
 
-        <Grid item xs={12}>
-          <Typography variant="h5" align="left" mt={2} mb={4}>
+{/* <Box display="flex" alignItems="center">
+                  <PlaceOutlined />
+                  <Typography variant="caption">
+                    {unitDetails.p_name} -- {unitDetails.u_name}
+                  </Typography>
+                </Box> */}
+
+<Typography variant="body1" align="left" mt={2} mb={4}>
             {!loading && unitDetails && (
               <>Welcome : {unitDetails.tenant_name}</>
             )}
           </Typography>
 
-          <span>
+
+      </Box>
+      <Divider sx={{ width: "100%" }} />
+      <Box sx={{ minHeight: "80vh", position: "relative" }}>
+        <Grid item xs={12}>
+        
+
+          <Typography variant="h6" align="left" mt={2} mb={4}>
+              Pending Requests
+            </Typography>
+
             <Fab
-              color="#00B286" // Change the color prop to "success" for green color
+              backgroundColor= "#00B286"
               aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
@@ -141,116 +157,63 @@ const RequestDetails = ({ userId }) => {
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
               }}
             >
-
               <AddIcon sx={{ fontSize: 32 }} />
             </Fab>
 
-            <Typography variant="h6" align="left" mt={2} mb={4}>
-              Pending Requests
-            </Typography>
-          </span>
         </Grid>
 
-        {showAddrequestForm && (
+        {/* {showAddrequestForm && (
           <AddRequest
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             unitId={userId}
           />
-        )}
+        )} */}
 
+        <Modal open={showAddrequestForm} onClose={handleCancel}>
+          <Box sx={style}>
+            <Typography variant="h6" mb={5}>
+              Add New Request{" "}
+            </Typography>
+            <AddRequest
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+              unitId={userId}
+            />
+          </Box>
+        </Modal>
 
-        <Grid display="flex" flexDirection="column" gap="1rem">
+        <Grid item xs={12}>
           {pendingRequests.map((request) => (
             <Card
-              // variant="outlined"
               sx={{
                 height: "auto",
-                // display: "flex",
-                // flexDirection: "column",
-                borderColor: 'primary.main',
-                border: '1px solid #e0e0e0',
+                display: "flex",
+                flexDirection: "column",
+                border: "1px solid #ccc",
+                marginBottom: "15px",
+                boxShadow: "none",
               }}
               key={request.r_id}
             >
               <CardContent>
 
-<Modal open={showAddrequestForm} onClose={handleCancel}>
-        <Box sx={style}>
-          <Typography variant="h6" mb={5}>Add New Request </Typography>
-          <AddRequest
-            onSubmit={handleSubmit}
-            onClose={handleCancel}
-            unitId={userId}
-          />
-        </Box>
-      </Modal>
 
 
-        <Grid item xs={12}>
-          <Paper color="red">
-            {pendingRequests.map((request) => (
-              <Card
-                sx={{
-                  height: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  border: "1px solid #ccc",
-                }}
-                key={request.r_id}
-              >
-                <CardContent>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                      flexGrow: "1",
-                    }}
-                  >
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Chip
-                      label={request.r_status}
-                      sx={{
-                        backgroundColor: colors[request.r_status],
-                        color: "#fff",
-                        fontSize: 10,
-                        marginRight: 1,
-                      }}
-                      size="small"
-                    />
-                  </Box>
+              <Box display="flex" justifyContent="space-between">
+              
 
                   <Chip
-                    label={`#RQ${request.r_id}`}
-                    sx={{
-                      backgroundColor: color[request.r_id],
-                      color: "#00b286",
-                      fontSize: 10,
-                      marginRight: "8px",
-                    }}
-                    size="small"
-                  />
-                  <Typography variant="h6" gutterBottom>
-                    {request.r_description}
-                  </Typography>
-                  <Chip
-                    label={request.r_type}
-                    sx={{
-                      backgroundColor: typecolors[request.r_type],
-                      color: "#fff",
-                      fontSize: 10,
-                    }}
-                    size="small"
-                  />
-                </CardContent> 
+                  label={`RQ${request.r_id}`}
+                  sx={{
+                    backgroundColor: colors[request.r_id],
+                    color: "#00b286",
+                    fontSize: 10,
+                    marginRight: "8px",
+                  }}
+                  size="small"
+                />
 
-              <CardContent>
-                <Box display="flex" justifyContent="space-between" >
-                  <Typography variant="caption" gutterBottom>
-                    WO-TKT:{request.r_id}
-                  </Typography>
                   <Box mb={1}>
                     <Chip
                       label={request.r_status}
@@ -263,45 +226,24 @@ const RequestDetails = ({ userId }) => {
                     />
                   </Box>
                 </Box>
-                <Box display="flex" justifyContent="space-between" flexDirection="column">
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      fontWeight: "bold",
-                      margin: "8px 0 12px 0",
-                      lineHeight: "1.2",
-                      maxHeight: "1.2em",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 1,
-                      WebkitBoxOrient: "vertical",
-                      height: "60px",
-                    }}
-                  >
-                    {request.r_description}
-                  </Typography>
-                  <Box>
-                    <Chip
-                      label={request.r_type}
-                      sx={{
-                        backgroundColor: typecolors[request.r_type],
-                        color: "#fff",
-                        fontSize: 10,
-                        marginBottom: "8px",
-                      }}
-                      size="small"
-                    />
-                  </Box>
-                </Box>
-                <Box display="flex" alignItems="center">
-                  <PlaceOutlined />
-                  <Typography variant="caption">
-                    {request.p_name} -- {request.u_name}
-                  </Typography>
-                </Box>
-              </CardContent>
 
+
+             
+
+              
+                <Typography variant="h6" gutterBottom>
+                  {request.r_description}
+                </Typography>
+                <Chip
+                  label={request.r_type}
+                  sx={{
+                    backgroundColor: typecolors[request.r_type],
+                    color: "#fff",
+                    fontSize: 10,
+                  }}
+                  size="small"
+                />
+              </CardContent>
 
             </Card>
           ))}

@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { Box, Grid, Typography, Card, CardContent, Paper, CardMedia, Chip, Modal } from '@mui/material';
-import nyumba from '../../../assets/nyumbaicon.svg';
+import nyumba from '../../../assets/sampleimage.jpeg';
 import RatingModal from '../rating/Rating';
 // import TicketComponent from '../../../components/Ticket';
 
@@ -96,10 +96,6 @@ const RequestDetails = ({ userId }) => {
 {completedRequests.map(request => (
         <Grid item xs={12}>
         <Paper color="red">
-
-
-
-            <Card sx={{ display: "flex", flexDirection: "column", }}>
 
             <Card
              key={request.wo_id}
