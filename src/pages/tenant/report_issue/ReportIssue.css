@@ -49,4 +49,8 @@
   .new-request-btn:hover {
     background-color: #1565c0; /* Darker color on hover */
   }
+
+  .complete-issue {
+    height: fit-content !important;
+  }
   

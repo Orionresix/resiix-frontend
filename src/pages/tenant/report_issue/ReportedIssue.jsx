@@ -1,23 +1,23 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
-  Box,
-  Grid,
+  AppBar,
+  Toolbar,
   Typography,
+  Box,
+  Divider,
+  Grid,
   Card,
   CardContent,
-  Paper,
   Modal,
   Chip,
-  // IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-// import nyumba from "../../../assets/nyumbaicon.svg";
-import AddRequest from "./ReportIssue";
 import { Fab } from "@mui/material";
 import logo from "../../../assets/Resiix-logo.svg";
-
+import AddRequest from "./ReportIssue";
+import Avatar from "@mui/material/Avatar";
+import PersonIcon from "@mui/icons-material/Person";
 
 const typecolors = {
   Electric: "green",
@@ -37,13 +37,8 @@ const colors = {
   CANCELLED: "red",
 };
 
-const color = {
-  new: "#FFC107",
-};
-
 const status = "PENDING";
 
-// eslint-disable-next-line react/prop-types
 const RequestDetails = ({ userId }) => {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -53,10 +48,8 @@ const RequestDetails = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [unitDetails, setUnitDetails] = useState(null);
   useEffect(() => {
-    // Fetch data from backend API
     fetch(`${baseURL}/tenantinfo?u_id=${userId}`)
       .then((response) => {
-        // Check if the response is successful
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -64,21 +57,18 @@ const RequestDetails = ({ userId }) => {
       })
       .then((data) => {
         setUnitDetails(data);
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setLoading(false); // Set loading to false if an error occurs
+        setLoading(false);
       });
   }, [userId]);
-
-  console.log(unitDetails);
 
   const [showAddrequestForm, setShowAddrequestForm] = useState(false);
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        // Fetch repair requests submitted by the logged-in tenant and are pending
         const response = await fetch(
           `${baseURL}/repairs?r_u_id=${userId}&r_status=${status}`
         );
@@ -106,78 +96,94 @@ const RequestDetails = ({ userId }) => {
   };
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 350,
-    bgcolor: 'background.paper',
-    border: '2px solid white',
+    bgcolor: "background.paper",
+    border: "2px solid white",
     borderRadius: 2,
     boxShadow: 24,
     p: 4,
-  }
+  };
+
+  RequestDetails.propTypes = {
+    userId: PropTypes.number.isRequired,
+  };
 
   return (
     <>
-   <Box sx={{ textAlign: 'left' }}>
-      <img src={logo} alt="Resiix Logo" style={{ height: 'auto', width: '35%', maxWidth: '300px' }} /> {/* Add the logo */}
-    </Box>
-    <Box sx={{ minHeight: "80vh", position: "relative" }}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography>
-            {!loading && unitDetails && (
-              <>Welcome : {unitDetails.tenant_name}</>
-            )}
-          </Typography>
+      <AppBar position="static" sx={{ backgroundColor: "#F5F5F5", dislpay: "flex", width: "100vw", marginLeft: "-20px", position: "fixed", top: "0", zIndex: "1000" }}>
+        <Toolbar>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <img
+              src={logo}
+              alt="Resiix Logo"
+              style={{ height: "auto", width: "50%", maxWidth: "300px" }}
+            />
+            <Avatar sx={{  marginLeft: 'auto', bgcolor: "grey", size: "large",position:"absolute",right:"10px" }}>
+              <PersonIcon />
+            </Avatar>
 
-          <span>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ paddingTop: "60px" }}>
+        <Typography variant="h6" sx={{ ml: 2, color: 'black',marginLeft:"0px"}}>
+        {!loading && unitDetails && <>Welcome : {unitDetails.tenant_name}</>}
+        </Typography>
+        <Divider sx={{ width: "100%" }} />
+        <Box sx={{ minHeight: "80vh", position: "relative" }}>
+          <Grid item xs={12}>
+
+
+            <Typography variant="body1" align="left" mt={2} mb={4}>
+              Pending Requests
+            </Typography>
+
             <Fab
-              color="primary"
+
               aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
                 position: "fixed",
-                bottom: 24,
+                bottom: 68,
                 right: 24,
-                width: 92, // Increase width to make it larger
-                height: 92, // Increase height to make it larger
-                borderRadius: "50%", // Make it circular
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)", // Add shadow for depth
+                width: 72,
+                height: 72,
+                backgroundColor: "#4FAF89",
+                borderRadius: "50%",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
               }}
             >
-              <AddIcon sx={{ fontSize: 32 }} /> {/* Adjust icon size */}
+              <AddIcon sx={{ fontSize: 32 }} />
             </Fab>
 
-            <Typography variant="h6" gutterBottom sx={{ ml: 4 }}>
-              Pending Requests
-            </Typography>
-          </span>
-        </Grid>
+          </Grid>
 
-        {showAddrequestForm && (
+          {/* {showAddrequestForm && (
           <AddRequest
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             unitId={userId}
           />
-        )}
+        )} */}
 
-<Modal open={showAddrequestForm} onClose={handleCancel}>
-        <Box sx={style}>
-          <Typography variant="h6" mb={5}>Add New Request </Typography>
-          <AddRequest
-            onSubmit={handleSubmit}
-            onClose={handleCancel}
-            unitId={userId}
-          />
-        </Box>
-      </Modal>
+          <Modal open={showAddrequestForm} onClose={handleCancel}>
+            <Box sx={style}>
+              <Typography variant="h6" mb={5}>
+                Add New Request{" "}
+              </Typography>
+              <AddRequest
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+                unitId={userId}
+              />
+            </Box>
+          </Modal>
 
-
-        <Grid item xs={12}>
-          <Paper color="red">
+          <Grid item xs={12}>
             {pendingRequests.map((request) => (
               <Card
                 sx={{
@@ -185,68 +191,52 @@ const RequestDetails = ({ userId }) => {
                   display: "flex",
                   flexDirection: "column",
                   border: "1px solid #ccc",
+                  marginBottom: "15px",
+                  boxShadow: "none",
                 }}
                 key={request.r_id}
               >
                 <CardContent>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                      flexGrow: "1",
-                    }}
-                  >
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        image={nyumba}
-                        alt={request.p_name}
-                        height="60"
-                        width="60"
-                        sx={{ objectFit: "cover", marginRight: "8px" }}
-                        style={{ objectFit: "contain" }}
-                      />
-                      <Typography variant="h8" color="text.secondary">
-                        {request.p_name} {request.u_name}
-                      </Typography>
-                    </Box> */}
-                    <Box sx={{ flexGrow: 1 }} />
+
+
+
+                  <Box display="flex" justifyContent="space-between">
+
+
                     <Chip
-                      label={request.r_status}
+                      label={`RQ${request.r_id}`}
                       sx={{
-                        backgroundColor: colors[request.r_status],
-                        color: "#fff",
+                        backgroundColor: colors[request.r_id],
+                        color: "#00b286",
                         fontSize: 10,
-                        marginRight: 1,
+                        marginRight: "8px",
                       }}
                       size="small"
                     />
+
+                    <Box mb={1}>
+                      <Chip
+                        label={request.r_status}
+                        sx={{
+                          backgroundColor: colors[request.r_status],
+                          color: "#fff",
+                          fontSize: 10,
+                        }}
+                        size="small"
+                      />
+                    </Box>
                   </Box>
 
-                  <Chip
-                    label={`#RQ${request.r_id}`}
-                    sx={{
-                      backgroundColor: color[request.r_id],
-                      color: "#00b286",
-                      fontSize: 10,
-                      marginRight: "8px",
-                    }}
-                    size="small"
-                  />
+
+
+
+
                   <Typography variant="h6" gutterBottom>
                     {request.r_description}
                   </Typography>
                   <Chip
                     label={request.r_type}
                     sx={{
-                      // eslint-disable-next-line react/prop-types
                       backgroundColor: typecolors[request.r_type],
                       color: "#fff",
                       fontSize: 10,
@@ -254,12 +244,12 @@ const RequestDetails = ({ userId }) => {
                     size="small"
                   />
                 </CardContent>
+
               </Card>
             ))}
-          </Paper>
-        </Grid>
-      </Grid>
-    </Box>
+          </Grid>
+        </Box>
+      </Box>
     </>
   );
 };

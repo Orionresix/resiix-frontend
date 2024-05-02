@@ -55,6 +55,10 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
       });
   };
 
+  const handleOnCancel = () =>{
+    onCancel();
+  };
+
   const [categories, setCategory] = useState([]);
   useEffect(() => {
     // Fetch data from the backend API
@@ -120,7 +124,7 @@ const ReportIssue = ({ unitId, onSubmit, onCancel }) => {
 
           <Box display="flex" gap="1rem" justifyContent="end">
             <Button
-              onClick={onCancel}
+              onClick={handleOnCancel}
               variant="contained"
               color="primary"
               style={{ width: "40%" }}
