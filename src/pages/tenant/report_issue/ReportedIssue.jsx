@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
-  Box,
-  Grid,
+  AppBar,
+  Toolbar,
   Typography,
+  Box,
+  Divider,
+  Grid,
   Card,
   CardContent,
   Modal,
@@ -10,10 +14,10 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
-// import { PlaceOutlined } from "@mui/icons-material";
 import logo from "../../../assets/Resiix-logo.svg";
 import AddRequest from "./ReportIssue";
-import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
+import PersonIcon from "@mui/icons-material/Person";
 
 const typecolors = {
   Electric: "green",
@@ -33,12 +37,8 @@ const colors = {
   CANCELLED: "red",
 };
 
-// const color = {
-//   new: "#FFC107",
-// };
-
 const status = "PENDING";
-// eslint-disable-next-line react/prop-types
+
 const RequestDetails = ({ userId }) => {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -76,7 +76,6 @@ const RequestDetails = ({ userId }) => {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log(data);
         setPendingRequests(data);
       } catch (error) {
         console.error("Error fetching pending requests:", error);
@@ -109,42 +108,42 @@ const RequestDetails = ({ userId }) => {
     p: 4,
   };
 
+  RequestDetails.propTypes = {
+    userId: PropTypes.number.isRequired,
+  };
+
   return (
     <>
-      <Box sx={{ textAlign: "left" }} display="flex" justifyContent="space-between" >
-        <img
-          src={logo}
-          alt="Resiix Logo"
-          style={{ height: "auto", width: "25%", maxWidth: "300px" }}
-        />
-        
+      <AppBar position="static" sx={{ backgroundColor: "#F5F5F5", dislpay: "flex", width: "100vw", marginLeft: "-20px", position: "fixed", top: "0", zIndex: "1000" }}>
+        <Toolbar>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <img
+              src={logo}
+              alt="Resiix Logo"
+              style={{ height: "auto", width: "50%", maxWidth: "300px" }}
+            />
+            <Avatar sx={{  marginLeft: 'auto', bgcolor: "grey", size: "large",position:"absolute",right:"10px" }}>
+              <PersonIcon />
+            </Avatar>
 
-{/* <Box display="flex" alignItems="center">
-                  <PlaceOutlined />
-                  <Typography variant="caption">
-                    {unitDetails.p_name} -- {unitDetails.u_name}
-                  </Typography>
-                </Box> */}
-
-<Typography variant="body1" align="left" mt={2} mb={4}>
-            {!loading && unitDetails && (
-              <>Welcome : {unitDetails.tenant_name}</>
-            )}
-          </Typography>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ paddingTop: "60px" }}>
+        <Typography variant="h6" sx={{ ml: 2, color: 'black',marginLeft:"0px"}}>
+        {!loading && unitDetails && <>Welcome : {unitDetails.tenant_name}</>}
+        </Typography>
+        <Divider sx={{ width: "100%" }} />
+        <Box sx={{ minHeight: "80vh", position: "relative" }}>
+          <Grid item xs={12}>
 
 
-      </Box>
-      <Divider sx={{ width: "100%" }} />
-      <Box sx={{ minHeight: "80vh", position: "relative" }}>
-        <Grid item xs={12}>
-        
-
-          <Typography variant="h6" align="left" mt={2} mb={4}>
+            <Typography variant="body1" align="left" mt={2} mb={4}>
               Pending Requests
             </Typography>
 
             <Fab
-              
+
               aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
@@ -161,9 +160,9 @@ const RequestDetails = ({ userId }) => {
               <AddIcon sx={{ fontSize: 32 }} />
             </Fab>
 
-        </Grid>
+          </Grid>
 
-        {/* {showAddrequestForm && (
+          {/* {showAddrequestForm && (
           <AddRequest
             onSubmit={handleSubmit}
             onCancel={handleCancel}
@@ -171,84 +170,85 @@ const RequestDetails = ({ userId }) => {
           />
         )} */}
 
-        <Modal open={showAddrequestForm} onClose={handleCancel}>
-          <Box sx={style}>
-            <Typography variant="h6" mb={5}>
-              Add New Request{" "}
-            </Typography>
-            <AddRequest
-              onSubmit={handleSubmit}
-              onCancel={handleCancel}
-              unitId={userId}
-            />
-          </Box>
-        </Modal>
+          <Modal open={showAddrequestForm} onClose={handleCancel}>
+            <Box sx={style}>
+              <Typography variant="h6" mb={5}>
+                Add New Request{" "}
+              </Typography>
+              <AddRequest
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+                unitId={userId}
+              />
+            </Box>
+          </Modal>
 
-        <Grid item xs={12}>
-          {pendingRequests.map((request) => (
-            <Card
-              sx={{
-                height: "auto",
-                display: "flex",
-                flexDirection: "column",
-                border: "1px solid #ccc",
-                marginBottom: "15px",
-                boxShadow: "none",
-              }}
-              key={request.r_id}
-            >
-              <CardContent>
+          <Grid item xs={12}>
+            {pendingRequests.map((request) => (
+              <Card
+                sx={{
+                  height: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  border: "1px solid #ccc",
+                  marginBottom: "15px",
+                  boxShadow: "none",
+                }}
+                key={request.r_id}
+              >
+                <CardContent>
 
 
 
-              <Box display="flex" justifyContent="space-between">
-              
+                  <Box display="flex" justifyContent="space-between">
 
-                  <Chip
-                  label={`RQ${request.r_id}`}
-                  sx={{
-                    backgroundColor: colors[request.r_id],
-                    color: "#00b286",
-                    fontSize: 10,
-                    marginRight: "8px",
-                  }}
-                  size="small"
-                />
 
-                  <Box mb={1}>
                     <Chip
-                      label={request.r_status}
+                      label={`RQ${request.r_id}`}
                       sx={{
-                        backgroundColor: colors[request.r_status],
-                        color: "#fff",
+                        backgroundColor: colors[request.r_id],
+                        color: "#00b286",
                         fontSize: 10,
+                        marginRight: "8px",
                       }}
                       size="small"
                     />
+
+                    <Box mb={1}>
+                      <Chip
+                        label={request.r_status}
+                        sx={{
+                          backgroundColor: colors[request.r_status],
+                          color: "#fff",
+                          fontSize: 10,
+                        }}
+                        size="small"
+                      />
+                    </Box>
                   </Box>
-                </Box>
 
 
-             
 
-              
-                <Typography variant="h6" gutterBottom>
-                  {request.r_description}
-                </Typography>
-                <Chip
-                  label={request.r_type}
-                  sx={{
-                    backgroundColor: typecolors[request.r_type],
-                    color: "#fff",
-                    fontSize: 10,
-                  }}
-                  size="small"
-                />
-              </CardContent>
 
-            </Card>
-          ))}
-        </Grid>
+
+                  <Typography variant="h6" gutterBottom>
+                    {request.r_description}
+                  </Typography>
+                  <Chip
+                    label={request.r_type}
+                    sx={{
+                      backgroundColor: typecolors[request.r_type],
+                      color: "#fff",
+                      fontSize: 10,
+                    }}
+                    size="small"
+                  />
+                </CardContent>
+
+              </Card>
+            ))}
+          </Grid>
+        </Box>
       </Box>
     </>
   );
