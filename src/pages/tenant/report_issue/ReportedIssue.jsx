@@ -144,15 +144,16 @@ const RequestDetails = ({ userId }) => {
             </Typography>
 
             <Fab
-              backgroundColor= "#00B286"
+              
               aria-label="add"
               onClick={handleAddRequestClick}
               sx={{
                 position: "fixed",
-                bottom: 58,
+                bottom: 68,
                 right: 24,
                 width: 72,
                 height: 72,
+                backgroundColor: "#4FAF89",
                 borderRadius: "50%",
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
               }}
