@@ -24,13 +24,9 @@ const DashboardHome = () => {
   const location = useLocation();
   // const { setLoggedInUser } = useContext(UserContext);
 
-
-
-
-
   const [userData, setUserData] = useState(null);
   useEffect(() => {
-    fetch( `${baseURL}/user_details`)
+    fetch( `${baseURL}/profile`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -45,6 +41,8 @@ const DashboardHome = () => {
         console.error('Error fetching user data:', error);
       });
   }, [location.search]);
+
+  console.log(userData)
 
   
 

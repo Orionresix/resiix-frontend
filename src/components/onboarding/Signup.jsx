@@ -8,7 +8,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import BuildIcon from "@mui/icons-material/Build";
 import BusinessIcon from "@mui/icons-material/Business";
 
-const baseURL = "https://orionbackend-1.onrender.com";
+const baseURL = process.env.REACT_APP_BASE_URL;
+
 
 const Signup = () => {
   const googlelogin = `${baseURL}/login`;
